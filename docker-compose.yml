@@ -2,6 +2,7 @@ version: '2'
 services:
 
   nginx:
+    container_name: 'nginx'
     build:
       context: ./
       dockerfile: ./docker/nginx.docker
@@ -13,6 +14,7 @@ services:
       - "8080:80"
 
   node:
+    container_name: 'node'
     build:
       context: ./
       dockerfile: ./docker/node.docker

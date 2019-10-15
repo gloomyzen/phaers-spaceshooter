@@ -10,3 +10,7 @@ yarn.lock
 package-lock.json
 env_file
 src/games
+
+
+.idea
+.vs
