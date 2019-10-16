@@ -1,7 +1,6 @@
 export class BootScene extends Phaser.Scene {
     private loadingBar: Phaser.GameObjects.Graphics;
     private progressBar: Phaser.GameObjects.Graphics;
-    private loadingScreen: Phaser.GameObjects.Image;
 
     constructor() {
         super({
@@ -34,8 +33,8 @@ export class BootScene extends Phaser.Scene {
         this.load.on(
             "complete",
             function() {
-                // this.progressBar.destroy();
-                // this.loadingBar.destroy();
+                this.progressBar.destroy();
+                this.loadingBar.destroy();
             },
             this
         );
@@ -46,11 +45,37 @@ export class BootScene extends Phaser.Scene {
             "./src/boilerplate/assets/pack.json",
             "preload"
         );
+
+        //update anim
+        /*this.anims.create({
+            key: "sprEnemy0",
+            // frames: this.anims.generateFrameNumbers("sprEnemy0"),
+            frameRate: 20,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "sprEnemy2",
+            // frames: this.anims.generateFrameNumbers("sprEnemy2"),
+            frameRate: 20,
+            repeat: -1
+        });
+        this.anims.create({
+            key: "sprExplosion",
+            // frames: this.anims.generateFrameNumbers("sprExplosion"),
+            frameRate: 20,
+            repeat: 0
+        });
+        this.anims.create({
+            key: "sprPlayer",
+            // frames: this.anims.generateFrameNumbers("sprPlayer"),
+            frameRate: 20,
+            repeat: -1
+        });*/
     }
 
     update(): void {
-        // this.scene.start("MainMenuScene");
-        // this.scene.start("CombatScene");
+        this.scene.start("MainMenuScene");
+        // this.scene.start("GameScene");
     }
 
     private createLoadingBar(): void {

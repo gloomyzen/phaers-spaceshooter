@@ -1,7 +1,7 @@
 export class MainMenuScene extends Phaser.Scene {
-  private startKey: Phaser.Input.Keyboard.Key;
   private titleBitmapText: Phaser.GameObjects.BitmapText;
-  private playBitmapText: Phaser.GameObjects.BitmapText;
+  private btnPlay: Phaser.GameObjects.Sprite;
+  private sfx;
 
   constructor() {
     super({
@@ -9,19 +9,12 @@ export class MainMenuScene extends Phaser.Scene {
     });
   }
 
-  init(): void {
-    this.startKey = this.input.keyboard.addKey(
-      Phaser.Input.Keyboard.KeyCodes.S
-    );
-    this.startKey.isDown = false;
-  }
-
   create(): void {
     this.titleBitmapText = this.add.bitmapText(
       0,
       200,
       "font",
-      "FLAPPY BIRD",
+        this.game.config.gameTitle.toUpperCase(),
       30
     );
 
@@ -29,17 +22,38 @@ export class MainMenuScene extends Phaser.Scene {
       this.titleBitmapText.width
     );
 
-    this.playBitmapText = this.add.bitmapText(0, 300, "font", "S: PLAY", 25);
 
-    this.playBitmapText.x = this.getCenterXPositionOfBitmapText(
-      this.playBitmapText.width
+    this.sfx = {
+      mainTheme: this.sound.add("sndMainTheme"),
+      btnOver: this.sound.add("sndBtnOver"),
+      btnDown: this.sound.add("sndBtnDown")
+    };
+    //start main theme sound
+    // todo uncomment after testing
+    // this.sfx.mainTheme.play();
+
+    //button init and animation
+    this.btnPlay = this.add.sprite(
+        this.cameras.main.width * 0.5,
+        this.cameras.main.height * 0.5,
+        "sprBtnPlay"
     );
+    this.btnPlay.setInteractive();
+    this.btnPlay.on("pointerover", function() {
+      this.btnPlay.setTexture("sprBtnPlayHover");
+      this.sfx.btnOver.play();
+    }, this);
+    this.btnPlay.on("pointerout", function() {
+      this.setTexture("sprBtnPlay");
+    });
+    this.btnPlay.on("pointerdown", function() {
+      this.btnPlay.setTexture("sprBtnPlayDown");
+      this.sfx.btnDown.play();
+    }, this);
   }
 
   update(): void {
-    if (this.startKey.isDown) {
-      this.scene.start("GameScene");
-    }
+    //
   }
 
   private getCenterXPositionOfBitmapText(width: number): number {

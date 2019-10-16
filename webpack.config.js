@@ -1,6 +1,8 @@
 var path = require('path');
 var pathToPhaser = path.join(__dirname, '/node_modules/phaser/');
 var phaser = path.join(pathToPhaser, 'dist/phaser.js');
+var pathToPhaserDebugDraw = path.join(__dirname, '/node_modules/phaser-plugin-debug-draw/');
+var DebugDrawPlugin = path.join(pathToPhaserDebugDraw, 'dist/PhaserDebugDrawPlugin.esm.js');
 var LiveReloadPlugin = require('webpack-livereload-plugin');
 
 module.exports = {
@@ -13,7 +15,8 @@ module.exports = {
   module: {
     rules: [
       { test: /\.ts$/, loader: 'ts-loader', exclude: '/node_modules/' },
-      { test: /phaser\.js$/, loader: 'expose-loader?Phaser' }
+      { test: /phaser\.js$/, loader: 'expose-loader?Phaser' },
+      { test: /PhaserDebugDrawPlugin.esm\.js$/, loader: 'expose-loader?DebugDrawPlugin' }
     ]
   },
   // devServer: {
@@ -26,7 +29,8 @@ module.exports = {
   resolve: {
     extensions: ['.ts', '.js'],
     alias: {
-      phaser: phaser
+      phaser: phaser,
+      DebugDrawPlugin: DebugDrawPlugin
     }
   },
   plugins: [
