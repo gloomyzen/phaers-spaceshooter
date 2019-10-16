@@ -10,7 +10,8 @@ export class BootScene extends Phaser.Scene {
 
     preload(): void {
         // set the background and create loading bar
-        this.cameras.main.setBackgroundColor(0x410B21);
+        // this.cameras.main.setBackgroundColor(0x410B21);
+        this.cameras.main.setBackgroundColor(0x091622);
         this.createLoadingBar();
 
         // pass value to change the loading bar fill
@@ -18,7 +19,7 @@ export class BootScene extends Phaser.Scene {
             "progress",
             function(value) {
                 this.progressBar.clear();
-                this.progressBar.fillStyle(0x9D1A50, 1);
+                this.progressBar.fillStyle(0x3F9FFF, 1);
                 this.progressBar.fillRect(
                     0,
                     this.cameras.main.height - 7,
@@ -80,7 +81,7 @@ export class BootScene extends Phaser.Scene {
 
     private createLoadingBar(): void {
         this.loadingBar = this.add.graphics();
-        this.loadingBar.fillStyle(0xC32F69, 1);
+        this.loadingBar.fillStyle(0xFBFBFB, 1);
         this.loadingBar.fillRect(
             0,
             this.cameras.main.height - 8,

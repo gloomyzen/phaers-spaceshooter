@@ -1,6 +1,6 @@
 import { Bird } from "../objects/bird";
 import { Pipe } from "../objects/pipe";
-
+//todo remove me
 export class GameScene extends Phaser.Scene {
   private bird: Bird;
   private pipes: Phaser.GameObjects.Group;
