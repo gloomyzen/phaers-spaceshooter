@@ -2,6 +2,11 @@
   "preload": {
     "files": [
       {
+        "type": "image",
+        "key": "loadingScreen",
+        "url": "src/games/flappy-bird/assets/images/bg.png"
+      },
+      {
         "type": "bitmapFont",
         "key": "font",
         "textureURL": "src/games/flappy-bird/assets/font/font.png",
@@ -14,17 +19,8 @@
       },
       {
         "type": "image",
-        "key": "bird",
-        "url": "src/games/flappy-bird/assets/images/bird.png"
-      },
-      {
-        "type": "spritesheet",
-        "key": "pipe",
-        "url": "src/games/flappy-bird/assets/sprites/pipe.png",
-        "frameConfig": {
-          "frameWidth": 20,
-          "frameHeight": 20
-        }
+        "key": "ship1",
+        "url": "src/boilerplate/assets/sprites/ships/Ship2.png"
       }
     ]
   }

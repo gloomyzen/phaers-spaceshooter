@@ -1,29 +1,35 @@
 import "phaser";
-import { MainScene } from "./scenes/mainScene";
+import { BootScene } from "./scenes/boot-scene";
+import { GameScene } from "./scenes/game-scene";
+import { MainMenuScene } from "./scenes/main-menu-scene";
 
-// main game configuration
 const config: Phaser.Types.Core.GameConfig = {
-  width: 800,
+  title: "BattleShip",
+  version: "1.0",
+  width: 390,
   height: 600,
   type: Phaser.AUTO,
   parent: "game",
-  // scene: MainScene,
+  scene: [BootScene/*, MainMenuScene, GameScene*/],
+  input: {
+    keyboard: true
+  },
   physics: {
     default: "arcade",
     arcade: {
-      gravity: { y: 200 }
+      gravity: { y: 300 }
     }
-  }
+  },
+  backgroundColor: "#98d687",
+  render: { pixelArt: true, antialias: false }
 };
 
-// game class
 export class Game extends Phaser.Game {
   constructor(config: Phaser.Types.Core.GameConfig) {
     super(config);
   }
 }
 
-// when the page is loaded, create our game instance
 window.addEventListener("load", () => {
   var game = new Game(config);
 });

@@ -1,10 +1,3 @@
-/**
- * @author       Digitsensitive <digit.sensitivee@gmail.com>
- * @copyright    2018 - 2019 digitsensitive
- * @description  Flappy Bird: Bird
- * @license      Digitsensitive
- */
-
 export class Bird extends Phaser.GameObjects.Image {
   private jumpKey: Phaser.Input.Keyboard.Key;
   private isDead: boolean;
