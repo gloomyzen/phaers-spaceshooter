@@ -1,10 +1,13 @@
+/*
+ * Глобальный менеджер фонов
+ */
 export class ScrollingBackground {
     private scene;
     private sprites = [];
     private velocityY;
     private layers;
 
-    //TODO нужен глобальный менеджер для этого фона. Он будет меняться только с течением прогресса.
+    //TODO нужен расчёт скорости на основе количества спрайтов
     constructor(scene: Phaser.Scene, sprites, velocityY: integer = 10) {
         this.scene = scene;
         for (let i = 0; i < sprites.length; i++) {
@@ -19,10 +22,9 @@ export class ScrollingBackground {
     }
 
     setScene(scene: Phaser.Scene): void {
-        // let layers = this.layers;
+        //TODO добавить тряску камеры как визуальный отклик
         this.scene = scene;
         this.createLayers();
-        // this.scene.layers = layers;
     }
 
     createLayers(): void {
@@ -38,15 +40,12 @@ export class ScrollingBackground {
                 sprite.sprite);
             layer.setScale(2, 2);
             layer.setDepth(-5 - (i - 1));
-            // this.scene.physics.world.enableBody(layer, 0);
-            // layer.body.velocity.y = this.velocityY;
+
             this.layers.add(layer);
             if (sprite.tileY !== false) {
                 layer.tilePositionY = sprite.tileY;
             }
-
         }
-        console.log(this.scene);
     }
 
     update(): void {
