@@ -47,7 +47,7 @@ export class BootScene extends Phaser.Scene {
             "preload"
         );
 
-        //update anim
+        //TODO update anim
         /*this.anims.create({
             key: "sprEnemy0",
             // frames: this.anims.generateFrameNumbers("sprEnemy0"),
@@ -76,7 +76,7 @@ export class BootScene extends Phaser.Scene {
 
     update(): void {
         this.scene.start("MainMenuScene");
-        // this.scene.start("GameScene");
+        // this.scene.start("CombatScene");
     }
 
     private createLoadingBar(): void {

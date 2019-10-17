@@ -3836,6 +3836,8 @@ declare namespace Phaser {
      * made available to you via the Phaser.Scene Systems class instead.
      */
     class Game {
+        // [x: string]: any;
+        instance: any; //  Неудаляемый объект который живёт на протяжении всей игры
         /**
          * 
          * @param GameConfig The configuration object for your Phaser Game instance.

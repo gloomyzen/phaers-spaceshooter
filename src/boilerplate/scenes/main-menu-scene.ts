@@ -4,7 +4,6 @@ export class MainMenuScene extends Phaser.Scene {
     private titleBitmapText: Phaser.GameObjects.BitmapText;
     private title: Phaser.GameObjects.Text;
     private btnPlay: Phaser.GameObjects.Sprite;
-    private sfx;
     private backgrounds: ScrollingBackground;
 
     constructor() {
@@ -27,14 +26,16 @@ export class MainMenuScene extends Phaser.Scene {
         );
 
 
-        this.sfx = {
+        this.game.instance.sfx = {
             mainTheme: this.sound.add("sndMainTheme"),
+            combatTheme: this.sound.add("sndGameplayTheme"),
             btnOver: this.sound.add("sndBtnOver"),
             btnDown: this.sound.add("sndBtnDown")
         };
         //start main theme sound
-        // todo uncomment after testing
-        // this.sfx.mainTheme.play();
+        // todo вынести аудиоменеджер в отдельный класс
+        this.game.instance.sfx.mainTheme.play();
+        // this.game.instance.sfx.combatTheme.play();
 
         //button init and animation
         this.btnPlay = this.add.sprite(
@@ -45,14 +46,14 @@ export class MainMenuScene extends Phaser.Scene {
         this.btnPlay.setInteractive();
         this.btnPlay.on("pointerover", function() {
             this.btnPlay.setTexture("sprBtnPlayHover");
-            this.sfx.btnOver.play();
+            this.game.instance.sfx.btnOver.play();
         }, this);
         this.btnPlay.on("pointerout", function() {
             this.setTexture("sprBtnPlay");
         });
         this.btnPlay.on("pointerdown", function() {
             this.btnPlay.setTexture("sprBtnPlayDown");
-            this.sfx.btnDown.play();
+            this.game.instance.sfx.btnDown.play();
         }, this);
         this.btnPlay.on("pointerup", function() {
             this.btnPlay.setTexture("sprBtnPlay");
@@ -74,11 +75,11 @@ export class MainMenuScene extends Phaser.Scene {
             });
 
         // space background
-        this.backgrounds = new ScrollingBackground(this, ["sprBg0", "sprBg1"]);
+        this.game.instance.backgrounds = new ScrollingBackground(this, ["sprBg0", "sprBg1"]);
     }
 
     update(): void {
-        this.backgrounds.update();
+        this.game.instance.backgrounds.update();
     }
 
     private getCenterXPositionOfBitmapText(width: number): number {
