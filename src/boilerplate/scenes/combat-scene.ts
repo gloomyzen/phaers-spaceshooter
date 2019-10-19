@@ -27,8 +27,8 @@ export class CombatScene extends Phaser.Scene {
         );
         this.game.instance.backgrounds.setScene(this);
         // todo вынести аудиоменеджер в отдельный класс
-        this.game.instance.sfx.mainTheme.stop();
-        this.game.instance.sfx.combatTheme.play();
+        // this.game.instance.sfx.mainTheme.stop();
+        // this.game.instance.sfx.combatTheme.play();
     }
 
     update(): void {

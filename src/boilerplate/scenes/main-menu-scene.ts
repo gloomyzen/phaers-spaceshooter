@@ -34,7 +34,7 @@ export class MainMenuScene extends Phaser.Scene {
         };
         //start main theme sound
         // todo вынести аудиоменеджер в отдельный класс
-        this.game.instance.sfx.mainTheme.play();
+        // this.game.instance.sfx.mainTheme.play();
         // this.game.instance.sfx.combatTheme.play();
 
         //button init and animation
