@@ -1,6 +1,4 @@
 import "phaser";
-// import "phaserDebugDraw"; //phaserDebug
-import DebugDrawPlugin from 'phaser-plugin-debug-draw';
 import { BootScene } from "./scenes/boot-scene";
 import { MainMenuScene } from "./scenes/main-menu-scene";
 import { CombatScene } from "./scenes/combat-scene";
@@ -15,11 +13,6 @@ const config: Phaser.Types.Core.GameConfig = {
   type: Phaser.AUTO,
   parent: "game",
   scene: [BootScene, MainMenuScene, CombatScene],
-  // plugins: {
-  //   global: [
-  //     { key: 'DebugDrawPlugin', plugin: DebugDrawPlugin, mapping: 'debugDraw' }
-  //   ]
-  // },
   input: {
     keyboard: true,
     mouse: true,
@@ -43,6 +36,6 @@ export class Game extends Phaser.Game {
 }
 
 window.addEventListener("load", () => {
-  var game = new Game(config);
+  let game = new Game(config);
   game.instance = {};
 });

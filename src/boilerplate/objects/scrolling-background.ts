@@ -2,9 +2,9 @@
  * Глобальный менеджер фонов
  */
 export class ScrollingBackground {
-    private scene;
+    private scene: Phaser.Scene;
     private sprites = [];
-    private velocityY;
+    private velocityY: integer;
     private layers;
 
     //TODO нужен расчёт скорости на основе количества спрайтов
