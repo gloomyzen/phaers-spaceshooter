@@ -6,6 +6,6 @@ Common install:
 #> cd spaceshooter-game
 #> chmod +x game.sh
 #> ./game.sh --build # Create docker environments for development
-#> ./game.sh --dev 
+#> ./game.sh --dev file.cpp run.cpp ... # Compile files
 ```
 

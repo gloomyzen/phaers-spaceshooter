@@ -3,116 +3,109 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Emscripten-Generated Code</title>
-    <style>
-        .emscripten { padding-right: 0; margin-left: auto; margin-right: auto; display: block; }
-        textarea.emscripten { font-family: monospace; width: 80%; }
-        div.emscripten { text-align: center; }
-        div.emscripten_border { border: 1px solid black; }
-        /* the canvas *must not* have any border or padding, or mouse coords will be wrong */
-        canvas.emscripten { border: 0px none; background-color: black; }
-
-        .spinner {
-            height: 50px;
-            width: 50px;
-            margin: 0px auto;
-            -webkit-animation: rotation .8s linear infinite;
-            -moz-animation: rotation .8s linear infinite;
-            -o-animation: rotation .8s linear infinite;
-            animation: rotation 0.8s linear infinite;
-            border-left: 10px solid rgb(0,150,240);
-            border-right: 10px solid rgb(0,150,240);
-            border-bottom: 10px solid rgb(0,150,240);
-            border-top: 10px solid rgb(100,0,200);
-            border-radius: 100%;
-            background-color: rgb(200,100,250);
-        }
-        @-webkit-keyframes rotation {
-            from {-webkit-transform: rotate(0deg);}
-            to {-webkit-transform: rotate(360deg);}
-        }
-        @-moz-keyframes rotation {
-            from {-moz-transform: rotate(0deg);}
-            to {-moz-transform: rotate(360deg);}
-        }
-        @-o-keyframes rotation {
-            from {-o-transform: rotate(0deg);}
-            to {-o-transform: rotate(360deg);}
-        }
-        @keyframes rotation {
-            from {transform: rotate(0deg);}
-            to {transform: rotate(360deg);}
-        }
-
-    </style>
+    <title>WASM</title>
+    <link href="shell.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <hr/>
-<figure style="overflow:visible;" id="spinner"><div class="spinner"></div><center style="margin-top:0.5em"><strong>emscripten</strong></center></figure>
-<div class="emscripten" id="status">Downloading...</div>
-<div class="emscripten">
-    <progress value="0" max="100" id="progress" hidden=1></progress>
+<div class="input_box">&nbsp;</div>
+<div class="input_box">
+    <button id="click_me" class="em_button">Click Me!</button>
 </div>
-<div class="emscripten_border">
-    <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" tabindex=-1></canvas>
+<div class="input_box">
+    <input type="number" id="int_num" max="9999" min="0" step="1" value="1" class="em_input">
+    <button id="int_button" class="em_button">Int Click!</button>
 </div>
-<hr/>
-<div class="emscripten">
-    <input type="checkbox" id="resize">Resize canvas
-    <input type="checkbox" id="pointerLock" checked>Lock/hide mouse pointer
-    &nbsp;&nbsp;&nbsp;
-    <input type="button" value="Fullscreen" onclick="Module.requestFullscreen(document.getElementById('pointerLock').checked,
-                                                                                document.getElementById('resize').checked)">
+<div class="input_box">
+    <input type="number" id="float_num" max="99" min="0" step="0.01" value="0.0" class="em_input">
+    <button id="float_button" class="em_button">Float Click!</button>
+</div>
+<div class="input_box">&nbsp;</div>
+
+<textarea class="em_textarea" id="output" rows="8"></textarea>
+<div id="string_box">
+    <button id="string_button" class="em_button">String Click!</button>
+    <input id="string_input">
 </div>
 
 <hr/>
-<textarea class="emscripten" id="output" rows="8"></textarea>
-<hr>
+<!--<textarea class="emscripten" id="output" rows="8"></textarea>-->
+<!--<hr>-->
 <script type='text/javascript'>
+    function InitWrappers() {
+        var test = Module.cwrap('test', 'undefined');
+        var int_test = Module.cwrap('int_test', 'undefined', ['int']);
+        var float_test = Module.cwrap('float_test', 'undefined', ['float']);
+        var string_test = Module.cwrap('string_test', 'undefined', ['string']);
+
+        document.getElementById("int_button").onclick = function() {
+            if( int_test != null ) {
+                int_test(document.getElementById('int_num').value);
+            }
+        }
+
+        document.getElementById("string_button").onclick = function() {
+            if( string_test != null ) {
+                string_test(document.getElementById('string_input').value);
+            }
+        }
+
+        document.getElementById("float_button").onclick = function() {
+            if( float_test != null ) {
+                float_test(document.getElementById('float_num').value);
+            }
+        }
+
+        document.getElementById("click_me").onclick = function() {
+            if( test != null ) {
+                test();
+            }
+        }
+    }
+
+    function runbefore() {
+        console.log("before module load");
+    }
+
+    function runafter() {
+        console.log("after module load");
+    }
     var statusElement = document.getElementById('status');
     var progressElement = document.getElementById('progress');
     var spinnerElement = document.getElementById('spinner');
 
     var Module = {
-        preRun: [
-            function () {console.log("pre run 1");},
-            function () {console.log("pre run 2");},
-        ],
-        postRun: [
-            function () {console.log("post run 1");},
-            function () {console.log("post run 2");},
-        ],
+        preRun: [runbefore],
+        postRun: [runafter],
         print: (function() {
             var element = document.getElementById('output');
             if (element) element.value = ''; // clear browser cache
             return function(text) {
                 if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
-                // These replacements are necessary if you render to raw HTML
-                //text = text.replace(/&/g, "&amp;");
-                //text = text.replace(/</g, "&lt;");
-                //text = text.replace(/>/g, "&gt;");
-                //text = text.replace('\n', '<br>', 'g');
+                /*
+                // The printf statement in C is currently writing to a textarea.  If we wanted to instead
+                // write to an HTML tag, we would need to run these lines of codes to make our text HTML safe
+                text = text.replace(/&/g, "&amp;");
+                text = text.replace(/</g, "&lt;");
+                text = text.replace(/>/g, "&gt;");
+                text = text.replace('\n', '<br>', 'g');
+                */
                 console.log(text);
                 if (element) {
                     element.value += text + "\n";
                     element.scrollTop = element.scrollHeight; // focus on bottom
                 }
+
             };
         })(),
         printErr: function(text) {
             if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
-            console.error(text);
+            if (0) { // XXX disabled for safety typeof dump == 'function') {
+                dump(text + '\n'); // fast, straight to the real console
+            } else {
+                console.error(text);
+            }
         },
-        canvas: (function() {
-            var canvas = document.getElementById('canvas');
-
-            // As a default initial behavior, pop up an alert when webgl context is lost. To make your
-            // application robust, you may want to override this behavior before shipping!
-            // See http://www.khronos.org/registry/webgl/specs/latest/1.0/#5.15.2
-            canvas.addEventListener("webglcontextlost", function(e) { alert('WebGL context lost. You will need to reload the page.'); e.preventDefault(); }, false);
-
-            return canvas;
-        })(),
         setStatus: function(text) {
             if (!Module.setStatus.last) Module.setStatus.last = { time: Date.now(), text: '' };
             if (text === Module.setStatus.last.text) return;
@@ -123,17 +116,8 @@
             Module.setStatus.last.text = text;
             if (m) {
                 text = m[1];
-                progressElement.value = parseInt(m[2])*100;
-                progressElement.max = parseInt(m[4])*100;
-                progressElement.hidden = false;
-                spinnerElement.hidden = false;
-            } else {
-                progressElement.value = null;
-                progressElement.max = null;
-                progressElement.hidden = true;
-                if (!text) spinnerElement.hidden = true;
             }
-            statusElement.innerHTML = text;
+            console.log("status: " + text);
         },
         totalDependencies: 0,
         monitorRunDependencies: function(left) {
@@ -144,7 +128,6 @@
     Module.setStatus('Downloading...');
     window.onerror = function() {
         Module.setStatus('Exception thrown, see JavaScript console');
-        spinnerElement.style.display = 'none';
         Module.setStatus = function(text) {
             if (text) Module.printErr('[post-exception status] ' + text);
         };

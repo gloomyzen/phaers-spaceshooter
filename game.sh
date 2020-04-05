@@ -122,7 +122,18 @@ case "$1" in
         run 'run' $2 $3
         ;;
     --dev)
-        $0 -o ubuntu prepare_project hello.c
+        argsArray=("$@")
+
+        str=""
+        for arg in "${argsArray[@]}"; do
+            if [[ "${str}" == "" ]]; then
+                str=" "
+            else
+                str="${str} ${arg}"
+            fi
+        done
+
+        $0 -o ubuntu prepare_project "${str}"
         ;;
     --down|-d)
         fix_perm_data
