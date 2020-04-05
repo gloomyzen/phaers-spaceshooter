@@ -14,8 +14,10 @@ done
 source /var/emsdk/emsdk_env.sh
 echo ${str}
 
-command=`emcc ${str} --shell-file ${WORK_DIR}/stub/shell_file.html --emrun -o ${WORK_DIR}${PUBLIC_DIR}/index.html -s \
-    NO_EXIT_RUNTIME=1 -s EXPORTED_FUNCTIONS="['_test', '_string_test', '_int_test', '_float_test', '_main']" -s \
-    EXTRA_EXPORTED_RUNTIME_METHODS="['cwrap', 'ccall']"`
+#shell test
+#command=`emcc ${str} --shell-file ${WORK_DIR}/stub/index.html --emrun -o ${WORK_DIR}${PUBLIC_DIR}/index.html -s \
+#    NO_EXIT_RUNTIME=1 -s EXPORTED_FUNCTIONS="['_test', '_string_test', '_int_test', '_float_test', '_main']" -s \
+#    EXTRA_EXPORTED_RUNTIME_METHODS="['cwrap', 'ccall']"`
+command=`emcc ${str} --shell-file ${WORK_DIR}/stub/index.html --emrun -o ${WORK_DIR}${PUBLIC_DIR}/index.html`
 
 exec ${command}
