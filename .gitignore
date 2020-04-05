@@ -14,4 +14,3 @@ yarn-error.log
 
 /public/*
 !/public
-!/public/favicon.ico

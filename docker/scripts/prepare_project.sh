@@ -3,6 +3,7 @@
 WORK_DIR=/var/www
 SOURCE_DIR=/src
 PUBLIC_DIR=/public
+PUBLIC_DIR=/resources/temp
 
 argsArray=("$@")
 

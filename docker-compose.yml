@@ -1,7 +1,7 @@
 version: '2'
 services:
 ############################################################################
-#   Emcc compiler
+#   Emcc compiler + node js
 ############################################################################
   ubuntu:
     container_name: 'ubuntu'
@@ -11,6 +11,8 @@ services:
     volumes:
       - ./:/var/www
       - ./docker/scripts/prepare_project.sh:/usr/local/bin/prepare_project
+    ports:
+      - "35729:35729" # for livereload plugin
     tty: true
 ############################################################################
 #   Nginx for run web application
