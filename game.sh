@@ -1,18 +1,19 @@
-#!/bin/bash
+#!/usr/bin/env bash
+#/usr/bin/env bash
 
 ##Variables
 if [ "${OS}" == "Windows_NT" ]; then
-    OS_TYPE='windows';
-    DOCKER_COMPOSE_CMD='winpty docker-compose'
-    DOCKER_CMD='winpty docker'
+    OS_TYPE="windows";
+    DOCKERCMD="winpty docker-compose.exe"
+    DOCKERCORE="winpty docker.exe"
 elif [ "${OSTYPE}" == "linux-gnu" ]; then
-    OS_TYPE='linux';
-    DOCKER_COMPOSE_CMD='docker-compose'
-    DOCKER_CMD='docker'
+    OS_TYPE="linux";
+    DOCKERCMD="docker-compose"
+    DOCKERCORE="docker"
 else
-    OS_TYPE='macos';
-    DOCKER_COMPOSE_CMD='docker-compose'
-    DOCKER_CMD='docker'
+    OS_TYPE="macos";
+    DOCKERCMD="docker-compose"
+    DOCKERCORE="docker"
 fi
 ## Constants
 GREEN_OUTPUT='\033[0;32m'
@@ -44,52 +45,101 @@ pc() {
     printf "${RES}"
 }
 
+fix_perm_data() {
+    if [ "${OS_TYPE}" != "windows" ]; then
+        if [ -d "$(pwd)/node_modules" ]; then own_commands php-cli chmod -R 777 /var/www/node_modules; fi; \
+    fi
+}
+
+own_commands() {
+    eval ${DOCKERCMD} exec $1 $2 $3 $4 $5 $6 $7 $8
+}
+
+help_legend() {
+    pc "green" "Usage: $0 {--build|--run|--down|--own|--test|--remove|--help} CMD\n"
+}
 
 general_help() {
-  pc "green" "--build | -b   "
-  pc "none" " - build docker container \n"
-  pc "green" "--run | -r     "
-  pc "none" " - start current docker container \n"
-  pc "green" "--down | -d    "
-  pc "none" " - stop current active docker container \n"
-#  pc "green" "--own | -o     "
-#  pc "none" " - run your own command in container \n"
-  pc "green" "--node | -n    "
-  pc "none" " - run your own command in nodejs container \n"
-#  pc "green" "--test | -t    "
-#  pc "none" " - run tests on docker container \n"
+    case "$1" in
+        --build|-b|build|b)
+            pc "green" "$0 --build "
+            pc "none" "сбилдить все контейнеры, "
+            pc "green" "$0 --build container-name "
+            pc "none" "для сборки одного контейнера\n"
+        ;;
+        --run|-r|run|r)
+            pc "green" "$0 --run "
+            pc "none" "запустить все контейнеры, "
+            pc "green" "$0 --run container-name "
+            pc "none" "для запуска одного контейнера\n"
+        ;;
+        --down|-d|down|d)
+            pc "green" "$0 --down "
+            pc "none" "остановить все контейнеры, "
+            pc "green" "$0 --down container-name "
+            pc "none" "для остановки одного контейнера\n"
+        ;;
+        --own|-o|own|o)
+            pc "green" "$0 --own container-name cmd"
+            pc "none" "выполнить произвольную команду в контейнере\n"
+        ;;
+        --remove|remove)
+            pc "green" "$0 --remove "
+            pc "none" "Удалить все контейнеры внутри системы\n"
+        ;;
+        *)
+            if [ $1 ]; then
+                pc "yellow" "Command \"$1\" is not correct.\n"
+            else
+                pc "yellow" "Nothing caused.\n"
+            fi
+            $0 --help build
+            $0 --help run
+            $0 --help down
+            $0 --help own
+            $0 --help remove
+            help_legend
+            exit 1
+    esac
+}
+
+run() {
+    if [ "$1" == "build" ]; then
+        eval ${DOCKERCMD} up -d --build $2 $3
+    else
+        eval ${DOCKERCMD} up -d $2 $3
+    fi
+    fix_perm_data
+    ## Running tests
+#    $0 -t
 }
 
 case "$1" in
-
     --build|-b)
-        eval ${DOCKER_COMPOSE_CMD} up -d --build
+        run 'build' $2 $3
         ;;
     --run|-r)
-        eval ${DOCKER_COMPOSE_CMD} up -d
+        run 'run' $2 $3
         ;;
     --down|-d)
-        eval ${DOCKER_COMPOSE_CMD} down
+        fix_perm_data
+        eval ${DOCKERCMD} down
         ;;
-    --nginx)
-        eval ${DOCKER_CMD} down
+    --own|-o)
+        own_commands $2 $3 $4 $5 $6 $7 $8
         ;;
-    --node|-n)
-        eval ${DOCKER_CMD} exec -it node $2 $3 $4 $5 $6 $7 $8
+    --remove)
+        eval ${DOCKERCORE} system prune -a
         ;;
-#    --own|-o)
-#        own_commands $1 $2 $3 $4 $5 $6 $7 $8
-#        ;;
-#    --test|-t)
-#        eval ${DOCKER_CMD} exec -it dev sh docker/do_test.sh
-#        ;;
-
+    --test|-t)
+        eval ${DOCKERCMD} exec php-cli php vendor/bin/phpunit
+        ;;
     --help|-h)
-        general_help $1
+        general_help $2 $3
         ;;
-
     *)
-        echo $"Usage: $0 {--build[-b]|--run[-r]|--down[-d]|--own[-o]|--test[-t]} {for help: -h/-help} CMD"
+        pc "yellow" "Nothing caused.\n"
+        help_legend
         exit 1
 
 esac

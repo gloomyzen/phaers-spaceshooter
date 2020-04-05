@@ -1,16 +1,13 @@
-#OSX
-#-------------------------------------------------------------------------------
-.DS_STORE
-#General
-#-------------------------------------------------------------------------------
-dist/*
-node_modules
-*.tsx
-yarn.lock
-package-lock.json
-env_file
-src/games
-
+/node_modules
+.env
+*.backup
+*.bac
+*.back
+*.bak
+.phpunit.result.cache
+npm-debug.log
+yarn-error.log
 
 .idea
-.vs
+.vc
+/.idea
