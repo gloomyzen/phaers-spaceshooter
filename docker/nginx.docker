@@ -1,4 +1,4 @@
 FROM nginx:1.10
 
-ADD ./docker/nginx/laravel.conf /etc/nginx/conf.d/default.conf
+ADD ./docker/nginx/emcc.conf /etc/nginx/conf.d/default.conf
 WORKDIR /var/www

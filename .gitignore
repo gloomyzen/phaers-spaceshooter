@@ -11,3 +11,7 @@ yarn-error.log
 .idea
 .vc
 /.idea
+
+/public/*
+!/public
+!/public/favicon.ico

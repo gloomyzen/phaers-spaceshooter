@@ -1,7 +1,7 @@
 version: '2'
 services:
 ############################################################################
-#   Api
+#   Emcc compiler
 ############################################################################
   ubuntu:
     container_name: 'ubuntu'
@@ -10,7 +10,21 @@ services:
       dockerfile: ./docker/ubuntu.docker
     volumes:
       - ./:/var/www
+      - ./docker/scripts/prepare_project.sh:/usr/local/bin/prepare_project
     tty: true
+############################################################################
+#   Nginx for run web application
+############################################################################
+  nginx:
+    container_name: 'nginx'
+    build:
+      context: ./
+      dockerfile: ./docker/nginx.docker
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx/ssl:/etc/nginx/ssl
+    ports:
+      - "8080:443"
 ############################################################################
 #   Api
 ############################################################################

@@ -12,5 +12,6 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y --fix-mi
     && emcc --version
 
 SHELL ["/bin/bash", "-c", "source /var/emsdk/emsdk_env.sh"]
+SHELL ["/bin/bash", "-c", "chmod +x /usr/local/bin/prepare_project"]
 
 WORKDIR /var/www

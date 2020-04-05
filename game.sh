@@ -121,6 +121,9 @@ case "$1" in
     --run|-r)
         run 'run' $2 $3
         ;;
+    --dev)
+        $0 -o ubuntu prepare_project hello.c
+        ;;
     --down|-d)
         fix_perm_data
         eval ${DOCKERCMD} down
