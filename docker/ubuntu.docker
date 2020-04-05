@@ -1,0 +1,15 @@
+FROM ubuntu:18.04
+
+####################### Install utilities and emsdk #######################
+RUN rm /bin/sh && ln -s /bin/bash /bin/sh
+RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y --fix-missing git zip cron curl python \
+    && cd /var && git clone https://github.com/emscripten-core/emsdk.git emsdk && cd emsdk \
+    && ./emsdk install latest \
+    && ./emsdk activate latest
+    #&& source /var/emsdk/emsdk_env.sh \
+    #&& echo "source /var/emsdk/emsdk_env.sh\n" >> /etc/profile \
+    #&& emcc --version
+
+SHELL ["/bin/bash", "-c", "source /var/emsdk/emsdk_env.sh"]
+
+WORKDIR /var/www

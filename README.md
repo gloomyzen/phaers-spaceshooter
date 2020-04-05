@@ -1,6 +1,6 @@
 # spaceshooter-game
 
-Installing:
+Common install:
 ```
 #> git clone git@github.com:gloomyzen/spaceshooter-game.git spaceshooter-game 
 #> cd spaceshooter-game
