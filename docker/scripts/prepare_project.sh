@@ -2,7 +2,7 @@
 
 WORK_DIR=/var/www
 SOURCE_DIR=/src
-PUBLIC_DIR=/resources/temp
+PUBLIC_DIR=/resources/tmp
 
 argsArray=("$@")
 
@@ -12,7 +12,6 @@ for arg in "${argsArray[@]}"; do
 done
 
 source /var/emsdk/emsdk_env.sh
-echo ${str}
 
 #shell test
 #command=`emcc ${str} --shell-file ${WORK_DIR}/stub/index.html --emrun -o ${WORK_DIR}${PUBLIC_DIR}/index.html -s \
