@@ -47,7 +47,7 @@ pc() {
 
 fix_perm_data() {
     if [ "${OS_TYPE}" != "windows" ]; then
-        if [ -d "$(pwd)/node_modules" ]; then own_commands php-cli chmod -R 777 /var/www/node_modules; fi; \
+        if [ -d "$(pwd)/node_modules" ]; then own_commands ubuntu chmod -R 777 /var/www/node_modules; fi; \
     fi
 }
 
