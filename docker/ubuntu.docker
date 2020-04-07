@@ -3,7 +3,7 @@ FROM ubuntu:18.04
 ####################### Install utilities and emsdk #######################
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y --fix-missing \
-    git zip cron curl python llvm libxml2-dev build-essential libssl-dev \
+    git zip cron curl python llvm libxml2-dev build-essential libssl-dev inotify-tools \
     && cd /var && git clone https://github.com/emscripten-core/emsdk.git emsdk && cd emsdk \
     && ./emsdk install latest \
     && ./emsdk activate latest \
@@ -12,13 +12,12 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y --fix-mi
     && emcc --version
 
 ####################### Install nodejs via nvm #######################
-#RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash \
-#    && export NVM_DIR="$HOME/.nvm" \
-#    && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" \
-#    && [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" \
-#    && nvm install 13.12.0 \
-#    && nvm use 13.12.0 \
-#    && cd /var/www && [ -f "package.json" ] && [ ! -d "node_modules" ] && npm install
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash \
+    && export NVM_DIR="$HOME/.nvm" \
+    && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" \
+    && [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" \
+    && nvm install --lts && nvm use --lts
+#RUN cd /var/www && [ -f "package.json" ] && [ ! -d "node_modules" ] && npm install
 
 SHELL ["/bin/bash", "-c", "source /var/emsdk/emsdk_env.sh"]
 SHELL ["/bin/bash", "-c", "chmod +x /usr/local/bin/prepare_project"]

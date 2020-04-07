@@ -52,7 +52,7 @@ fix_perm_data() {
 }
 
 own_commands() {
-    eval ${DOCKERCMD} exec $1 $2 $3 $4 $5 $6 $7 $8
+    eval ${DOCKERCORE} exec -it $1 $2 $3 $4 $5 $6 $7 $8
 }
 
 help_legend() {
