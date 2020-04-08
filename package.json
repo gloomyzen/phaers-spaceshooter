@@ -1,7 +1,8 @@
 {
   "private": true,
   "scripts": {
-    "dev": "cross-env BABEL_ENV=default webpack --watch --mode development",
+    "dev": "cross-env webpack --watch --mode development",
+    "emcc-dev": "cross-env webpack --mode development",
     "build": "cross-env BABEL_ENV=default webpack --mode production",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
