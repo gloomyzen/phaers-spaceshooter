@@ -1,14 +1,30 @@
 const path = require( 'path' );
 const webpack = require( 'webpack' );
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+let LiveReloadPlugin = require('webpack-livereload-plugin');
+let WebpackHookPlugin = require('webpack-hook-plugin');
+
+let files = ["canvas.c"];
+
+let plugins = [];
+plugins.push(new LiveReloadPlugin())
+plugins.push(new WebpackHookPlugin({
+    onBuildStart: ['prepare_project ' + files.join(' ')],
+    // onBuildEnd: ['prepare_project ' + files.join(' ')],
+    onCompile: ['prepare_project ' + files.join(' ')],
+}));
+plugins.push(new MiniCssExtractPlugin({
+    filename: 'style.css',
+    chunkFilename: '[id].css'
+}));
 
 module.exports = ( env, options ) => {
     return {
-        entry: './src/block.js',
+        entry: './resources/js/game.js',
 
         output: {
-            path: path.resolve( __dirname, 'build' ),
-            filename: 'block.js',
+            path: path.resolve( __dirname, 'public' ),
+            filename: 'index.js',
         },
 
         devtool: 'cheap-eval-source-map',
@@ -16,12 +32,9 @@ module.exports = ( env, options ) => {
         module: {
             rules: [
                 {
-                    test: /\.jsx$|\.es6$|\.js$/,
+                    test: /\.js$/,
                     use: {
-                        loader: 'babel-loader',
-                        options: {
-                            presets: ['react'],
-                        }
+                        loader: 'babel-loader'
                     },
                     exclude: /(node_modules|bower_components)/
                 },
@@ -60,12 +73,7 @@ module.exports = ( env, options ) => {
             ],
         },
 
-        plugins: [
-            new MiniCssExtractPlugin({
-                filename: 'style.css',
-                chunkFilename: '[id].css'
-            })
-        ],
+        plugins: plugins
 
     }
 };
