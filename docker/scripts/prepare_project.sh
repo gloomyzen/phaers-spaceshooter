@@ -2,14 +2,7 @@
 
 WORK_DIR=/var/www
 SOURCE_DIR=/src
-PUBLIC_DIR=/resources/tmp
-
-argsArray=("$@")
-
-str=""
-for arg in "${argsArray[@]}"; do
-   str="${str} ${WORK_DIR}${SOURCE_DIR}/${arg}"
-done
+PUBLIC_DIR=/.temp
 
 source /var/emsdk/emsdk_env.sh
 
@@ -17,6 +10,29 @@ source /var/emsdk/emsdk_env.sh
 #command=`emcc ${str} --shell-file ${WORK_DIR}/stub/index.html --emrun -o ${WORK_DIR}${PUBLIC_DIR}/index.html -s \
 #    NO_EXIT_RUNTIME=1 -s EXPORTED_FUNCTIONS="['_test', '_string_test', '_int_test', '_float_test', '_main']" -s \
 #    EXTRA_EXPORTED_RUNTIME_METHODS="['cwrap', 'ccall']"`
-command=`emcc ${str} --shell-file ${WORK_DIR}/resources/stub/index.html --emrun -o ${WORK_DIR}${PUBLIC_DIR}/wasm/index.wasm`
+#command=`emcc ${str} --shell-file ${WORK_DIR}/resources/stub/index.html --emrun -o ${WORK_DIR}${PUBLIC_DIR}/wasm/index.wasm`
 
-exec ${command}
+args=("$@")
+case "${args[0]}" in
+    --clear|clear)
+        #prepare_project clear - for clear all last builds
+        rm -rf ${WORK_DIR}${PUBLIC_DIR}
+        mkdir ${WORK_DIR}${PUBLIC_DIR}
+        ;;
+    --target|target)
+        #prepare_project target target_name dependency.cpp dependency2.cpp - for build target
+        str=""
+        for key in "${!args[@]}"; do
+            if [[ ${key} > 1 ]]; then
+                str="${str} ${WORK_DIR}/${args[key]}"
+            fi
+        done
+
+        command=`emcc ${str} --shell-file ${WORK_DIR}/resources/stub/index.html --emrun -o ${WORK_DIR}${PUBLIC_DIR}/${args[1]}.wasm`
+        exec ${command}
+        ;;
+    *)
+        echo "Nothing caused.\n"
+        exit 1
+
+esac
