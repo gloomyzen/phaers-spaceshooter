@@ -2,7 +2,8 @@ const path = require( 'path' );
 const webpack = require( 'webpack' );
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 let LiveReloadPlugin = require('webpack-livereload-plugin');
-let WebpackHookPlugin = require('webpack-hook-plugin');
+// let WebpackHookPlugin = require('webpack-hook-plugin');
+let exec = require('child_process').exec, child;
 
 /**
  * Setting targets for project build
@@ -11,15 +12,15 @@ let WebpackHookPlugin = require('webpack-hook-plugin');
 const targets = [
     {
     target: "canvas",
-    files: ['canvas.c']
+    files: ['src/canvas.c']
     },
     {
         target: "canvas2",
-        files: ['canvas.c']
+        files: ['src/canvas.c']
     },
     {
         target: "canvas3",
-        files: ['canvas.c']
+        files: ['src/canvas.c']
     }
 ];
 let command = 'prepare_project clear';
@@ -28,17 +29,19 @@ targets.forEach((obj, i) => {
     command += ` && `;
     command += `prepare_project target ${obj.target} ${obj.files.join(' ')}`;
 });
+console.log(command);
+exec(command);
 
 /**
  * @type {*[]}
  */
 let plugins = [];
 plugins.push(new LiveReloadPlugin())
-plugins.push(new WebpackHookPlugin({
+/*plugins.push(new WebpackHookPlugin({
     onBuildStart: [command],
     // onBuildEnd: [command],
-    onCompile: [command],
-}));
+    // onCompile: [command],
+}));*/
 plugins.push(new MiniCssExtractPlugin({
     filename: 'style.css',
     chunkFilename: '[id].css'

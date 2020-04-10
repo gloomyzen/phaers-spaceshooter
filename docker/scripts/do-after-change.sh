@@ -24,7 +24,7 @@ files=$*
 
 function exec_cmd () {
     echo "[`date`] >>>> Run: $cmd"
-    eval $cmd
+    eval "${cmd}"
     echo "[`date`] >>>> Exit code: $?"
 }
 

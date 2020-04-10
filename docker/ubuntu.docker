@@ -21,6 +21,7 @@ RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | b
 
 SHELL ["/bin/bash", "-c", "source /var/emsdk/emsdk_env.sh"]
 SHELL ["/bin/bash", "-c", "chmod +x /usr/local/bin/prepare_project"]
+SHELL ["/bin/bash", "-c", "chmod +x /usr/local/bin/do-after-change"]
 ENTRYPOINT ["/bin/bash"]
 
 WORKDIR /var/www

@@ -2,7 +2,7 @@
 
 WORK_DIR=/var/www
 SOURCE_DIR=/src
-PUBLIC_DIR=/.temp
+PUBLIC_DIR=/public/wasm
 
 source /var/emsdk/emsdk_env.sh
 
@@ -16,8 +16,13 @@ args=("$@")
 case "${args[0]}" in
     --clear|clear)
         #prepare_project clear - for clear all last builds
-        rm -rf ${WORK_DIR}${PUBLIC_DIR}
-        mkdir ${WORK_DIR}${PUBLIC_DIR}
+        if [[ -d "${WORK_DIR}${PUBLIC_DIR}" ]]; then
+            rm -rf ${WORK_DIR}${PUBLIC_DIR}
+        fi
+        if [[ ! -d "${WORK_DIR}${PUBLIC_DIR}" ]]; then
+            mkdir ${WORK_DIR}${PUBLIC_DIR}
+            chmod -R 777 ${WORK_DIR}${PUBLIC_DIR}
+        fi
         ;;
     --target|target)
         #prepare_project target target_name dependency.cpp dependency2.cpp - for build target
