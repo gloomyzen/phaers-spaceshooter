@@ -49,6 +49,8 @@ plugins.push(new MiniCssExtractPlugin({
 
 module.exports = ( env, options ) => {
     return {
+        mode: "development",
+        context: path.resolve(__dirname, "."),
         entry: './resources/js/game.js',
 
         output: {
@@ -60,6 +62,10 @@ module.exports = ( env, options ) => {
 
         module: {
             rules: [
+                {
+                    test: /\.wasm$/,
+                    type: "webassembly/async"
+                },
                 {
                     test: /\.js$/,
                     use: {
@@ -101,6 +107,14 @@ module.exports = ( env, options ) => {
                 },
             ],
         },
+
+        // optimization: {
+        //     chunkIds: "deterministic" // To keep filename consistent between different modes (for example building only)
+        // },
+        // experiments: {
+        //     asyncWebAssembly: true,
+        //     importAwait: true
+        // },
 
         plugins: plugins
 

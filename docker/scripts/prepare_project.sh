@@ -4,8 +4,6 @@ WORK_DIR=/var/www
 SOURCE_DIR=/src
 PUBLIC_DIR=/public/wasm
 
-source /var/emsdk/emsdk_env.sh
-
 #shell test
 #command=`emcc ${str} --shell-file ${WORK_DIR}/stub/index.html --emrun -o ${WORK_DIR}${PUBLIC_DIR}/index.html -s \
 #    NO_EXIT_RUNTIME=1 -s EXPORTED_FUNCTIONS="['_test', '_string_test', '_int_test', '_float_test', '_main']" -s \

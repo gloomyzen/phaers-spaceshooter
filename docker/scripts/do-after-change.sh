@@ -5,6 +5,7 @@
 
 cmdfile=/tmp/doafterchanges
 touch $cmdfile
+source /var/emsdk/emsdk_env.sh
 
 if [ $# -lt 2 ]; then
     echo "Usage: $0 cmd watched_files"
