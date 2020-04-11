@@ -1,8 +1,13 @@
 #!/bin/sh
 
+##
+# Variables
+##
 WORK_DIR=/var/www
 SOURCE_DIR=/src
 PUBLIC_DIR=/resources/wasm
+args=("$@")
+command=''
 
 #shell test
 #command=`emcc ${str} --shell-file ${WORK_DIR}/stub/index.html --emrun -o ${WORK_DIR}${PUBLIC_DIR}/index.html -s \
@@ -10,7 +15,16 @@ PUBLIC_DIR=/resources/wasm
 #    EXTRA_EXPORTED_RUNTIME_METHODS="['cwrap', 'ccall']"`
 #command=`emcc ${str} --shell-file ${WORK_DIR}/resources/stub/index.html --emrun -o ${WORK_DIR}${PUBLIC_DIR}/wasm/index.wasm`
 
-args=("$@")
+function parse_command() {
+    command=''
+    for key in "${!args[@]}"; do
+#        if [[ ${key} > 1 ]]; then
+            command="${command} ${args[key]}"
+#        fi
+    done
+    echo $command
+}
+
 case "${args[0]}" in
     --clear|clear)
         #prepare_project clear - for clear all last builds
@@ -23,16 +37,22 @@ case "${args[0]}" in
         fi
         ;;
     --target|target)
+        parse_command
         #prepare_project target target_name dependency.cpp dependency2.cpp - for build target
-        str=""
-        for key in "${!args[@]}"; do
-            if [[ ${key} > 1 ]]; then
-                str="${str} ${WORK_DIR}/${args[key]}"
-            fi
-        done
+#        str=""
+#        for key in "${!args[@]}"; do
+#            if [[ ${key} > 1 ]]; then
+#                str="${str} ${WORK_DIR}/${args[key]}"
+#            fi
+#        done
+#
+#        echo $str;
+#        IN="--arg=WASM=1"
+#        arrIN=(${IN//=/ })
+#        echo ${arrIN[0]}
 
-        command=`emcc ${str} --shell-file ${WORK_DIR}/resources/stub/index.html --emrun -o ${WORK_DIR}${PUBLIC_DIR}/${args[1]}.wasm`
-        exec ${command}
+#        command=`emcc ${str} --shell-file ${WORK_DIR}/resources/stub/index.html --emrun -o ${WORK_DIR}${PUBLIC_DIR}/${args[1]}.wasm`
+#        exec ${command}
         ;;
     *)
         echo "Nothing caused.\n"
