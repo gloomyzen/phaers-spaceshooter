@@ -11,16 +11,12 @@ let exec = require('child_process').exec, child;
  */
 const targets = [
     {
-    target: "canvas",
-    files: ['src/canvas.c']
-    },
-    {
-        target: "canvas2",
+        target: "canvas",
         files: ['src/canvas.c']
     },
     {
-        target: "canvas3",
-        files: ['src/canvas.c']
+        target: "fibonacci",
+        files: ['src/fibonacci.c']
     }
 ];
 let command = 'prepare_project clear';
@@ -64,7 +60,7 @@ module.exports = ( env, options ) => {
             rules: [
                 {
                     test: /\.wasm$/,
-                    type: "webassembly/async"
+                    type: "webassembly/experimental"
                 },
                 {
                     test: /\.js$/,

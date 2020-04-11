@@ -1,6 +1,2 @@
-console.log('yep!');
-console.log('yep!');
-console.log('yep!');
-console.log('yep!');
-console.log('yep!');
-console.log('yep!');
+import fibonacci from '/wasm/fibonacci.wasm'
+
