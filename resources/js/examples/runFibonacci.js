@@ -15,4 +15,9 @@ export function runFibonacci() {
     module.onRuntimeInitialized = () => {
         console.log(module._fib(33));
     };
+
+    //Test preRun method
+    module.preRun = [function () {
+        console.log('Pre Run!');
+    }];
 }
