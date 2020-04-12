@@ -30,6 +30,10 @@ function parse_command() {
 #prepare_project --output=canvas --file=canvas.c --file=canvas1.c --arg=WASM=1
     command=''
     for key in "${!args[@]}"; do
+        if [[ ${args[key]} == "clear" ]]; then
+            prepare_dir
+            exit 0;
+        fi
 #        if [[ ${key} > 1 ]]; then
             echo ${args[key]}
             IN="--arg=WASM=1"
@@ -38,9 +42,12 @@ function parse_command() {
 #            command="${command} ${args[key]}"
 #        fi
     done
-#    echo $command
+    echo $command
 }
-#
+
+parse_command
+
+
 #case "${args[0]}" in
 #    --clear|clear)
 #        #prepare_project clear - for clear all last builds
