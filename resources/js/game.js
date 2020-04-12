@@ -1,2 +1,3 @@
-import fibonacci from '/wasm/fibonacci.wasm'
+import {runFibonacci} from './examples/runFibonacci.js'
 
+runFibonacci();

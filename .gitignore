@@ -16,3 +16,6 @@ package-lock.json
 /public/*
 !/public
 /.temp*
+
+## Wasm temp folder
+/resources/wasm/*

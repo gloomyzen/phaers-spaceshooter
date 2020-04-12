@@ -12,10 +12,16 @@ let exec = require('child_process').exec, child;
  */
 const targets = [
     {
-        files: ['src/canvas.c'], //Files for compilation
+        files: ['src/examples/canvas.c'], //Files for compilation
         output: 'canvas', // Output name
         args: ['-s WASM=1'], //Arguments for emscripten
         command: ['--emrun'], // Extra command
+    },
+    {
+        files: ['src/examples/fibonacci.c'],
+        output: 'fibonacci',
+        args: [`-O3` , `-s WASM=1`, `-s EXTRA_EXPORTED_RUNTIME_METHODS='["cwrap"]'`, `-s ALLOW_MEMORY_GROWTH=1`, `-s MODULARIZE=1`, `-s 'EXPORT_NAME="fibonacci"'`],
+        command: [''],
     }
 ];
 const workDir = `/var/www`;
@@ -28,11 +34,11 @@ targets.forEach((obj, i) => {
     if (!obj.command) obj.command = ['']
     if (!obj.files) console.error(`ERROR: Files has not be declared in target - ${obj.output}!`)
 
-     command += `emcc ${obj.files.join(' ')} ${obj.args ? obj.args.join(' ') : ``} ${obj.command ? obj.command.join(' ') : ``} `
-         + `--shell-file ${workDir}${publicDir}/stub/index.html -o ${workDir}${publicDir}/wasm/${obj.output}`;
+     command += `emcc ${obj.args ? obj.args.join(' ') : ``} ${obj.files.join(' ')} ${obj.command ? obj.command.join(' ') : ``} `
+         + `--shell-file ${workDir}${publicDir}/stub/index.html -o ${workDir}${publicDir}/wasm/${obj.output}.html `;
 });
-console.log(command);
-// exec(command);
+// console.log(command);
+exec(command);
 
 /**
  * @type {*[]}
@@ -60,18 +66,29 @@ module.exports = ( env, options ) => {
             filename: 'index.js',
         },
 
-        devtool: 'cheap-eval-source-map',
+        // devtool: 'cheap-eval-source-map',
+
+        node: {
+            fs: 'empty'
+        },
+
+        devtool: 'source-map',
 
         module: {
             rules: [
                 {
                     test: /\.wasm$/,
-                    type: "webassembly/experimental"
+                    // type: "webassembly/experimental"
+                    type: "javascript/auto",
+                    loader: "file-loader",
+                    // options: {
+                    //     publicPath: "dist/"
+                    // }
                 },
                 {
                     test: /\.js$/,
                     use: {
-                        loader: 'babel-loader'
+                        loader: 'exports-loader',
                     },
                     exclude: /(node_modules|bower_components)/
                 },
