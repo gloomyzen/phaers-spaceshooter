@@ -28,21 +28,32 @@ function prepare_dir() {
 
 function parse_command() {
 #prepare_project --output=canvas --file=canvas.c --file=canvas1.c --arg=WASM=1
-    command=''
-    for key in "${!args[@]}"; do
-        if [[ ${args[key]} == "clear" ]]; then
-            prepare_dir
-            exit 0;
-        fi
-#        if [[ ${key} > 1 ]]; then
-            echo ${args[key]}
-            IN="--arg=WASM=1"
-            arrIN=(${IN//=/ })
-            echo ${arrIN[0]}
-#            command="${command} ${args[key]}"
+#    command=''
+#    for key in "${!args[@]}"; do
+#        if [[ ${args[key]} == "clear" ]]; then
+#            prepare_dir
+#            exit 0;
 #        fi
+##        if [[ ${key} > 1 ]]; then
+#            echo ${args[key]}
+#            IN="--arg=WASM=1"
+#            arrIN=(${IN//=/ })
+#            echo ${arrIN[0]}
+##            command="${command} ${args[key]}"
+##        fi
+#    done
+#    echo $command
+    for key in "${!args[@]}"; do
+    echo "${args[key]}"
+        case "${args[0]}" in
+            --clear|clear)
+                #
+                ;;
+            --target|target)
+                #
+                ;;
+        esac
     done
-    echo $command
 }
 
 parse_command

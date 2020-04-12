@@ -6,27 +6,33 @@ let LiveReloadPlugin = require('webpack-livereload-plugin');
 let exec = require('child_process').exec, child;
 
 /**
+ * emcc ${str} --shell-file ${WORK_DIR}/resources/stub/index.html --emrun -o ${WORK_DIR}${PUBLIC_DIR}/wasm/index.wasm
  * Setting targets for project build
- * @type {({files: [string], target: string}|{files: [string], target: string}|{files: [string], target: string})[]}
+ * @type {{output: string, args: [string], files: [string], command: [string]}[]}
  */
 const targets = [
     {
-        target: "canvas",
-        files: ['src/canvas.c']
-    },
-    {
-        target: "fibonacci",
-        files: ['src/fibonacci.c']
+        files: ['src/canvas.c'], //Files for compilation
+        output: 'canvas', // Output name
+        args: ['-s WASM=1'], //Arguments for emscripten
+        command: ['--emrun'], // Extra command
     }
 ];
-let command = 'prepare_project clear';
+const workDir = `/var/www`;
+const publicDir = `/resources`;
+let command = ``;
 
 targets.forEach((obj, i) => {
-    command += ` && `;
-    command += `prepare_project target ${obj.target} ${obj.files.join(' ')}`;
+    if (i !== 0) command += ` && `
+    if (!obj.output) obj.output = `index`
+    if (!obj.command) obj.command = ['']
+    if (!obj.files) console.error(`ERROR: Files has not be declared in target - ${obj.output}!`)
+
+     command += `emcc ${obj.files.join(' ')} ${obj.args ? obj.args.join(' ') : ``} ${obj.command ? obj.command.join(' ') : ``} `
+         + `--shell-file ${workDir}${publicDir}/stub/index.html -o ${workDir}${publicDir}/wasm/${obj.output}`;
 });
 console.log(command);
-exec(command);
+// exec(command);
 
 /**
  * @type {*[]}
