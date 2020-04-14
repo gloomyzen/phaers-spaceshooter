@@ -11,16 +11,22 @@ let exec = require('child_process').exec, child;
  * @type {{output: string, args: [string], files: [string], command: [string]}[]}
  */
 const targets = [
-    {
+    /*{
         files: ['src/examples/canvas.c'], //Files for compilation
         output: 'canvas', // Output name
         args: ['-s WASM=1'], //Arguments for emscripten
         command: ['--emrun'], // Extra command
-    },
-    {
+    },*/
+    /*{
         files: ['src/examples/fibonacci.c'],
         output: 'fibonacci',
         args: [`-O3` , `-s WASM=1`, `-s EXTRA_EXPORTED_RUNTIME_METHODS='["cwrap"]'`, `-s ALLOW_MEMORY_GROWTH=1`, `-s MODULARIZE=1`, `-s 'EXPORT_NAME="fibonacci"'`],
+        command: [''],
+    },*/
+    {
+        files: ['src/examples/usesdl.c'],
+        output: 'sdl',
+        args: [`-O3` , `-s WASM=1`, `-s USE_SDL=2`, `-s USE_SDL_TTF=2`],
         command: [''],
     }
 ];

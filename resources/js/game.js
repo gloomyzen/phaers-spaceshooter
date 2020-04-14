@@ -1,3 +1,3 @@
-import {runFibonacci} from './examples/runFibonacci.js'
+// import {runFibonacci} from './examples/runFibonacci.js'
+// runFibonacci();
 
-runFibonacci();
