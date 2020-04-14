@@ -26,8 +26,8 @@ const targets = [
     {
         files: ['src/examples/usesdl.c'],
         output: 'sdl',
-        args: [`-O3` , `-s WASM=1`, `-s USE_SDL=2`, `-s USE_SDL_TTF=2`, `--emrun`, `--preload-file font`],
-        command: [''],
+        args: [`-O3` , `-s WASM=1`, `-s USE_SDL=2`, `-s USE_SDL_TTF=2`, `--preload-file /var/www/resources/font`],
+        command: ['--emrun'],
     }
 ];
 const workDir = `/var/www`;
@@ -43,7 +43,7 @@ targets.forEach((obj, i) => {
      command += `emcc ${obj.args ? obj.args.join(' ') : ``} ${obj.files.join(' ')} ${obj.command ? obj.command.join(' ') : ``} `
          + `--shell-file ${workDir}${publicDir}/stub/index.html -o ${workDir}${publicDir}/wasm/${obj.output}.html `;
 });
-// console.log(command);
+console.log(command);
 exec(command);
 
 /**
