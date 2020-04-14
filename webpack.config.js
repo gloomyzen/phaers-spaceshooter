@@ -26,7 +26,7 @@ const targets = [
     {
         files: ['src/examples/usesdl.c'],
         output: 'sdl',
-        args: [`-O3` , `-s WASM=1`, `-s USE_SDL=2`, `-s USE_SDL_TTF=2`],
+        args: [`-O3` , `-s WASM=1`, `-s USE_SDL=2`, `-s USE_SDL_TTF=2`, `--emrun`, `--preload-file font`],
         command: [''],
     }
 ];
