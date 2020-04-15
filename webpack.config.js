@@ -26,6 +26,7 @@ const targets = [
     {
         files: ['src/examples/usesdl.c'],
         output: 'sdl',
+        outputPath: ``,
         args: [`-O3` , `-s WASM=1`, `-s USE_SDL=2`, `-s USE_SDL_TTF=2`, `--preload-file /var/www/resources/font`],
         command: [''],
     }
