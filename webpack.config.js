@@ -15,7 +15,7 @@ const targets = [
         files: ['src/examples/canvas.c'], //Files for compilation
         output: 'canvas', // Output name
         args: ['-s WASM=1'], //Arguments for emscripten
-        command: ['--emrun'], // Extra command
+        command: [''], // Extra command like --emrun
     },*/
     /*{
         files: ['src/examples/fibonacci.c'],
@@ -27,7 +27,7 @@ const targets = [
         files: ['src/examples/usesdl.c'],
         output: 'sdl',
         args: [`-O3` , `-s WASM=1`, `-s USE_SDL=2`, `-s USE_SDL_TTF=2`, `--preload-file /var/www/resources/font`],
-        command: ['--emrun'],
+        command: [''],
     }
 ];
 const workDir = `/var/www`;
@@ -37,11 +37,15 @@ let command = ``;
 targets.forEach((obj, i) => {
     if (i !== 0) command += ` && `
     if (!obj.output) obj.output = `index`
+    if (typeof obj.useDefaultShell === "undefined") obj.useDefaultShell = false
     if (!obj.command) obj.command = ['']
     if (!obj.files) console.error(`ERROR: Files has not be declared in target - ${obj.output}!`)
 
-     command += `emcc ${obj.args ? obj.args.join(' ') : ``} ${obj.files.join(' ')} ${obj.command ? obj.command.join(' ') : ``} `
-         + `--shell-file ${workDir}${publicDir}/stub/index.html -o ${workDir}${publicDir}/wasm/${obj.output}.html `;
+    command += `emcc ${obj.args ? obj.args.join(' ') : ``} ${obj.files.join(' ')} ${obj.command ? obj.command.join(' ') : ``} `;
+    if (obj.useDefaultShell) {
+        command += `--shell-file ${workDir}${publicDir}/stub/index.html`;
+    }
+    command += `-o ${workDir}${publicDir}/wasm/${obj.output}.html `;
 });
 console.log(command);
 exec(command);
