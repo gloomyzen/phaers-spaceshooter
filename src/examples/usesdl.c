@@ -6,12 +6,14 @@
 #define MESSAGE "RUN SDL!"
 #define FONT_SIZE 16
 #define FONT_FILE "font/Roboto-Black.ttf"
+#define WIDTH 320 * 2
+#define HEIGHT 200 * 2
 
 int main() {
     SDL_Window *window;
     SDL_Renderer *renderer;
 
-    SDL_Rect dest = {.x = 160, .y = 100, .w = 0, .h = 0 };
+    SDL_Rect dest = {.x = WIDTH / 2, .y = HEIGHT / 2, .w = 0, .h = 0 };
     TTF_Font *font;
 
     SDL_Texture *texture;
@@ -19,7 +21,7 @@ int main() {
     SDL_Init( SDL_INIT_VIDEO );
     TTF_Init();
 
-    SDL_CreateWindowAndRenderer( 320, 200, 0, &window, &renderer );
+    SDL_CreateWindowAndRenderer( WIDTH, HEIGHT, 0, &window, &renderer );
 
     SDL_SetRenderDrawColor( renderer, 0, 0, 0, 255 );
     SDL_RenderClear( renderer );
