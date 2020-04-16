@@ -23,11 +23,18 @@ const targets = [
         args: [`-O3` , `-s WASM=1`, `-s EXTRA_EXPORTED_RUNTIME_METHODS='["cwrap"]'`, `-s ALLOW_MEMORY_GROWTH=1`, `-s MODULARIZE=1`, `-s 'EXPORT_NAME="fibonacci"'`],
         command: [''],
     },*/
-    {
+    /*{
         files: ['src/examples/usesdl.c'],
         output: 'sdl',
         outputPath: ``,
         args: [`-O3` , `-s WASM=1`, `-s USE_SDL=2`, `-s USE_SDL_TTF=2`, `--preload-file /var/www/resources/font`],
+        command: [''],
+    },*/
+    {
+        files: ['src/examples/sprite.c'],
+        output: 'sdl',
+        outputPath: ``,
+        args: [`-O3` , `-s WASM=1`, `-s USE_SDL=2`, `-s USE_SDL_IMAGE=2`, `SDL2_IMAGE_FORMATS=["png"]`, `--preload-file /var/www/resources/sprites`],
         command: [''],
     }
 ];

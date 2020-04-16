@@ -3,7 +3,11 @@ FROM ubuntu:18.04
 ####################### Install utilities and emsdk #######################
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y --fix-missing \
-    git zip cron curl python llvm libxml2-dev build-essential libssl-dev inotify-tools \
+    git zip cron curl wget python llvm libxml2-dev build-essential libssl-dev inotify-tools \
+    checkinstall libx11-dev libxext-dev zlib1g-dev libpng-dev libjpeg-dev libfreetype6-dev libxml2-dev \
+    && cd /opt && wget http://www.imagemagick.org/download/ImageMagick.tar.gz \
+    && tar -zxf ImageMagick.tar.gz && ImageMagickPath=$(ls | grep 'ImageMagick-') && cd ${ImageMagickPath} \
+    && touch configure && ./configure && make && make install && ldconfig /usr/local/lib && convert --version \
     && cd /var && git clone https://github.com/emscripten-core/emsdk.git emsdk && cd emsdk \
     && ./emsdk install latest \
     && ./emsdk activate latest \
