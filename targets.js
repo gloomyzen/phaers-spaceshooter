@@ -30,8 +30,15 @@ export default [
         args: [`-O3` , `-s WASM=1`, `-s USE_SDL=2`, `-s USE_SDL_IMAGE=2`, `-s SDL2_IMAGE_FORMATS=["png"]`, `--preload-file /var/www/resources/sprites`],
         command: [''],
     },*/
-    {
+    /*{
         files: ['src/examples/sprite_animation.c'],
+        output: 'sprite',
+        outputPath: ``,
+        args: [`-O3` , `-s WASM=1`, `-s USE_SDL=2`, `-s USE_SDL_IMAGE=2`, `-s SDL2_IMAGE_FORMATS=["png"]`, `--preload-file /var/www/resources/sprites`],
+        command: [''],
+    },*/
+    {
+        files: ['src/examples/sprite_move.c'],
         output: 'sprite',
         outputPath: ``,
         args: [`-O3` , `-s WASM=1`, `-s USE_SDL=2`, `-s USE_SDL_IMAGE=2`, `-s SDL2_IMAGE_FORMATS=["png"]`, `--preload-file /var/www/resources/sprites`],
