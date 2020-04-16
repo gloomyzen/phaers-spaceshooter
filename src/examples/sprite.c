@@ -4,18 +4,20 @@
 #include <stdio.h>
 
 #define SPRITE_FILE "sprites/Franchise1.png"
+#define WIDTH 320 * 2
+#define HEIGHT 200 * 2
 
 int main() {
     SDL_Window *window;
     SDL_Renderer *renderer;
 
-    SDL_Rect dest = {.x = 160, .y = 100, .w = 0, .h = 0 };
+    SDL_Rect dest = {.x = WIDTH / 2, .y = HEIGHT / 2, .w = 0, .h = 0 };
 
     SDL_Texture *texture;
 
     SDL_Init( SDL_INIT_VIDEO );
 
-    SDL_CreateWindowAndRenderer( 320, 200, 0, &window, &renderer );
+    SDL_CreateWindowAndRenderer( WIDTH, HEIGHT, 0, &window, &renderer );
 
     SDL_SetRenderDrawColor( renderer, 0, 0, 0, 255 );
     SDL_RenderClear( renderer );
@@ -42,10 +44,10 @@ int main() {
 
     SDL_RenderPresent( renderer );
 
-    SDL_Delay(5000);
+//    SDL_Delay(15000);
 
-    SDL_DestroyWindow(window);
-    SDL_Quit();
+//    SDL_DestroyWindow(window);
+//    SDL_Quit();
 
-    return 1;
+    return EXIT_SUCCESS;
 }
