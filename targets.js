@@ -43,5 +43,12 @@ export default [
         outputPath: ``,
         args: [`-O3` , `-s WASM=1`, `-s USE_SDL=2`, `-s USE_SDL_IMAGE=2`, `-s SDL2_IMAGE_FORMATS=["png"]`, `--preload-file /var/www/resources/sprites`],
         command: [''],
+    },
+    {
+        files: ['src/examples/game_loop.c'],
+        output: 'sprite',
+        outputPath: ``,
+        args: [`-O3` , `-s WASM=1`, `-s NO_EXIT_RUNTIME=1`, `-s USE_SDL=2`, `-s USE_SDL_IMAGE=2`, `-s SDL2_IMAGE_FORMATS=["png"]`, `-s EXTRA_EXPORTED_RUNTIME_METHODS="['cwrap', 'ccall']"`, `--preload-file /var/www/resources/sprites`],
+        command: [''],
     }
 ];
