@@ -37,7 +37,7 @@ export default [
         args: [`-O3` , `-s WASM=1`, `-s USE_SDL=2`, `-s USE_SDL_IMAGE=2`, `-s SDL2_IMAGE_FORMATS=["png"]`, `--preload-file /var/www/resources/sprites`],
         command: [''],
     },*/
-    {
+    /*{
         files: ['src/examples/sprite_move.c'],
         output: 'sprite',
         outputPath: ``,
@@ -49,6 +49,19 @@ export default [
         output: 'sprite',
         outputPath: ``,
         args: [`-O3` , `-s WASM=1`, `-s NO_EXIT_RUNTIME=1`, `-s USE_SDL=2`, `-s USE_SDL_IMAGE=2`, `-s SDL2_IMAGE_FORMATS=["png"]`, `-s EXTRA_EXPORTED_RUNTIME_METHODS="['cwrap', 'ccall']"`, `--preload-file /var/www/resources/sprites`],
+        command: [''],
+    },*/
+    {
+        files: [
+            'src/enemy_ship.cpp',
+            'src/game.hpp',
+            'src/main.cpp',
+            'src/projectile.cpp',
+            'src/projectile_pool.cpp',
+        ],
+        output: 'game_loop',
+        outputPath: ``,
+        args: [`-std=c++17`, `-s USER_WEBGL2=1`, `-s USE_SDL=2`, `-s USE_SDL_IMAGE=2`, `-s SDL2_IMAGE_FORMATS=["png"]`,  `--preload-file /var/www/resources/sprites`],
         command: [''],
     }
 ];

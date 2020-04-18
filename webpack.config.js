@@ -3,8 +3,7 @@ const webpack = require( 'webpack' );
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 import targets from "./targets";
 let LiveReloadPlugin = require('webpack-livereload-plugin');
-// let WebpackHookPlugin = require('webpack-hook-plugin');
-let exec = require('child_process').exec, child;
+let exec = require('child_process').exec;
 
 const workDir = `/var/www`;
 const publicDir = `/resources`;
@@ -15,9 +14,10 @@ targets.forEach((obj, i) => {
     if (!obj.output) obj.output = `index`
     if (typeof obj.useDefaultShell === "undefined") obj.useDefaultShell = false
     if (!obj.command) obj.command = ['']
+    if (typeof obj.empp === "undefined") obj.empp = true;
     if (!obj.files) console.error(`ERROR: Files has not be declared in target - ${obj.output}!`)
 
-    command += `emcc ${obj.args ? obj.args.join(' ') : ``} ${obj.files.join(' ')} ${obj.command ? obj.command.join(' ') : ``} `;
+    command += `${obj.empp ? 'em++' : 'emcc'} ${obj.args ? obj.args.join(' ') : ``} ${obj.files.join(' ')} ${obj.command ? obj.command.join(' ') : ``} `;
     if (obj.useDefaultShell) {
         command += `--shell-file ${workDir}${publicDir}/stub/index.html`;
     }
@@ -31,11 +31,7 @@ exec(command);
  */
 let plugins = [];
 plugins.push(new LiveReloadPlugin())
-/*plugins.push(new WebpackHookPlugin({
-    onBuildStart: [command],
-    // onBuildEnd: [command],
-    // onCompile: [command],
-}));*/
+
 plugins.push(new MiniCssExtractPlugin({
     filename: 'style.css',
     chunkFilename: '[id].css'
