@@ -1,4 +1,4 @@
-/node_modules
+/resources/node_modules
 .env
 *.backup
 *.bac
@@ -7,7 +7,7 @@
 .phpunit.result.cache
 npm-debug.log
 yarn-error.log
-package-lock.json
+resources/package-lock.json
 
 .idea
 .vc
