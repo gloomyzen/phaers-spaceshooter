@@ -1,9 +1,9 @@
 /**
- * emcc ${str} --shell-file ${WORK_DIR}/resources/stub/index.html --emrun -o ${WORK_DIR}${PUBLIC_DIR}/wasm/index.wasm
+ * emcc|em++ ${str} --shell-file ${WORK_DIR}/resources/stub/index.html --emrun -o ${WORK_DIR}${PUBLIC_DIR}/wasm/index.wasm
  * Setting targets for project build
- * @type {{output: string, args: [string], files: [string], command: [string]}[]}
+ * @type {{output: string, args: [string], empp: string files: [string], command: [string]}[]}
  */
-export default [
+const targets = [
     /*{
         files: ['src/examples/canvas.c'], //Files for compilation
         output: 'canvas', // Output name
@@ -59,9 +59,12 @@ export default [
             'src/projectile.cpp',
             'src/projectile_pool.cpp',
         ],
+        empp: true,
         output: 'game_loop',
         outputPath: ``,
         args: [`-std=c++17`, `-s USER_WEBGL2=1`, `-s USE_SDL=2`, `-s USE_SDL_IMAGE=2`, `-s SDL2_IMAGE_FORMATS=["png"]`,  `--preload-file /var/www/resources/sprites`],
         command: [''],
     }
 ];
+
+export default targets;

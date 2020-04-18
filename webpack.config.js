@@ -3,12 +3,14 @@ const webpack = require( 'webpack' );
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 import targets from "./targets";
 let LiveReloadPlugin = require('webpack-livereload-plugin');
-let exec = require('child_process').exec;
+// let WebpackHookPlugin = require('webpack-hook-plugin');
+let exec = require('child_process').exec, child;
 
 const workDir = `/var/www`;
 const publicDir = `/resources`;
 let command = ``;
 
+console.log(targets);
 targets.forEach((obj, i) => {
     if (i !== 0) command += ` && `
     if (!obj.output) obj.output = `index`
@@ -31,7 +33,11 @@ exec(command);
  */
 let plugins = [];
 plugins.push(new LiveReloadPlugin())
-
+/*plugins.push(new WebpackHookPlugin({
+    onBuildStart: [command],
+    // onBuildEnd: [command],
+    // onCompile: [command],
+}));*/
 plugins.push(new MiniCssExtractPlugin({
     filename: 'style.css',
     chunkFilename: '[id].css'
