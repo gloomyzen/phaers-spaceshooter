@@ -62,7 +62,7 @@ const targets = [
         empp: true,
         output: 'game_loop',
         outputPath: ``,
-        args: [`-std=c++17`, `-s USER_WEBGL2=1`, `-s USE_SDL=2`, `-s USE_SDL_IMAGE=2`, `-s SDL2_IMAGE_FORMATS=["png"]`,  `--preload-file /var/www/resources/sprites`],
+        args: [`-std=c++17`, `-s USE_WEBGL2=1`, `-s USE_SDL=2`, `-s USE_SDL_IMAGE=2`, `-s SDL2_IMAGE_FORMATS=["png"]`,  `--preload-file /var/www/resources/sprites`],
         command: [''],
     }
 ];

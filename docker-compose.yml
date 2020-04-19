@@ -1,3 +1,4 @@
+##TODO: add /root/.emscripten_cache/ to volumes
 version: '2'
 services:
 ############################################################################
