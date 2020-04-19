@@ -3,7 +3,7 @@
 #include <emscripten.h>
 #include <stdio.h>
 
-#define SPRITE_FILE "sprites/Franchise1.png"
+#define SPRITE_FILE "resources/sprites/Franchise1.png"
 #define WIDTH 320 * 2
 #define HEIGHT 200 * 2
 

@@ -3,8 +3,8 @@
 #include <emscripten.h>
 #include <stdio.h>
 
-#define SPRITE_FILE "sprites/Franchise1.png"
-#define EXP_FILE "sprites/FranchiseExplosion%d.png"
+#define SPRITE_FILE "resources/sprites/Franchise1.png"
+#define EXP_FILE "resources/sprites/FranchiseExplosion%d.png"
 #define FRAME_COUNT 7
 
 #define WIDTH 320 * 2

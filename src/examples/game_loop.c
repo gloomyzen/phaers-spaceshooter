@@ -5,7 +5,7 @@
 #include <stdbool.h>
 #include <math.h>
 
-#define SPRITE_FILE "sprites/Franchise.png"
+#define SPRITE_FILE "resources/sprites/Franchise.png"
 
 #define PI 3.14159
 #define TWO_PI 6.28318

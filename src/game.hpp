@@ -11,8 +11,10 @@
 #include <vector>
 #include <cstdlib>
 
-//#define SPRITE_FILE "sprites/Franchise.png"
+//#define SPRITE_FILE "resources/sprites/Franchise.png"
 #define MAX_VELOCITY 2.0
+#define WINDOW_WIDTH 800
+#define WINDOW_HEIGHT 600
 
 #define PI 3.14159
 #define TWO_PI 6.28318
@@ -39,7 +41,7 @@ extern int diff_time;
 
 class PlayerShip {
 private:
-    const char* c_SpriteFile = "sprites/Franchise.png";
+    const char* c_SpriteFile = "resources/sprites/Franchise.png";
     const Uint32 c_MinLaunchTime = 300;
     const int c_Width = 16;
     const int c_Height = 16;
@@ -76,7 +78,7 @@ enum FSM_STUB {
 
 class EnemyShip {
 private:
-    const char* c_SpriteFile = "sprites/BirdOfAnger.png";
+    const char* c_SpriteFile = "resources/sprites/BirdOfAnger.png";
     const Uint32 c_MinLaunchTime = 300;
     const int c_Width = 16;
     const int c_Height = 16;
@@ -110,7 +112,7 @@ public:
 
 class Projectile {
 private:
-    const char* c_SpriteFile = "sprites/Projectile.png";
+    const char* c_SpriteFile = "resources/sprites/Projectile.png";
     const int c_Width = 8;
     const int c_Height = 8;
     SDL_Texture *m_SpriteTexture;

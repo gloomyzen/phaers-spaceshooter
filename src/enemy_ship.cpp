@@ -95,20 +95,20 @@ void EnemyShip::Move() {
     CapVelocity();
     m_X += m_VX;
 
-    if( m_X > 320 ) {
+    if( m_X > WINDOW_WIDTH ) {
         m_X = -16;
     }
     else if( m_X < -16 ) {
-        m_X = 320;
+        m_X = WINDOW_WIDTH;
     }
 
     m_Y += m_VY;
 
-    if( m_Y > 200 ) {
+    if( m_Y > WINDOW_HEIGHT ) {
         m_Y = -16;
     }
     else if( m_Y < -16 ) {
-        m_Y = 200;
+        m_Y = WINDOW_HEIGHT;
     }
 
     if( m_AIState == SHOOT ) {

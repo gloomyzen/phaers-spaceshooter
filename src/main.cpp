@@ -10,7 +10,7 @@ Uint32 current_time;
 SDL_Window *window;
 SDL_Renderer *renderer;
 
-SDL_Rect dest = {.x = 160, .y = 100, .w = 16, .h = 16 };
+SDL_Rect dest = {.x = WINDOW_WIDTH / 2, .y = WINDOW_HEIGHT / 2, .w = 16, .h = 16 };
 
 SDL_Texture *sprite_texture;
 
@@ -105,7 +105,7 @@ int main() {
     printf("ENEMY\n");
     SDL_Init( SDL_INIT_VIDEO );
 
-    int return_val = SDL_CreateWindowAndRenderer( 320, 200, 0, &window, &renderer );
+    int return_val = SDL_CreateWindowAndRenderer( WINDOW_WIDTH, WINDOW_HEIGHT, 0, &window, &renderer );
 
     if( return_val != 0 ) {
         printf("Error creating renderer %d: %s\n", return_val, IMG_GetError() );

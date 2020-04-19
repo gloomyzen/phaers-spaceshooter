@@ -1,6 +1,9 @@
 # Projects Settings
 cmake_minimum_required (VERSION 3.1)
-project(spaceshooter-game)
+project(spaceshooter-game
+        LANGUAGES CXX
+        VERSION 1.0.0
+)
 
 # The main executable
 add_executable(main
@@ -63,7 +66,7 @@ if(${BUILD_TYPE} STREQUAL webassembly)
     )
 
     # Allow the resource directories to be fetched by the web browser.
-    file(GLOB assets_files "./resources/sprites/*")
+    file(GLOB assets_files "${CMAKE_SOURCE_DIR}/resources/sprites/*" "${CMAKE_SOURCE_DIR}/resources/font/*.ttf")
     foreach(file ${assets_files})
         file(RELATIVE_PATH relative_file ${CMAKE_SOURCE_DIR} ${file})
         string(APPEND CMAKE_CXX_FLAGS " --preload-file ${file}@/${relative_file}")
