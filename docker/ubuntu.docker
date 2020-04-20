@@ -3,7 +3,7 @@ FROM ubuntu:18.04
 ####################### Install utilities and emsdk #######################
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y --fix-missing \
-    git zip cron curl cmake wget python llvm libxml2-dev build-essential libssl-dev inotify-tools \
+    git zip cron curl cmake wget python llvm libxml2-dev build-essential libssl-dev \
     checkinstall libx11-dev libxext-dev zlib1g-dev libpng-dev libjpeg-dev libfreetype6-dev libxml2-dev \
     libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev \
     && cd /opt && wget http://www.imagemagick.org/download/ImageMagick.tar.gz \
