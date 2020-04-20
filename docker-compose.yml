@@ -12,7 +12,6 @@ services:
     volumes:
       - ./:/var/www
       - ./docker/scripts/prepare_project.sh:/usr/local/bin/prepare_project
-      - ./docker/scripts/do-after-change.sh:/usr/local/bin/do-after-change
     ports:
       - "35729:35729" # for livereload plugin
     tty: true

@@ -11,7 +11,6 @@ chmod +x game.sh
 #
 ```bash
 ./game.sh -o ubuntu bash # провалиться в терминал контейнера
-do-after-change "npm run emcc-dev" src/*.c resources/js/**/*.js # dev сборка wasm и фронта
 npm run dev # dev сборка фронта
 ```
 

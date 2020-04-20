@@ -26,6 +26,7 @@ jobs:
         with:
           submodules: recursive
       - name: First set up.
+#        uses: actions/cache@v1
         shell: bash
         run: |
           sudo apt-get update
@@ -42,3 +43,9 @@ jobs:
           source /var/emsdk/emsdk_env.sh
           echo "source /var/emsdk/emsdk_env.sh\n" >> /etc/profile
           emcc --version
+          source /var/emsdk/emsdk_env.sh
+
+          curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | sudo bash
+          export NVM_DIR="$HOME/.nvm"
+          nvm install --lts && nvm use --lts
+
