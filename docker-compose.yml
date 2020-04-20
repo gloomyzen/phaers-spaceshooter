@@ -11,7 +11,6 @@ services:
       dockerfile: ./docker/ubuntu.docker
     volumes:
       - ./:/var/www
-      - ./docker/scripts/prepare_project.sh:/usr/local/bin/prepare_project
     ports:
       - "35729:35729" # for livereload plugin
     tty: true
