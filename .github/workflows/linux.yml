@@ -22,6 +22,7 @@ jobs:
       - name: Get repository name.
         run: echo ::set-env name=REPO_NAME::${GITHUB_REPOSITORY##*/}
       - name: Clone.
+        uses: actions/checkout@v1
         with:
           submodules: recursive
       - name: First set up.
