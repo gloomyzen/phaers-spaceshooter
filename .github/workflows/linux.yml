@@ -35,9 +35,9 @@ jobs:
           checkinstall libx11-dev libxext-dev zlib1g-dev libpng-dev libjpeg-dev libfreetype6-dev libxml2-dev \
           libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev
           sudo add-apt-repository ppa:deadsnakes/ppa -y
-          sudo update-alternatives --config python
           sudo apt update && sudo apt-get install -y --fix-missing python3.7
-          sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.7
+          sudo update-alternatives --config python
+          sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.7 2
           cd /opt && wget http://www.imagemagick.org/download/ImageMagick.tar.gz
           tar -zxf ImageMagick.tar.gz && ImageMagickPath=$(ls | grep 'ImageMagick-') && cd ${ImageMagickPath}
           touch configure && ./configure && make && sudo make install && ldconfig /usr/local/lib && convert --version
