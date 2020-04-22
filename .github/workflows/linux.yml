@@ -55,7 +55,7 @@ jobs:
           md5cache=$(md5sum CACHE_KEY.txt | cut -c -32)
           echo ::set-env name=CACHE_KEY::$md5cache
 
-        name: Emscripten install.
+      - name: Emscripten install.
         shell: bash
         run: |
           python --version
