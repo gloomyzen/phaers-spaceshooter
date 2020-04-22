@@ -21,36 +21,38 @@ jobs:
     steps:
       - name: Get repository name.
         run: echo ::set-env name=REPO_NAME::${GITHUB_REPOSITORY##*/}
-      - name: Clone.
-        uses: actions/checkout@v1
-        with:
-          submodules: recursive
-      - name: First set up.
-#        uses: actions/cache@v1 TODO cache with md5 hash
+
+      - name: Apt install.
         shell: bash
         run: |
           sudo apt-get update
           sudo apt-get install -y --fix-missing \
           git zip cron curl cmake wget python llvm libxml2-dev build-essential libssl-dev software-properties-common \
           checkinstall libx11-dev libxext-dev zlib1g-dev libpng-dev libjpeg-dev libfreetype6-dev libxml2-dev \
-          libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev
-          sudo add-apt-repository ppa:deadsnakes/ppa -y
-          sudo apt update && sudo apt-get install -y --fix-missing python3.7
-          sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.7 1
-          sudo update-alternatives --config python
-          python --version
-          cd /opt && wget http://www.imagemagick.org/download/ImageMagick.tar.gz
-          tar -zxf ImageMagick.tar.gz && ImageMagickPath=$(ls | grep 'ImageMagick-') && cd ${ImageMagickPath}
-          touch configure && ./configure && make && sudo make install && ldconfig /usr/local/lib && convert --version
-          cd /var && git clone https://github.com/emscripten-core/emsdk.git emsdk && cd emsdk
-          ./emsdk install latest
-          ./emsdk activate latest
-          source /var/emsdk/emsdk_env.sh
-          echo "source /var/emsdk/emsdk_env.sh\n" >> /etc/profile
-          emcc --version
-          source /var/emsdk/emsdk_env.sh
+          libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev && \
+          sudo add-apt-repository ppa:deadsnakes/ppa -y && \
+          sudo apt update && sudo apt-get install -y --fix-missing python3.7 && \
+          sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.7 1 && \
+          sudo update-alternatives --config python && \
+          sudo add-apt-repository --remove ppa:deadsnakes/ppa -y
 
-          curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | sudo bash
-          export NVM_DIR="$HOME/.nvm"
-          nvm install --lts && nvm use --lts
+      - name: Clone.
+        uses: actions/checkout@v1
+        with:
+          submodules: recursive
+          path: ${{ env.REPO_NAME }}
+
+      - name: First set up.
+        shell: bash
+        run: |
+          python --version
+          python --version > CACHE_KEY.txt
+          echo $MANUAL_CACHING >> CACHE_KEY.txt
+          if [ "$AUTO_CACHING" == "1" ]; then
+            thisFile=$REPO_NAME/.github/workflows/linux.yml
+            echo `md5sum $thisFile | cut -c -32` >> CACHE_KEY.txt
+          fi
+          md5cache=$(md5sum CACHE_KEY.txt | cut -c -32)
+          echo ::set-env name=CACHE_KEY::$md5cache
+
 
