@@ -64,6 +64,6 @@ jobs:
           cd /opt/emsdk && \
           ./emsdk install latest && \
           ./emsdk activate latest && \
-          source /var/emsdk/emsdk_env.sh && \
-          echo "source /var/emsdk/emsdk_env.sh\n" >> /etc/profile && \
+          source /opt/emsdk/emsdk_env.sh && \
+          echo "source /opt/emsdk/emsdk_env.sh\n" >> /etc/profile && \
           emcc --version
