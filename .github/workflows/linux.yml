@@ -35,8 +35,7 @@ jobs:
           sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.7 1 && \
           sudo update-alternatives --config python && \
           sudo add-apt-repository --remove ppa:deadsnakes/ppa -y
-          cd /usr/bin/ && ls | grep python
-          echo "alias python='/usr/bin/python3.7'" >> ~/.bashrs
+          echo "alias python='/usr/bin/python3.7'" >> ~/.bashrc
 
       - name: Clone.
         uses: actions/checkout@v1
@@ -60,6 +59,7 @@ jobs:
       - name: Emscripten install.
         shell: bash
         run: |
+          echo "alias python='/usr/bin/python3.7'" >> ~/.bashrc
           python --version
           cd /opt && \
           git clone https://github.com/emscripten-core/emsdk.git emsdk && \
