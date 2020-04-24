@@ -59,8 +59,9 @@ jobs:
       - name: Emscripten install.
         shell: bash
         run: |
-          apt list --installed | grep python
           python --version
+          pyenv versions
+          which python
           cd /opt && \
           git clone https://github.com/emscripten-core/emsdk.git emsdk && \
           cd /opt/emsdk && \
