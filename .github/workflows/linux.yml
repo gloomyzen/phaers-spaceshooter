@@ -36,6 +36,7 @@ jobs:
           sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.7 1 && \
           sudo update-alternatives --config python && \
           sudo add-apt-repository --remove ppa:deadsnakes/ppa -y
+          curl https://bootstrap.pypa.io/get-pip.py | sudo python
 
       - name: Clone.
         uses: actions/checkout@v1
