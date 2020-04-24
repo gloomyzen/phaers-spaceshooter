@@ -39,7 +39,7 @@ if(${BUILD_TYPE} STREQUAL webassembly)
     string(APPEND CMAKE_CXX_FLAGS " -s USE_WEBGL2=1")
     string(APPEND CMAKE_CXX_FLAGS " -s USE_SDL=2")
     string(APPEND CMAKE_CXX_FLAGS " -s USE_SDL_IMAGE=2")
-    string(APPEND CMAKE_CXX_FLAGS " -s SDL2_IMAGE_FORMATS=["png"]")
+    string(APPEND CMAKE_CXX_FLAGS " -s SDL2_IMAGE_FORMATS=[\"png\"]")
     string(APPEND CMAKE_CXX_FLAGS " -s WASM=1")
 
     #TODO add Release mode with Release flags
