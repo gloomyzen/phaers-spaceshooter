@@ -22,7 +22,7 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 
 if(NOT BUILD_TYPE)
-    set(BUILD_TYPE ${BUILD_TYPE} "webassembly")
+    set(BUILD_TYPE ${BUILD_TYPE} "desktop")
 endif()
 
 # Detect emscripten is used.
@@ -30,12 +30,12 @@ if(${BUILD_TYPE} STREQUAL webassembly)
 
     set(CMAKE_C_COMPILER "emcc")
     set(CMAKE_CXX_COMPILER "em++")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DEMSCRIPTEN_IS_USED")
 
     set_target_properties(main PROPERTIES OUTPUT_NAME "main.js")
 
 #    string(APPEND CMAKE_CXX_FLAGS " -s DEMANGLE_SUPPORT=1")
 #    string(APPEND CMAKE_CXX_FLAGS " -s DISABLE_EXCEPTION_CATCHING=2")
-    string(APPEND CMAKE_CXX_FLAGS " -s USE_WEBGL2=1")
     string(APPEND CMAKE_CXX_FLAGS " -s USE_WEBGL2=1")
     string(APPEND CMAKE_CXX_FLAGS " -s USE_SDL=2")
     string(APPEND CMAKE_CXX_FLAGS " -s USE_SDL_IMAGE=2")
@@ -61,7 +61,7 @@ if(${BUILD_TYPE} STREQUAL webassembly)
     )
     # Copy the favicon.
     configure_file(
-            ${CMAKE_CURRENT_SOURCE_DIR}/resources/img/favicon.ico
+            ${CMAKE_CURRENT_SOURCE_DIR}/resources/stub/favicon.ico
             ${CMAKE_CURRENT_BINARY_DIR}/favicon.ico
     )
 
@@ -75,7 +75,17 @@ if(${BUILD_TYPE} STREQUAL webassembly)
 
 else() # Not Web
 
-    ##TODO add this later
-    message(FATAL_ERROR "Building to binaries is not allowed.")
+
+    set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
+
+    find_package(SDL2 REQUIRED)
+    find_package(SDL2_image REQUIRED)
+    include_directories(${SDL2_INCLUDE_DIRS})
+    include_directories(${SDL2_IMAGE_DIRS})
+
+    file(COPY "${CMAKE_SOURCE_DIR}/resources/sprites/"
+            DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/sprites)
+
+    target_link_libraries(main ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES})
 
 endif()
