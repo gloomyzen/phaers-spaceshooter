@@ -1,21 +1,19 @@
-/resources/node_modules
-.env
-*.backup
-*.bac
-*.back
-*.bak
-.phpunit.result.cache
-npm-debug.log
-yarn-error.log
-resources/package-lock.json
-
-.idea
+#IDEA temp folders
 .vc
-/.idea
+.idea
 
-/public/*
-!/public
-/.temp*
+#Other files
+*.sql
+*.bk
+*.DS_Store
 
-## Wasm temp folder
-/resources/wasm/*
+#Temp build folders
+build
+cmake-build-*
+#temp folder for nginx
+public
+
+#libs part
+lib/macOS/*
+lib/imgui/*
+

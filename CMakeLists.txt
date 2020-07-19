@@ -1,53 +1,83 @@
-# Projects Settings
-cmake_minimum_required (VERSION 3.1)
+#------------------------------------------------------------------------------
+# General Projects Settings
+#------------------------------------------------------------------------------
+cmake_minimum_required(VERSION 3.11)
 project(spaceshooter-game
         LANGUAGES CXX
-        VERSION 1.0.0
-)
-
-# The main executable
-add_executable(main
-        src/main.cpp
-        src/enemy_ship.cpp
-        src/player_ship.cpp
-        src/projectile.cpp
-        src/projectile_pool.cpp
         )
+include(cmake/StandardProjectSettings.cmake)
 
-set_property(TARGET main PROPERTY CXX_STANDARD 17)
-target_compile_options(main PRIVATE -Wall)
+#------------------------------------------------------------------------------
+# Dependencies
+#------------------------------------------------------------------------------
+add_library(project_options INTERFACE)
+target_compile_features(project_options INTERFACE cxx_std_17)
+target_compile_options(project_options INTERFACE -Wall)
 
-if(NOT CMAKE_BUILD_TYPE)
+if (NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE ${CMAKE_BUILD_TYPE} Debug)
-endif()
+endif ()
 
-if(NOT BUILD_TYPE)
-    set(BUILD_TYPE ${BUILD_TYPE} "desktop")
-endif()
+if (${CMAKE_BUILD_TYPE} STREQUAL "Debug")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D__DEBUG__")
+else ()
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D__RELEASE__")
+endif ()
 
+include(ExternalProject)
+
+#------------------------------------------------------------------------------
+# General dependencies.
+#------------------------------------------------------------------------------
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
+
+set(JSON_BuildTests OFF CACHE INTERNAL "")
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/lib/json)
+
+# Link this 'library' to use the warnings specified in CompilerWarnings.cmake
+add_library(project_warnings INTERFACE)
+
+add_library(project_dependency INTERFACE)
+
+# enable cache system
+include(cmake/Cache.cmake)
+
+# standard compiler warnings
+include(cmake/CompilerWarnings.cmake)
+set_project_warnings(project_warnings)
+
+# sanitizer options if supported by compiler
+include(cmake/Sanitizers.cmake)
+enable_sanitizers(project_options)
+
+# enable doxygen
+include(cmake/Doxygen.cmake)
+enable_doxygen()
+
+# allow for static analysis options
+include(cmake/StaticAnalyzers.cmake)
+
+# Very basic PCH example
+option(ENABLE_PCH "Enable Precompiled Headers" OFF)
+if (ENABLE_PCH)
+    # This sets a global PCH parameter, each project will build its own PCH, which
+    # is a good idea if any #define's change
+    #
+    # consider breaking this out per project as necessary
+    target_precompile_headers(project_options INTERFACE <vector> <string> <map> <utility>)
+endif ()
+
+#------------------------------------------------------------------------------
 # Detect emscripten is used.
-if(${BUILD_TYPE} STREQUAL webassembly)
+#------------------------------------------------------------------------------
+if (EMSCRIPTEN)
+# TODO move this to cmake/platform/emscripten
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D__EMSCRIPTEN__")
 
-    set(CMAKE_C_COMPILER "emcc")
-    set(CMAKE_CXX_COMPILER "em++")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DEMSCRIPTEN_IS_USED")
-
-    set_target_properties(main PROPERTIES OUTPUT_NAME "main.js")
-
-#    string(APPEND CMAKE_CXX_FLAGS " -s DEMANGLE_SUPPORT=1")
-#    string(APPEND CMAKE_CXX_FLAGS " -s DISABLE_EXCEPTION_CATCHING=2")
-    string(APPEND CMAKE_CXX_FLAGS " -s USE_WEBGL2=1")
-    string(APPEND CMAKE_CXX_FLAGS " -s USE_SDL=2")
-    string(APPEND CMAKE_CXX_FLAGS " -s USE_SDL_IMAGE=2")
-    string(APPEND CMAKE_CXX_FLAGS " -s SDL2_IMAGE_FORMATS=[\"png\"]")
-    string(APPEND CMAKE_CXX_FLAGS " -s WASM=1")
-
-    #TODO add Release mode with Release flags
-    #string(APPEND CMAKE_CXX_FLAGS " --closure 1")
-    #string(APPEND CMAKE_CXX_FLAGS " --js-opts 3")
-    #string(APPEND CMAKE_CXX_FLAGS " --llvm-lto 3")
-    #string(APPEND CMAKE_CXX_FLAGS " --llvm-opts 3")
-    #string(APPEND CMAKE_CXX_FLAGS " -O3")
+    # Enabling debug bar.
+    if (${CMAKE_BUILD_TYPE} STREQUAL "Debug")
+        file(READ ${CMAKE_CURRENT_SOURCE_DIR}/resources/stub/index-debug-section.html debug-bar)
+    endif ()
 
     # Copy the index.html file.
     configure_file(
@@ -66,26 +96,102 @@ if(${BUILD_TYPE} STREQUAL webassembly)
     )
 
     # Allow the resource directories to be fetched by the web browser.
-    file(GLOB assets_files "${CMAKE_SOURCE_DIR}/resources/sprites/*" "${CMAKE_SOURCE_DIR}/resources/font/*.ttf")
-    foreach(file ${assets_files})
+    file(GLOB assets_files
+            "${CMAKE_SOURCE_DIR}/resources/sprites/*"
+            "${CMAKE_SOURCE_DIR}/resources/font/*.ttf"
+            "${CMAKE_SOURCE_DIR}/resources/data/*.json"
+            )
+
+    if (${CMAKE_BUILD_TYPE} STREQUAL "Debug")
+        list(APPEND assets_files "${CMAKE_SOURCE_DIR}/lib/imgui/misc/fonts*.ttf")
+    endif ()
+
+    foreach (file ${assets_files})
         file(RELATIVE_PATH relative_file ${CMAKE_SOURCE_DIR} ${file})
         string(APPEND CMAKE_CXX_FLAGS " --preload-file ${file}@/${relative_file}")
         message(STATUS CMAKE_CXX_FLAGS " --preload-file ${file}@/${relative_file}")
-    endforeach()
+    endforeach ()
 
-else() # Not Web
+else () # Not Web
 
+    file(COPY "${CMAKE_SOURCE_DIR}/resources/sprites/"
+            DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/resources/sprites)
+    file(COPY "${CMAKE_SOURCE_DIR}/resources/data/"
+            DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/resources/data)
 
-    set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
+    # sdl
+    if (APPLE)
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D__APPLE__")
+        set(CMAKE_MACOSX_RPATH 1)
+        if (NOT EXISTS "${CMAKE_SOURCE_DIR}/lib/macOS/SDL2.framework")
+            message("Downloading SDL2 frameworks")
+            execute_process(
+                    COMMAND "chmod +x ${CMAKE_SOURCE_DIR}/lib/macOS/install.sh"
+                    WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/lib/macOS")
+            execute_process(
+                    COMMAND "${CMAKE_SOURCE_DIR}/lib/macOS/install.sh"
+                    WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/lib/macOS")
+        endif ()
+        set(SDL_INCLUDE_DIR "")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -F ${CMAKE_SOURCE_DIR}/lib/macOS")
+        #TODO for future static linking
+        #set(CMAKE_EXE_LINKER_FLAGS "-Wl,-F${CMAKE_SOURCE_DIR}/lib/macOS -Wl,-rpath ${CMAKE_SOURCE_DIR}/lib/macOS -framework Cocoa")
+        #set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS}")
+        set(SDL_LIBRARY
+                "-framework SDL2"
+                "-framework SDL2_ttf"
+                "-framework SDL2_mixer"
+                "-framework SDL2_image"
+                )
+        set(SDL_EXPORT_LIBRARIES
+                "${CMAKE_SOURCE_DIR}/lib/macOS/SDL2.framework"
+                "${CMAKE_SOURCE_DIR}/lib/macOS/SDL2_ttf.framework"
+                "${CMAKE_SOURCE_DIR}/lib/macOS/SDL2_mixer.framework"
+                "${CMAKE_SOURCE_DIR}/lib/macOS/SDL2_image.framework"
+                )
+        mark_as_advanced(SDL_INCLUDE_DIR SDL_LIBRARY)
+        target_link_libraries(project_dependency INTERFACE ${SDL_LIBRARY})
+
+        include_directories(${SDL_INCLUDE_DIR})
+
+    endif ()
 
     find_package(SDL2 REQUIRED)
     find_package(SDL2_image REQUIRED)
-    include_directories(${SDL2_INCLUDE_DIRS})
-    include_directories(${SDL2_IMAGE_DIRS})
 
-    file(COPY "${CMAKE_SOURCE_DIR}/resources/sprites/"
-            DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/sprites)
+    include_directories(${SDL2_INCLUDE_DIR})
+    include_directories(${SDL2_IMAGE_INCLUDE_DIR})
 
-    target_link_libraries(main ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES})
+    target_link_libraries(project_dependency INTERFACE ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES})
 
+    # glfw
+    add_subdirectory(lib/glfw EXCLUDE_FROM_ALL)
+    target_link_libraries(project_dependency INTERFACE glfw)
+
+    # glew
+    add_definitions(-DGLEW_STATIC)
+    add_subdirectory(lib/glew EXCLUDE_FROM_ALL)
+    target_link_libraries(project_dependency INTERFACE libglew_static)
+
+endif ()
+
+# glm
+add_subdirectory(lib/glm EXCLUDE_FROM_ALL)
+target_link_libraries(project_dependency INTERFACE glm)
+
+include(cmake/ImGui.cmake)
+if(IMGUI_ENABLED)
+    target_link_libraries(imgui_target PUBLIC project_dependency)
+    target_link_libraries(project_dependency INTERFACE imgui_target)
 endif()
+
+add_subdirectory(src)
+
+#------------------------------------------------------------------------------
+# Tests section
+#------------------------------------------------------------------------------
+
+if (NOT ${BUILD_TYPE} STREQUAL webassembly)
+    enable_testing()
+    add_subdirectory(tests)
+endif ()
