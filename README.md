@@ -1,9 +1,9 @@
-# spaceshooter-game
+# towerdefense-game
 
 Common install:
 ```bash
-git clone --recursive git@github.com:gloomyzen/spaceshooter-game.git spaceshooter-game 
-cd spaceshooter-game
+git clone --recursive git@github.com:gloomyzen/towerdefense-game.git towerdefense-game 
+cd towerdefense-game
 chmod +x game.sh
 ./game.sh --build # Create docker environments for development
 ```
@@ -13,11 +13,6 @@ chmod +x game.sh
 ./game.sh -o ubuntu bash # провалиться в терминал контейнера
 npm run dev # dev сборка фронта
 ```
-
-###Examples:
-- [resources/js/examples](https://github.com/gloomyzen/spaceshooter-game/tree/master/resources/js/examples)
-- [resources/stub](https://github.com/gloomyzen/spaceshooter-game/tree/master/resources/stub)
-- [src/examples](https://github.com/gloomyzen/spaceshooter-game/tree/master/src/examples)
 
 ###Tips:
 - for fix error "libpng warning: iCCP: known incorrect sRGB profile"

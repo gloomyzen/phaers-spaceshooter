@@ -2,7 +2,7 @@
 # General Projects Settings
 #------------------------------------------------------------------------------
 cmake_minimum_required(VERSION 3.11)
-project(spaceshooter-game
+project(towerdefense-game
         LANGUAGES CXX
         )
 include(cmake/StandardProjectSettings.cmake)
