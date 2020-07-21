@@ -31,8 +31,8 @@ include(ExternalProject)
 #------------------------------------------------------------------------------
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
 
-#set(JSON_BuildTests OFF CACHE INTERNAL "")
-#add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/lib/json)
+set(JSON_BuildTests OFF CACHE INTERNAL "")
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/lib/json)
 
 # Link this 'library' to use the warnings specified in CompilerWarnings.cmake
 add_library(project_warnings INTERFACE)
@@ -165,6 +165,12 @@ else () # Not Web
     target_link_libraries(project_dependency INTERFACE ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES})
 
 endif ()
+
+include(cmake/ImGui.cmake)
+if(IMGUI_ENABLED)
+    target_link_libraries(imgui_target PUBLIC project_dependency)
+    target_link_libraries(project_dependency INTERFACE imgui_target)
+endif()
 
 add_subdirectory(src)
 
