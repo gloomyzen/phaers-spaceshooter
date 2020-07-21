@@ -1,6 +1,7 @@
 # Конфигурайия для подключения ImGui
 # На выжоде будет таргет imgui_target и флаг IMGUI_ENABLED для подклчюения зависимости
-
+#TODO remove after testing
+return()
 if (NOT IMGUI_ENABLED AND ${CMAKE_BUILD_TYPE} STREQUAL "Debug")
     set(IMGUI_ENABLED 1)
 
