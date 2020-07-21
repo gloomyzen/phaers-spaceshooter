@@ -1,16 +1,7 @@
 #TODO add library core and main target
 add_executable(main
-        Core/moduleDefinitions.h
-        Core/Application.cpp
-        Core/Application.h
-        Core/GameApplication.cpp
-        Core/GameApplication.h
-        Core/GlError.cpp
-        Core/GlError.h
-        Core/Debug/ImGuiLoader.cpp
-        Core/Debug/ImGuiLoader.h
         main.cpp
-        Core/IApplication.h Core/Game.cpp Core/Game.h Core/Shader.cpp Core/Shader.h Core/Texture2D.cpp Core/Texture2D.h)
+        Core/moduleDefinitions.h)
 
 set_property(TARGET main PROPERTY CXX_STANDARD 11)
 target_compile_options(main PRIVATE -Wall)
