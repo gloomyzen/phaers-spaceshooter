@@ -1,7 +1,12 @@
 #TODO add library core and main target
 add_executable(main
         main.cpp
-        Core/moduleDefinitions.h)
+        Core/moduleDefinitions.h
+        Core/Application.cpp
+        Core/Application.h
+        Core/GameApplication.cpp
+        Core/GameApplication.h
+        )
 
 set_property(TARGET main PROPERTY CXX_STANDARD 11)
 target_compile_options(main PRIVATE -Wall)
@@ -15,8 +20,6 @@ if (EMSCRIPTEN)
 
     string(APPEND CMAKE_CXX_FLAGS " -s DEMANGLE_SUPPORT=1")
     string(APPEND CMAKE_CXX_FLAGS " -s DISABLE_EXCEPTION_CATCHING=2")
-    string(APPEND CMAKE_CXX_FLAGS " -s USE_GLFW=3")
-    string(APPEND CMAKE_CXX_FLAGS " -s USE_WEBGL2=1")
     string(APPEND CMAKE_CXX_FLAGS " -s USE_SDL=2")
     string(APPEND CMAKE_CXX_FLAGS " -s USE_SDL_IMAGE=2")
     string(APPEND CMAKE_CXX_FLAGS " -s SDL2_IMAGE_FORMATS=[\"png\"]")

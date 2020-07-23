@@ -1,8 +1,8 @@
-#ifndef TGAME_GAMEAPPLICATION
-#define TGAME_GAMEAPPLICATION
+#ifndef TOWERDEFENSE_GAME_GAMEAPPLICATION_H
+#define TOWERDEFENSE_GAME_GAMEAPPLICATION_H
 
 #include "Application.h"
-#ifdef __DEBUG__
+#ifdef __DEBUG__1
 #include "Debug/ImGuiLoader.h"
 #endif
 
@@ -13,8 +13,8 @@ class GameApplication : public Application
 public:
   GameApplication();
   ~GameApplication();
-  void ProcessInput(float);
-  void Update(float);
+  void ProcessInput();
+  void Update();
   void Render();
   void PostRender();
 
@@ -26,4 +26,5 @@ private:
 
 }
 
-#endif// TGAME_GAMEAPPLICATION
+
+#endif// TOWERDEFENSE_GAME_GAMEAPPLICATION_H
