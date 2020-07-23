@@ -6,6 +6,8 @@
 #include "Debug/ImGuiLoader.h"
 #endif
 
+#define GET_APPLICATION() TGEngine::core::GameApplication::getInstance()
+
 namespace TGEngine::core {
 
 class GameApplication : public Application
