@@ -9,8 +9,8 @@ cd towerdefense-game
 #Configure project
 ```bash
 chmod +x generate.sh
-./generate.sh --create win32    #create MVS project
-./generate.sh --create mac      #create XCode project
+./generate.sh -create win32    #create MVS project
+./generate.sh -create mac      #create XCode project
 ```
 
 #Using docker

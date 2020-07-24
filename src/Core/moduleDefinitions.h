@@ -3,6 +3,7 @@
 
 #include <iostream>
 #ifdef WIN32
+#define SDL_MAIN_HANDLED //Do not delete this!
 #include <SDL.h>
 #include <SDL_image.h>
 #else
@@ -38,7 +39,7 @@ const bool debugMode = false;
 #include <cmath>
 #endif
 
-#if defined(_MSC_VER) && (_MSC_VER >= 1900) && !defined(IMGUI_DISABLE_WIN32_FUNCTIONS)
+#if defined(_MSC_VER) && (_MSC_VER >= 1900)
 #pragma comment(lib, "legacy_stdio_definitions")
 #endif
 

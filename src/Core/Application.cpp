@@ -26,6 +26,9 @@ Application::Application()
   auto emsTemp = EMSCRIPTEN_FLAG;
   emscripten = emsTemp == 0;
 
+#ifdef WIN32
+  SDL_SetMainReady();
+#endif
   if ((isEmscripten() && SDL_Init(SDL_INIT_VIDEO) == 0) || (!isEmscripten() && SDL_Init(SDL_INIT_EVERYTHING) == 0)) {
     if (!SDL_SetHint(SDL_HINT_RENDER_VSYNC, "1")) {
       std::cout << "[Warning] Vsync rendering not enabled!" << std::endl;
@@ -138,17 +141,17 @@ void Application::detectWindowDimensionChange()
 
 [[maybe_unused]] bool Application::windowDimensionChanged() const { return dimensionChanged; }
 
-[[maybe_unused]] std::tuple<int, int, float> Application::GetWindowResolution()
-{
-
-  int w, h;
-  if (!isEmscripten() && SDL_GetRendererOutputSize(getRenderer(), &w, &h) == 0) {
-    // Client window is high dpi device
-    return std::make_tuple(w, h, std::abs(w / width));
-  }
-
-  // Unable to get the actual area size in pixels, so the resolution is 1:1
-  return std::make_tuple(width, height, 1);
-}
+//[[maybe_unused]] std::tuple<int, int, float> Application::GetWindowResolution()
+//{
+//
+//  int w, h;
+//  if (!isEmscripten() && SDL_GetRendererOutputSize(getRenderer(), &w, &h) == 0) {
+//     Client window is high dpi device
+//    return std::make_tuple(w, h, static_cast<float>(std::abs(w / width)));
+//  }
+//
+//   Unable to get the actual area size in pixels, so the resolution is 1:1
+//  return std::make_tuple(width, height, 1);
+//}
 
 bool Application::isEmscripten() const { return false; }

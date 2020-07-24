@@ -1,9 +1,9 @@
 #!/bin/bash
 
 #SDL libraries version
-SDL_VERSION="2.0.8"
-SDL_TTF_VERSION="2.0.14"
-SDL_MIXER_VERSION="2.0.2"
+SDL_VERSION="2.0.12"
+SDL_TTF_VERSION="2.0.15"
+SDL_MIXER_VERSION="2.0.4"
 SDL_IMAGE_VERSION="2.0.5"
 
 function print() {

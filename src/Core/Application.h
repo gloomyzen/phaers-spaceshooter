@@ -5,6 +5,7 @@
 #include <functional>
 #include <stdexcept>
 #include <string>
+#include <tuple>
 
 namespace TGEngine::core {
 
@@ -46,7 +47,7 @@ public:
   [[maybe_unused]] int getHeight() const;
   [[maybe_unused]] float getWindowRatio() const;
   [[maybe_unused]] bool windowDimensionChanged() const;
-  [[maybe_unused]] std::tuple<int, int, float> GetWindowResolution();
+//  [[maybe_unused]] std::tuple<int, int, float> GetWindowResolution();
   bool isEmscripten() const;
 
 private:
