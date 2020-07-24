@@ -120,7 +120,7 @@ else () # Not Web
             DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/resources/data)
 
     # sdl
-    if (APPLE)
+    if (APPLE OR MAC)
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D__APPLE__")
         set(CMAKE_MACOSX_RPATH 1)
         if (NOT EXISTS "${CMAKE_SOURCE_DIR}/lib/macOS/SDL2.framework")
@@ -154,6 +154,8 @@ else () # Not Web
 
         include_directories(${SDL_INCLUDE_DIR})
 
+    elseif(WIN32)
+        #
     endif ()
 
     find_package(SDL2 REQUIRED)
