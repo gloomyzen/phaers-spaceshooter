@@ -42,19 +42,27 @@ pc() {
     printf "${RES}"
 }
 
+install_win32_libs() {
+  if [ ! -d "lib/win32/SDL" ]; then
+    cd lib/win32 && chmod +x install.sh && ./install.sh VC $1 && cd ../../
+  fi
+}
+
 create() {
 
 case "$1" in
     win32)
-        rm -rf build && mkdir build && cd build
-        eval ${CMAKECMD} -G "Visual Studio 16 2019" -A Win32 ../
+        install_win32_libs x86
+        mkdir -p build && cd build
+        eval ${CMAKECMD} "'-GVisual Studio 16 2019'" "'-AWin32'" -DCMAKE_BUILD_TYPE=Debug ../
         ;;
     win64)
-        rm -rf build && mkdir build && cd build
-        eval ${CMAKECMD} -G "Visual Studio 16 2019" -A Win64 ../
+        install_win32_libs x64
+        mkdir -p build && cd build
+        eval ${CMAKECMD} -G" Visual Studio 16 2019" "-AWin64" -DCMAKE_BUILD_TYPE=Debug ../
         ;;
     mac|macos)
-        rm -rf build && mkdir build && cd build
+        mkdir -p build && cd build
         eval ${CMAKECMD} -G Xcode ../
         ;;
     *)
@@ -67,7 +75,7 @@ esac
 
 # todo other platform
 case "$1" in
-    --create|-c)
+    -create|-c|-auto)
         create $2 $3 $4
         ;;
     --help|-h)

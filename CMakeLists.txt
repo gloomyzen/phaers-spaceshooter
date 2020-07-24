@@ -154,18 +154,30 @@ else () # Not Web
 
         include_directories(${SDL_INCLUDE_DIR})
 
-    elseif(WIN32)
-        #
-    endif ()
-    
-    if (WIN32)
-        set(SDL2_LIBRARY "${CMAKE_SOURCE_DIR}/lib/win32/sdl/lib/x64/SDL2.lib")
-        set(SDL2MAIN_LIBRARY "${CMAKE_SOURCE_DIR}/lib/win32/sdl/lib/x64/SDL2main.lib")
-        set(SDL2_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/lib/win32/sdl/include")
-        set(SDL2_IMAGE_LIBRARY "${CMAKE_SOURCE_DIR}/lib/win32/sdl_image/lib/x64/SDL2_image.lib")
-        set(SDL2_IMAGE_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/lib/win32/sdl_image/include")
-        target_link_libraries(main ${SDL2MAIN_LIBRARY}) # for Visual Studio
-        endif ()
+    endif()
+    if(WIN32)
+
+        if(NOT EXISTS "${CMAKE_SOURCE_DIR}/lib/win32/SDL2")
+            message("Downloading SDL2 frameworks")
+            execute_process(
+                    COMMAND "chmod +x ${CMAKE_SOURCE_DIR}/lib/win32/install.sh"
+                    WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/lib/win32")
+            execute_process(
+                    COMMAND "${CMAKE_SOURCE_DIR}/lib/win32/install.sh VC"
+                    WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/lib/win32")
+        endif()
+
+        set(SDL2_LIBRARY "${CMAKE_SOURCE_DIR}/lib/win32/SDL/SDL2/lib/x86/SDL2.lib")
+        set(SDL2MAIN_LIBRARY "${CMAKE_SOURCE_DIR}/lib/win32/SDL/SDL2/lib/x86/SDL2main.lib")
+        set(SDL2_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/lib/win32/SDL/SDL2/include")
+        set(SDL2_IMAGE_LIBRARY "${CMAKE_SOURCE_DIR}/lib/win32/SDL/SDL2_image/lib/x86/SDL2_image.lib")
+        set(SDL2_IMAGE_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/lib/win32/SDL/SDL2_image/include")
+        # for Visual Studio
+#        target_link_libraries(project_dependency INTERFACE ${SDL2MAIN_LIBRARY})
+#        target_link_libraries(project_dependency INTERFACE ${SDL2_LIBRARIES})
+#        target_link_libraries(project_dependency INTERFACE ${SDL2_IMAGE_LIBRARIES})
+
+    endif()
 
     find_package(SDL2 REQUIRED)
     find_package(SDL2_image REQUIRED)
@@ -173,10 +185,10 @@ else () # Not Web
     include_directories(${SDL2_INCLUDE_DIR})
     include_directories(${SDL2_IMAGE_INCLUDE_DIR})
     
-    target_link_libraries(main ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES})
+
     target_link_libraries(project_dependency INTERFACE ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES})
 
-endif ()
+endif()
 
 include(cmake/ImGui.cmake)
 if(IMGUI_ENABLED)
