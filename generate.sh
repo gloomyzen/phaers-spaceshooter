@@ -42,21 +42,40 @@ pc() {
     printf "${RES}"
 }
 
+create() {
+
+case "$1" in
+    win32)
+        rm -rf build && mkdir build && cd build
+        eval ${CMAKECMD} -G "Visual Studio 16 2019" -A Win32 ../
+        ;;
+    win64)
+        rm -rf build && mkdir build && cd build
+        eval ${CMAKECMD} -G "Visual Studio 16 2019" -A Win64 ../
+        ;;
+    mac|macos)
+        rm -rf build && mkdir build && cd build
+        eval ${CMAKECMD} -G Xcode ../
+        ;;
+    *)
+        pc "red" "Platform '$1' not found.\n"
+        pc "yellow" "Available platforms: win32 win64 mac.\n"
+        exit 1
+esac
+
+}
+
 # todo other platform
 case "$1" in
-    --auto|-a)
-        rm -rf build && mkdir build && cd build
-#        eval ${CMAKECMD} -G "Visual Studio 16 2019" -A Win32 ../
-        eval ${CMAKECMD} -G Xcode ../
-        cd ../
-
+    --create|-c)
+        create $2 $3 $4
         ;;
     --help|-h)
 #        general_help $2 $3
         ;;
     *)
         pc "yellow" "Nothing caused.\n"
-        help_legend
+#        help_legend
         exit 1
 
 esac
