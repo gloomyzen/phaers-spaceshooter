@@ -204,7 +204,7 @@ add_subdirectory(src)
 # Tests section
 #------------------------------------------------------------------------------
 
-if (NOT ${BUILD_TYPE} STREQUAL webassembly)
+if (NOT EMSCRIPTEN)
     enable_testing()
     add_subdirectory(tests)
 endif ()

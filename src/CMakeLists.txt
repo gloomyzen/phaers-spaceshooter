@@ -6,7 +6,7 @@ add_executable(main
         Core/Application.h
         Core/GameApplication.cpp
         Core/GameApplication.h
-        Core/Loaders/TextureManager.cpp Core/Loaders/TextureManager.h)
+        Core/Loaders/TextureManager.cpp Core/Loaders/TextureManager.h Core/DataTypes/Vector2D.cpp Core/DataTypes/Vector2D.h)
 
 set_property(TARGET main PROPERTY CXX_STANDARD 11)
 target_compile_options(main PRIVATE -Wall)

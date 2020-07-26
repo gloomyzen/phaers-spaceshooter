@@ -1,4 +1,4 @@
-#include "../src/Classes/DataTypes/Vector2D.h"
+#include "../src/Core/DataTypes/Vector2D.h"
 #include <gtest/gtest.h>
 
 int main(int argc, char** argv) {
@@ -6,13 +6,22 @@ int main(int argc, char** argv) {
     return RUN_ALL_TESTS();
 }
 
+namespace TGEngine::test {
+  class Vector2DTest : public Vector2D {
+  public:
+    float x, y;
+  };
+}
+
+using namespace TGEngine::test;
+
 TEST(Vector2D, VectorConstructorTest) {
-    Vector2D vector1;
-    vector1.x = 0.5f;
-    vector1.y = 0.5f;
+    Vector2DTest vector1;
+    vector1.setX(0.5f);
+    vector1.setY(0.5f);
     Vector2D vector2(0.5f, 0.5f);
-    EXPECT_EQ(vector1.x, vector2.x);
-    EXPECT_EQ(vector1.y, vector2.y);
+    EXPECT_EQ(vector1.x, vector2.getX());
+    EXPECT_EQ(vector1.y, vector2.getY());
 }
 
 TEST(Vector2D, VectorZeroTest) {
