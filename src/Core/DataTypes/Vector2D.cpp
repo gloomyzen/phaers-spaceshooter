@@ -1,13 +1,15 @@
 #include "Vector2D.h"
 
+using namespace TGEngine::core;
+
 Vector2D::Vector2D() {
     x = 0.0f;
     y = 0.0f;
 }
 
-Vector2D::Vector2D(float x, float y) {
-    x = x;
-    y = y;
+Vector2D::Vector2D(float _x, float _y) {
+    x = _x;
+    y = _y;
 }
 
 Vector2D& Vector2D::Add(const Vector2D& vec) {
@@ -78,11 +80,12 @@ Vector2D &Vector2D::operator/=(const Vector2D& vec) {
 }
 
 std::ostream &operator<<(std::ostream& stream, const Vector2D& vec) {
-    stream << "Vector2D (" << vec.x << "," << vec.y << ")";
+    stream << "Vector2D (" << vec.getX() << "," << vec.getY() << ")";
     return stream;
 }
 
-Vector2D &Vector2D::operator*(const int &i) {
+template<typename T>
+Vector2D &Vector2D::operator*(const T &i) {
     x *= static_cast<float>(i);
     y *= static_cast<float>(i);
 

@@ -1,49 +1,61 @@
 #include "../src/Core/DataTypes/Vector2D.h"
 #include <gtest/gtest.h>
 
-int main(int argc, char** argv) {
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+int main(int argc, char **argv)
+{
+  testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
 }
 
 namespace TGEngine::test {
-  class Vector2DTest : public Vector2D {
-  public:
-    float x, y;
-  };
-}
 
+using namespace TGEngine::core;
+
+class Vector2DTest : public testing::Test
+{
+public:
+  Vector2D *vector;
+  Vector2DTest() { vector = new Vector2D; }
+  void constructor(float _x, float _y) {
+    delete vector;
+    vector = nullptr;
+    vector = new Vector2D(_x, _y);
+  }
+  ~Vector2DTest() { delete vector; }
+};
+
+}// namespace TGEngine::test
+
+using namespace TGEngine::core;
 using namespace TGEngine::test;
 
-TEST(Vector2D, VectorConstructorTest) {
-    Vector2DTest vector1;
-    vector1.setX(0.5f);
-    vector1.setY(0.5f);
-    Vector2D vector2(0.5f, 0.5f);
-    EXPECT_EQ(vector1.x, vector2.getX());
-    EXPECT_EQ(vector1.y, vector2.getY());
+TEST_F(Vector2DTest, VectorConstructorTest)
+{
+  float one = 0.0f;
+  float two = 1.5f;
+  constructor(one, one);
+  EXPECT_EQ(one, vector->getX());
+  EXPECT_EQ(one, vector->getY());
+  vector->setX(two);
+  vector->setY(two);
+  EXPECT_EQ(two, vector->getX());
+  EXPECT_EQ(two, vector->getY());
 }
 
-TEST(Vector2D, VectorZeroTest) {
-    Vector2D vector1(0, 0);
-    Vector2D vector2;
-    vector2.Zero();
-    EXPECT_EQ(vector1.x ,vector2.x);
-    EXPECT_EQ(vector1.y ,vector2.y);
+TEST_F(Vector2DTest, VectorZeroTest)
+{
+  float zero = 0.0f;
+  vector->Zero();
+  EXPECT_EQ(zero, vector->getX());
+  EXPECT_EQ(zero, vector->getY());
 }
 
-TEST(Vector2D, VectorAddTest) {
-    Vector2D vector1(0, 0);
-    Vector2D vectorExpect = vector1;
-    Vector2D vector2(264, 255);
-    vector1.Add(vector2);
-    EXPECT_EQ(vector1.x ,vectorExpect.x + vector2.x);
-    EXPECT_EQ(vector1.y ,vectorExpect.y + vector2.y);
-}
-
-TEST(Vector2D, VectorMultiplyTest) {
-    Vector2D vector1(1, 1);
-    vector1 = vector1 * 5;
-    EXPECT_EQ(vector1.x, 5);
-    EXPECT_EQ(vector1.y, 5);
+TEST_F(Vector2DTest, VectorAddTest)
+{
+  Vector2D vector1(0, 0);
+  Vector2D vectorExpect = vector1;
+  Vector2D vector2(264, 255);
+  vector1.Add(vector2);
+  EXPECT_EQ(vector1.getX(), vectorExpect.getX() + vector2.getX());
+  EXPECT_EQ(vector1.getY(), vectorExpect.getY() + vector2.getY());
 }
