@@ -31,9 +31,6 @@ include(ExternalProject)
 #------------------------------------------------------------------------------
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
 
-set(JSON_BuildTests OFF CACHE INTERNAL "")
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/lib/json)
-
 # Link this 'library' to use the warnings specified in CompilerWarnings.cmake
 add_library(project_warnings INTERFACE)
 
@@ -190,7 +187,12 @@ else () # Not Web
 
 endif()
 
-include(cmake/ImGui.cmake)
+# Rapidjson
+include_directories(
+        ${CMAKE_CURRENT_SOURCE_DIR}/lib/rapidjson/include
+)
+
+include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/ImGui.cmake)
 if(IMGUI_ENABLED)
     target_link_libraries(imgui_target PUBLIC project_dependency)
     target_link_libraries(project_dependency INTERFACE imgui_target)

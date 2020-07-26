@@ -12,8 +12,7 @@ set_property(TARGET main PROPERTY CXX_STANDARD 11)
 target_compile_options(main PRIVATE -Wall)
 
 target_link_libraries(
-        main PRIVATE project_options project_dependency project_warnings
-        nlohmann_json::nlohmann_json)
+        main PRIVATE project_options project_dependency project_warnings)
 
 if (EMSCRIPTEN)
     set_target_properties(main PROPERTIES OUTPUT_NAME "main.js")

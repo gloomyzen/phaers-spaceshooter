@@ -17,4 +17,5 @@ public
 #libs part
 #lib/macOS/*
 #lib/imgui/*
+temp/
 
