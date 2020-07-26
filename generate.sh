@@ -42,6 +42,25 @@ pc() {
     printf "${RES}"
 }
 
+update_submodules() {
+    local submodules_wrong=false
+    if [ ! -d "lib/rapidjson" ]; then
+        submodules_wrong=true
+        rm -rf lib/rapidjson
+        git clone https://github.com/Tencent/rapidjson.git lib/rapidjson
+    fi
+    if [ ! -d "lib/imgui" ]; then
+        submodules_wrong=true
+        rm -rf lib/imgui
+        git clone https://github.com/ocornut/imgui.git lib/imgui
+    fi
+
+    if $submodules_wrong ; then
+        echo "Update submodules!"
+        git pull --recurse-submodules
+    fi
+}
+
 install_win32_libs() {
   if [ ! -d "lib/win32/SDL" ]; then
     cd lib/win32 && chmod +x install.sh && ./install.sh VC $1 && cd ../../
@@ -52,16 +71,19 @@ create() {
 
 case "$1" in
     win32)
+        update_submodules
         install_win32_libs x86
         mkdir -p build && cd build
         eval ${CMAKECMD} "'-GVisual Studio 16 2019'" "'-AWin32'" -DCMAKE_BUILD_TYPE=Debug ../
         ;;
     win64)
+        update_submodules
         install_win32_libs x64
         mkdir -p build && cd build
         eval ${CMAKECMD} -G" Visual Studio 16 2019" "-AWin64" -DCMAKE_BUILD_TYPE=Debug ../
         ;;
     mac|macos)
+        update_submodules
         mkdir -p build && cd build
         eval ${CMAKECMD} -G Xcode ../
         ;;
@@ -73,7 +95,7 @@ esac
 
 }
 
-# todo other platform
+# todo add other platform (ios/android/emscripten)
 case "$1" in
     -create|-c|-auto)
         create $2 $3 $4
