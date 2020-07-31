@@ -40,12 +40,12 @@ using ComponentArray = std::array<Component *, maxComponents>;
 /***
  * TODO 1. Поменять isActive на active
  * TODO 2. заменить getActive() на isActive()
- * TODO 3. Переименовать методы init update draw в соответствие с неймингом в Application
+ * TODO 3. Переименовать методы init update render в соответствие с неймингом в Application
  */
 class IComponent
 {
 private:
-  bool isActive = true;
+  bool active = true;
 
 public:
   Entity *entity{};
@@ -54,11 +54,12 @@ public:
 
   virtual void init() {}
   virtual void update() {}
-  virtual void draw() {}
-  void destroy() { isActive = false; }
+  virtual void render() {}
+  void destroy() { active = false; }
 
-  bool getActive() { return isActive; };
-  void setActive(bool active) { isActive = active; };
+  bool &getActive() { return active; };
+  bool isActive() const { return active; };
+  void setActive(bool _active) { active = _active; };
 };
 
 class Component : public IComponent
@@ -68,7 +69,7 @@ public:
 
   virtual void init() {}
   virtual void update() {}
-  virtual void draw() {}
+  virtual void render() {}
   virtual ~Component() = default;
 };
 
@@ -76,7 +77,7 @@ class Entity
 {
 private:
   Manager &manager;
-  bool isActive = true;
+  bool active = true;
   std::vector<std::unique_ptr<Component>> components;
 
   ComponentArray componentArray{};
@@ -89,18 +90,19 @@ public:
   void update()
   {
     for (auto &c : components) {
-      if (c->getActive()) c->update();
+      if (c->isActive()) c->update();
     }
   }
-  void draw()
+  void render()
   {
     for (auto &c : components) {
-      if (c->getActive()) c->draw();
+      if (c->isActive()) c->render();
     }
   }
 
-  [[nodiscard]] bool getActive() const { return isActive; }
-  void destroy() { isActive = false; }
+  [[nodiscard]] bool &getActive() { return active; }
+  [[nodiscard]] bool isActive() const { return active; }
+  void destroy() { active = false; }
 
   bool hasGroup(Group mGroup) { return groupBitSet[mGroup]; }
 
@@ -142,9 +144,9 @@ public:
   {
     for (auto &e : entities) e->update();
   }
-  void draw()
+  void render()
   {
-    for (auto &e : entities) e->draw();
+    for (auto &e : entities) e->render();
   }
   void refresh()
   {
@@ -152,13 +154,13 @@ public:
       auto &v(groupedEntities[i]);
       v.erase(
         std::remove_if(
-          std::begin(v), std::end(v), [i](Entity *mEntity) { return !mEntity->getActive() || !mEntity->hasGroup(i); }),
+          std::begin(v), std::end(v), [i](Entity *mEntity) { return !mEntity->isActive() || !mEntity->hasGroup(i); }),
         std::end(v));
     }
 
     entities.erase(std::remove_if(std::begin(entities),
                      std::end(entities),
-                     [](const std::unique_ptr<Entity> &mEntity) { return !mEntity->getActive(); }),
+                     [](const std::unique_ptr<Entity> &mEntity) { return !mEntity->isActive(); }),
       std::end(entities));
   }
 
