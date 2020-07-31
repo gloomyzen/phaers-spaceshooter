@@ -8,7 +8,7 @@
 #include "TouchController.h"
 #include "ColliderComponent.h"
 #include "CameraComponent.h"
-#include "Collision.h"
+#include "CollisionDetection.h"
 #include "Animation.h"
 
 #endif// TOWERDEFENSE_GAME_ALLCOMPONENTSHEADERS_H

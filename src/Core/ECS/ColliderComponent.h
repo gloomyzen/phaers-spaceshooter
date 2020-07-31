@@ -5,7 +5,7 @@
 #include "SDL.h"
 #include "AllComponentsHeaders.h"
 #include "../DataTypes/Vector2D.h"
-#include "Collision.h"
+#include "CollisionDetection.h"
 
 namespace TGEngine::core {
 
@@ -34,6 +34,8 @@ public:
     collider.w = transform->width * transform->scale;
     collider.h = transform->height * transform->scale;
   }
+
+  void render() override {}
 };
 
 }//TGEngine::core

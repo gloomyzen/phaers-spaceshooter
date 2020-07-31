@@ -23,6 +23,8 @@ class CameraComponent : public Component {
   void update() override {
     //change coordinates, like this
   }
+
+  void render() override {}
 };
 
 }//TGEngine::core

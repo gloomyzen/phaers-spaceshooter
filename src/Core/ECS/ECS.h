@@ -37,11 +37,6 @@ using GroupBitset = std::bitset<maxGroups>;
 
 using ComponentArray = std::array<Component *, maxComponents>;
 
-/***
- * TODO 1. Поменять isActive на active
- * TODO 2. заменить getActive() на isActive()
- * TODO 3. Переименовать методы init update render в соответствие с неймингом в Application
- */
 class IComponent
 {
 private:

@@ -59,6 +59,8 @@ public:
     position.y += movement.y = getMovement(&velocity.y, &movement.y, &deltaTime);*/
   }
 
+  void render() override {}
+
   Vector2D getPosition() { return position; }
 
   void setPosition(float _x, float _y)

@@ -73,6 +73,8 @@ public:
       sprite->play("Idle");
     }*/
   }
+
+  void render() override {}
 };
 
 }

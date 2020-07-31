@@ -78,6 +78,8 @@ public:
       }
     }*/
   }
+
+  void render() override {}
 };
 
 }//TGEngine::core

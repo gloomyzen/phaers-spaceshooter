@@ -6,6 +6,7 @@
 #include "../Loaders/TextureManager.h"
 #include "Animation.h"
 #include <map>
+#include "../moduleDefinitions.h"
 
 namespace TGEngine::core {
 
@@ -78,7 +79,7 @@ public:
     destRect.h = transform->height * transform->scale;
   }
 
-  void draw() override
+  void render() override
   {
     TextureManager::DrawFlip(texture, srcRect, destRect, spriteFlip);
   }
