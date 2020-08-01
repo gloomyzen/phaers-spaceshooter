@@ -13,7 +13,7 @@ class Component;
 class Entity;
 class Manager;
 
-using ComponentID = std::size_t;
+/*using ComponentID = std::size_t;
 using Group = std::size_t;
 
 inline ComponentID getNewComponentTypeID()
@@ -35,9 +35,9 @@ constexpr std::size_t maxGroups = 32;
 using ComponentBitSet = std::bitset<maxComponents>;
 using GroupBitset = std::bitset<maxGroups>;
 
-using ComponentArray = std::array<Component *, maxComponents>;
+using ComponentArray = std::array<Component *, maxComponents>;*/
 
-class IComponent
+/*class IComponent
 {
 private:
   bool active = true;
@@ -64,7 +64,7 @@ public:
   virtual void update() {}
   virtual void render() {}
   virtual ~Component() = default;
-};
+};*/
 
 class Entity
 {
@@ -92,10 +92,6 @@ public:
       if (c->isActive()) c->render();
     }
   }
-
-  [[nodiscard]] bool &getActive() { return active; }
-  [[nodiscard]] bool isActive() const { return active; }
-  void destroy() { active = false; }
 
   bool hasGroup(Group mGroup) { return groupBitSet[mGroup]; }
 

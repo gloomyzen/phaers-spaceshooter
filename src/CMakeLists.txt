@@ -24,7 +24,7 @@ add_executable(main
         Core/Components/NodeManager.h
         Core/Components/NodeManagerInstance.h
         Core/Components/NodeManagerInstance.cpp
-        )
+        Core/Components/Component.h)
 
 set_property(TARGET main PROPERTY CXX_STANDARD 11)
 target_compile_options(main PRIVATE -Wall)

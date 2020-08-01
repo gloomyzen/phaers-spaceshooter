@@ -1,7 +1,7 @@
 #ifndef TOWERDEFENSE_GAME_ALLCOMPONENTSHEADERS_H
 #define TOWERDEFENSE_GAME_ALLCOMPONENTSHEADERS_H
 
-#include "ECS.h"
+#include "Component.h"
 #include "TransformComponent.h"
 #include "SpriteComponent.h"
 #include "KeyboardController.h"
