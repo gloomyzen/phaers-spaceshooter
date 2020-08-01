@@ -60,8 +60,6 @@ public:
 class Component : public IComponent
 {
 public:
-  Entity *entity{};
-
   virtual void init() {}
   virtual void update() {}
   virtual void render() {}
