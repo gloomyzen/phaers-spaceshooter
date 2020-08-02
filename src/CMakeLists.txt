@@ -10,18 +10,21 @@ add_executable(main
         Core/Loaders/TextureManager.h
         Core/DataTypes/Vector2D.cpp
         Core/DataTypes/Vector2D.h
+        #### Components ####
+        Core/Components/AllComponentsHeaders.h
 #        Core/Components/Animation.h
 #        Core/Components/CameraComponent.h
 #        Core/Components/ColliderComponent.h
 #        Core/Components/CollisionDetection.h
-#        Core/Components/AllComponentsHeaders.h
 #        Core/Components/ECS.h
 #        Core/Components/ECS.cpp
 #        Core/Components/KeyboardController.h
 #        Core/Components/SpriteComponent.h
 #        Core/Components/TouchController.h
-#        Core/Components/TransformComponent.h
+        Core/Components/TransformComponent.h
         Core/Components/Component.h
+        #### Nodes ####
+        Core/Nodes/Node.h
         Core/Nodes/NodeManager.h
         Core/Nodes/NodeManager.cpp)
 

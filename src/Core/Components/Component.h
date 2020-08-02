@@ -30,10 +30,11 @@ public:
 class Component : public IComponent
 {
 public:
-  virtual void init() {}
-  virtual void update() {}
-  virtual void render() {}
-  virtual ~Component() = default;
+  Component* node{};
+  void init() {}
+  void update() {}
+  void render() {}
+  ~Component() = default;
 };
 
 }

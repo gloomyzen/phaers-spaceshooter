@@ -61,7 +61,7 @@ if (ENABLE_PCH)
     # is a good idea if any #define's change
     #
     # consider breaking this out per project as necessary
-    target_precompile_headers(project_options INTERFACE <vector> <string> <map> <utility>)
+    target_precompile_headers(project_options INTERFACE <vector> <array> <string> <map> <utility> <memory> <algorithm> <bitset>)
 endif ()
 
 #------------------------------------------------------------------------------

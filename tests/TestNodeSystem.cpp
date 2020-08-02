@@ -1,5 +1,7 @@
 #include <gtest/gtest.h>
+#include "../src/Core/Nodes/Node.h"
 #include "../src/Core/Nodes/NodeManager.h"
+#include "../src/Core/Components/TransformComponent.h"
 
 using namespace TGEngine::core;
 
@@ -28,11 +30,11 @@ TEST_F(NodeTest, NodeConstructorTest)
   constructor("test");
   EXPECT_EQ(node->getId(), "test");
 
-  auto testNode = new Node("testNode");
+  auto testNode = new Node("testNode2");
   node->addChild(testNode);
   EXPECT_EQ(node->getChilds().size(), 1);
 
-  auto findTest = node->findNode("testNode");
+  auto findTest = node->findNode("testNode2");
   EXPECT_EQ(findTest, testNode);
   //links check
   findTest->setId("newId");
@@ -85,4 +87,9 @@ TEST(NodeManager, NodeManagerTest) {
   //Ищем ноду героя глбально через менеджер
   EXPECT_EQ(GET_NODE_MANAGER().findNode("hero"), hero);
 }
+
+//TEST(NodeTransform, NodeManagerTest) {
+//  auto node = new Node("test1");
+//  node->addComponent<TransformComponent>();
+//}
 
