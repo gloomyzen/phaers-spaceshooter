@@ -6,7 +6,7 @@
 #include <algorithm>
 #include <bitset>
 #include <array>
-#include "Component.h"
+#include "../Components/Component.h"
 
 #define GET_NODE_MANAGER() TGEngine::core::NodeManagerInstance::getInstance()
 
@@ -108,28 +108,48 @@ public:
     return childs;
   };
 
+  void addChild(Node *node) {
+    childs.emplace_back(node);
+  }
+
+  std::string &getId() { return id; }
+
+  void setId(std::string newId){ id = newId; }
+
+  Node* findNode(std::string findId) {
+    if (getId() == findId) return this;
+    for (auto c : childs) {
+      if (c->getId() == findId) return c;
+    }
+    return nullptr;
+  }
+
 };
 
-
+namespace nodeManager {
 class NodeManager
 {
 public:
   NodeManager() = default;
   ~NodeManager() = default;
-  void spawnTestObjects() {
-//    auto node = new Node("test");
-//    node->addComponent<TransformComponent>();
-//    nodes.emplace_back(node);
+  void addChild(Node* node) {
+    nodes.emplace_back(node);
+  }
+  Node* findNode(std::string findId) {
+    for (auto n : nodes) {
+      auto res =  n->findNode(findId);
+      if (res != nullptr) return res;
+    }
+    return nullptr;
   }
 private:
   std::vector<Node*> nodes{};
-  std::vector<Node*> *cache{};
-  std::vector<Node*> *warmCache{};
 };
+}//nodeManager
 
 class NodeManagerInstance {
 public:
-  static NodeManager &getInstance();
+  static nodeManager::NodeManager &getInstance();
 };
 
 }// namespace TGEngine::core

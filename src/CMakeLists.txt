@@ -10,20 +10,20 @@ add_executable(main
         Core/Loaders/TextureManager.h
         Core/DataTypes/Vector2D.cpp
         Core/DataTypes/Vector2D.h
-        Core/Components/Animation.h
-        Core/Components/CameraComponent.h
-        Core/Components/ColliderComponent.h
-        Core/Components/CollisionDetection.h
-        Core/Components/AllComponentsHeaders.h
-        Core/Components/ECS.h
-        Core/Components/ECS.cpp
-        Core/Components/KeyboardController.h
-        Core/Components/SpriteComponent.h
-        Core/Components/TouchController.h
-        Core/Components/TransformComponent.h
+#        Core/Components/Animation.h
+#        Core/Components/CameraComponent.h
+#        Core/Components/ColliderComponent.h
+#        Core/Components/CollisionDetection.h
+#        Core/Components/AllComponentsHeaders.h
+#        Core/Components/ECS.h
+#        Core/Components/ECS.cpp
+#        Core/Components/KeyboardController.h
+#        Core/Components/SpriteComponent.h
+#        Core/Components/TouchController.h
+#        Core/Components/TransformComponent.h
         Core/Components/Component.h
-        Core/Components/NodeManager.h
-        Core/Components/NodeManager.cpp)
+        Core/Nodes/NodeManager.h
+        Core/Nodes/NodeManager.cpp)
 
 set_property(TARGET main PROPERTY CXX_STANDARD 11)
 target_compile_options(main PRIVATE -Wall)

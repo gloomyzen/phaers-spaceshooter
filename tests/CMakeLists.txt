@@ -19,4 +19,7 @@ init_test(TestJsonDeps ./TestJsonDeps.cpp)
 init_test(TestVector2D ./TestVector2D.cpp ../src/Core/DataTypes/Vector2D.cpp ../src/Core/DataTypes/Vector2D.h)
 add_deps_to_test(TestVector2D project_dependency)
 
+init_test(TestNodeSystem ./TestNodeSystem.cpp ../src/Core/Nodes/NodeManager.h ../src/Core/Nodes/NodeManager.cpp)
+add_deps_to_test(TestNodeSystem project_dependency)
+
 #init_test(TestLevelLoad ./TestLevelLoad.cpp ../src/Classes/Utilities/LoadManager.cpp ../src/Classes/Utilities/JsonLoadManager.cpp)
