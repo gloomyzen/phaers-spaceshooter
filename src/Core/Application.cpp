@@ -1,4 +1,5 @@
 #include "Application.h"
+#include "Debug/Logger.h"
 
 using namespace TGEngine::core;
 
@@ -18,7 +19,8 @@ Application::Application()
 {
   currentApplication = this;
 
-  std::cout << "[Info] SDL initialisation" << std::endl;
+//  std::cout << "[Info] SDL initialisation" << std::endl;
+  LOG_INFO("SDL initialisation");
 
   const int fullscreen_flag = 0; // for fullscreen SDL_WINDOW_FULLSCREEN
   const Uint32 render_flag = SDL_RENDERER_ACCELERATED;
@@ -31,9 +33,11 @@ Application::Application()
 #endif
   if ((isEmscripten() && SDL_Init(SDL_INIT_VIDEO) == 0) || (!isEmscripten() && SDL_Init(SDL_INIT_EVERYTHING) == 0)) {
     if (!SDL_SetHint(SDL_HINT_RENDER_VSYNC, "1")) {
-      std::cout << "[Warning] Vsync rendering not enabled!" << std::endl;
+//      std::cout << "[Warning] Vsync rendering not enabled!" << std::endl;
+      LOG_WARNING("Vsync rendering not enabled!");
     }
-    std::cout << "[Info] SDL initialized" << std::endl;
+//    std::cout << "[Info] SDL initialized" << std::endl;
+    LOG_INFO("SDL initialized");
 
     window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, fullscreen_flag);
     if (window != nullptr) { std::cout << "[Info] Window created" << std::endl; }

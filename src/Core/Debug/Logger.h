@@ -5,6 +5,15 @@
 #include <iostream>
 #include <vector>
 
+#pragma region
+#define GET_LOGGER() TGEngine::core::LoggerInstance::getInstance()
+#define LOG_INFO(W) TGEngine::core::LoggerInstance::getInstance().info(W)
+#define LOG_WARNING(W) TGEngine::core::LoggerInstance::getInstance().warning(W);
+#define LOG_ERROR(W) TGEngine::core::LoggerInstance::getInstance().error(W);
+
+
+namespace TGEngine::core {
+
 struct Message
 {
   int type; // 0 info 1 warning 2 error
@@ -16,37 +25,25 @@ struct Message
   }
 };
 
+/***
+ * Данный класс нужен для логирования исключительных событий
+ */
 class Logger
 {
 public:
-  static void info(const std::string &message)
-  {
-#ifdef DEBUG
-    std::cout << message << std::endl;
-    log.emplace_back(message);
-#endif
-    log.emplace_back(new Message(0, message));
-  };
-
-  static void warning(const std::string &message)
-  {
-#ifdef DEBUG
-    std::cout << message << std::endl;
-    log.emplace_back(new Message(1, message));
-#endif
-  };
-
-  static void error(const std::string &message)
-  {
-#ifdef DEBUG
-    std::cout << message << std::endl;
-    log.emplace_back(new Message(2, message));
-#endif
-  };
+  void info(const std::string &message);
+  void warning(const std::string &message);
+  void error(const std::string &message);
 
 private:
-  static std::vector<Message *> log;
+  std::vector<Message *> log;
 };
 
+class LoggerInstance {
+public:
+  static Logger &getInstance();
+};
+
+}//TGEngine::core
 
 #endif// TOWERDEFENSE_GAME_LOGGER_H
