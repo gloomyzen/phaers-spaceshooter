@@ -6,8 +6,7 @@
 #include <algorithm>
 #include <bitset>
 #include <array>
-//#include "Component.h"
-//#include "TransformComponent.h"
+#include "Component.h"
 
 namespace TGEngine::core {
 
@@ -37,24 +36,36 @@ using GroupBitset = std::bitset<maxGroups>;
 using ComponentArray = std::array<Component *, maxComponents>;
 #pragma endregion ComponentsHelper
 
-//TODO edit node layers
-//enum eNodeLayers : std::size_t { layerGround, layerUnits, layerUI };
-
 class Node : IComponent {
 private:
   std::vector<std::unique_ptr<Component>> components;
   ComponentArray componentArray{};
   ComponentBitSet componentBitSet;
-  GroupBitset groupBitSet;
+  std::vector<Node*> childs{};
+  std::string id{};
 public:
 
-  void update()
+  Node(std::string nodeId) {
+    if (nodeId.empty()) {
+      throw std::runtime_error("The current node has no id set!");
+    }
+    id = nodeId;
+  }
+  ~Node() {
+    for (auto &c : childs) {
+      delete c;
+    }
+  }
+
+  void init() override {}
+
+  void update() override
   {
     for (auto &c : components) {
       if (c->isActive()) c->update();
     }
   }
-  void render()
+  void render() override
   {
     for (auto &c : components) {
       if (c->isActive()) c->render();
@@ -83,23 +94,26 @@ public:
     return *static_cast<T *>(ptr);
   }
 
-};
+  std::vector<Node*> getChilds() {
+    return childs;
+  };
 
-//TODO edit node layers
-/*class NodeLayers
-{
-public:
-  //
-private:
-  eNodeLayers layer;
-};*/
+  std::vector<Node*> getSingleChild(std::string id) {}
+  std::vector<Node*> getChildsList() {}
+
+protected:
+  Node* _getChilds() {
+    //
+  }
+
+};
 
 class NodeManager
 {
 public:
   void test() {
-    auto node = new Node();
-    node->addComponent<TransformComponent>();
+//    auto node = new Node();
+//    node->addComponent<TransformComponent>();
   }
 private:
 };
