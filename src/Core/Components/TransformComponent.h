@@ -9,11 +9,13 @@ namespace TGEngine::core {
 
 class TransformComponent : public Component
 {
+private:
+  Vector2D position;
 
 public:
-  Vector2D position;
-  Vector2D velocity;
-  Vector2D movement;
+//  Vector2D position;
+//  Vector2D velocity;
+//  Vector2D movement;
 
   Uint64 NOW = SDL_GetPerformanceCounter();
   Uint64 LAST = 0;

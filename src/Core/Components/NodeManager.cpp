@@ -1,4 +1,4 @@
-#include "NodeManagerInstance.h"
+#include "NodeManager.h"
 
 using namespace TGEngine::core;
 

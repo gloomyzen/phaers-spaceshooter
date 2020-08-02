@@ -8,6 +8,8 @@
 #include <array>
 #include "Component.h"
 
+#define GET_NODE_MANAGER() TGEngine::core::NodeManagerInstance::getInstance()
+
 namespace TGEngine::core {
 
 #pragma region ComponentsHelper
@@ -34,7 +36,13 @@ using ComponentBitSet = std::bitset<maxComponents>;
 using GroupBitset = std::bitset<maxGroups>;
 
 using ComponentArray = std::array<Component *, maxComponents>;
+
+enum eNodeLayers : std::size_t { GROUND, UNITS, UI };
 #pragma endregion ComponentsHelper
+
+class Node;
+class NodeManager;
+class NodeManagerInstance;
 
 class Node : IComponent {
 private:
@@ -57,7 +65,9 @@ public:
     }
   }
 
-  void init() override {}
+  void init() override {
+//    if (!hasComponent<Tra>())
+  }
 
   void update() override
   {
@@ -94,28 +104,32 @@ public:
     return *static_cast<T *>(ptr);
   }
 
-  std::vector<Node*> getChilds() {
+  std::vector<Node*> &getChilds() {
     return childs;
   };
 
-  std::vector<Node*> getSingleChild(std::string id) {}
-  std::vector<Node*> getChildsList() {}
-
-protected:
-  Node* _getChilds() {
-    //
-  }
-
 };
+
 
 class NodeManager
 {
 public:
-  void test() {
-//    auto node = new Node();
+  NodeManager() = default;
+  ~NodeManager() = default;
+  void spawnTestObjects() {
+//    auto node = new Node("test");
 //    node->addComponent<TransformComponent>();
+//    nodes.emplace_back(node);
   }
 private:
+  std::vector<Node*> nodes{};
+  std::vector<Node*> *cache{};
+  std::vector<Node*> *warmCache{};
+};
+
+class NodeManagerInstance {
+public:
+  static NodeManager &getInstance();
 };
 
 }// namespace TGEngine::core

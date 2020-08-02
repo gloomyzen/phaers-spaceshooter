@@ -21,10 +21,9 @@ add_executable(main
         Core/Components/SpriteComponent.h
         Core/Components/TouchController.h
         Core/Components/TransformComponent.h
+        Core/Components/Component.h
         Core/Components/NodeManager.h
-        Core/Components/NodeManagerInstance.h
-        Core/Components/NodeManagerInstance.cpp
-        Core/Components/Component.h)
+        Core/Components/NodeManager.cpp)
 
 set_property(TARGET main PROPERTY CXX_STANDARD 11)
 target_compile_options(main PRIVATE -Wall)

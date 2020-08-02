@@ -1,4 +1,5 @@
 #include "GameApplication.h"
+#include "Components/NodeManager.h"
 
 using namespace TGEngine::core;
 
