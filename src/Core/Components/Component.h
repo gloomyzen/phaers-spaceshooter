@@ -3,6 +3,8 @@
 
 namespace TGEngine::core {
 
+class Node;
+
 class IComponent
 {
 private:
@@ -29,11 +31,15 @@ public:
 
 class Component : public IComponent
 {
+private:
+  Node *node;
 public:
-  Component* node{};
+  Component() {}
+
   void init() {}
   void update() {}
   void render() {}
+  void setNode(Node* _node) { node = _node; }
   ~Component() = default;
 };
 

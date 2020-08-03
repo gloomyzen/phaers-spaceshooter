@@ -88,8 +88,12 @@ TEST(NodeManager, NodeManagerTest) {
   EXPECT_EQ(GET_NODE_MANAGER().findNode("hero"), hero);
 }
 
-//TEST(NodeTransform, NodeManagerTest) {
-//  auto node = new Node("test1");
-//  node->addComponent<TransformComponent>();
-//}
+TEST(NodeTransform, NodeManagerTest) {
+  auto node = new Node("test1");
+  node->addComponent<TransformComponent>();
+  auto transform = node->getComponent<TransformComponent>();
+  transform.setPosition(5.f, 5.f);
+  EXPECT_EQ(transform.getPosition().getY(), Vector2D(5.f, 5.f).getY());
+  EXPECT_EQ(transform.getPosition().getX(), Vector2D(5.f, 5.f).getX());
+}
 

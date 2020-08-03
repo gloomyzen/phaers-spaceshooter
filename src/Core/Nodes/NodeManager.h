@@ -22,14 +22,33 @@ public:
     nodes.emplace_back(node);
   }
   Node* findNode(std::string findId) {
-    for (auto n : nodes) {
+    for (auto &n : nodes) {
       auto res =  n->findNode(findId);
       if (res != nullptr) return res;
     }
     return nullptr;
   }
+
+  void update()
+  {
+    for (auto &n : nodes) n->update();
+  }
+  void render()
+  {
+    for (auto &n : nodes) n->render();
+  }
+
+  Node &addNode(std::string id)
+  {
+    auto *n = new Node(id);
+    std::unique_ptr<Node> uPtr{ n };
+    nodes.emplace_back(std::move(uPtr));
+    return *n;
+  }
+
 private:
-  std::vector<Node*> nodes{};
+//  std::vector<Node*> nodes{};
+  std::vector<std::unique_ptr<Node>> nodes;
 };
 }//nodeManager
 

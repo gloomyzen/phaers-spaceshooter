@@ -17,7 +17,9 @@ private:
   int scale = 1;
 
 public:
-  TransformComponent() { position.Zero(); }
+  TransformComponent() {
+    position.Zero();
+  }
 
   TransformComponent(float _x, float _y)
   {

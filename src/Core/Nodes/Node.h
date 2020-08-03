@@ -10,6 +10,11 @@
 
 namespace TGEngine::core {
 
+//forward
+class Node;
+class NodeManager;
+class NodeManagerInstance;
+
 #pragma region ComponentsHelper
 using ComponentID = std::size_t;
 using Group = std::size_t;
@@ -28,16 +33,13 @@ template<typename T> inline ComponentID getComponentTypeID() noexcept
 }
 
 constexpr std::size_t maxComponents = 32;
-constexpr std::size_t maxGroups = 32;
 
 using ComponentBitSet = std::bitset<maxComponents>;
-
 using ComponentArray = std::array<Component *, maxComponents>;
 
-enum eNodeLayers : std::size_t { GROUND, UNITS, UI };
 #pragma endregion ComponentsHelper
 
-class Node : IComponent {
+class Node : public IComponent {
 private:
   std::vector<std::unique_ptr<Component>> components;
   ComponentArray componentArray{};
@@ -52,6 +54,7 @@ public:
     }
     id = nodeId;
   }
+
   ~Node() {
     for (auto &c : childs) {
       delete c;
@@ -64,8 +67,8 @@ public:
 
   void update() override
   {
-    for (auto &c : components) {
-      if (c->isActive()) c->update();
+    for (auto &c : componentArray) {
+      if (c->getActive()) c->update();
     }
   }
   void render() override
@@ -80,7 +83,7 @@ public:
   template<typename T, typename... TArgs> T &addComponent(TArgs &&... mArgs)
   {
     T *c(new T(std::forward<TArgs>(mArgs)...));
-    c->node = this;
+    c->setNode(this);
     std::unique_ptr<Component> uPtr{ c };
     components.emplace_back(std::move(uPtr));
 
