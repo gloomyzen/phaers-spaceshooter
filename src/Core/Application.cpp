@@ -110,6 +110,7 @@ void Application::run()
   while (state == stateRun) { loop_iteration(); }
   SDL_DestroyWindow(window);
   SDL_DestroyRenderer(renderer);
+  IMG_Quit();
   SDL_Quit();
   std::cout << "[Info] Application stopped" << std::endl;
 #endif

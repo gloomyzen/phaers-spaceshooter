@@ -9,7 +9,6 @@
 //#include "ColliderComponent.h"
 //#include "CameraComponent.h"
 //#include "CollisionDetection.h"
-#include "Animation.h"
 #include "../Nodes/Node.h"
 
 #endif// TOWERDEFENSE_GAME_ALLCOMPONENTSHEADERS_H
