@@ -12,7 +12,6 @@ add_executable(main
         Core/DataTypes/Vector2D.h
         #### Components ####
         Core/Components/Component.h
-        Core/Components/Animation.h
         Core/Components/AllComponentsHeaders.h
         Core/Components/TransformComponent.h
         Core/Components/SpriteComponent.h

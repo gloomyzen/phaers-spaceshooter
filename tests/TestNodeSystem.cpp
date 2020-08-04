@@ -2,6 +2,7 @@
 #include "../src/Core/Nodes/Node.h"
 #include "../src/Core/Nodes/NodeManager.h"
 #include "../src/Core/Components/TransformComponent.h"
+#include "../src/Core/Components/SpriteComponent.h"
 
 using namespace TGEngine::core;
 
@@ -88,7 +89,7 @@ TEST(NodeManager, NodeManagerTest) {
   EXPECT_EQ(GET_NODE_MANAGER().findNode("hero"), hero);
 }
 
-TEST(NodeTransform, NodeManagerTest) {
+TEST(NodeTransformComponent, NodeManagerTest) {
   float five = 5.f;
   float zero = 0.f;
   auto node = new Node("test1");
@@ -121,5 +122,27 @@ TEST(NodeTransform, NodeManagerTest) {
   EXPECT_EQ(transform.getScale(), testScale);
   //test node access from component
   EXPECT_EQ(transform.getNode().getId(), "test1");
+}
+
+TEST(NodeSpriteComponen, NodeManagerTest)
+{
+  auto node = new Node("test1");
+  node->addComponent<SpriteComponent>();
+  auto spriteNode = node->getComponent<SpriteComponent>();
+  //test node access from component
+  EXPECT_EQ(spriteNode.getNode().getId(), "test1");
+  EXPECT_FALSE(spriteNode.isAnimated());
+  //TODO try get animation
+//  EXPECT_EQ(spriteNode.getAnimation("testAnim"), nullptr);
+  EXPECT_EQ(spriteNode.getAnimations().size(), 0);
+  //set animation
+  auto animStructRun = sAnimation(0, 8, 150);
+  spriteNode.addAnimation("idle", 0, 8, 150);
+  EXPECT_EQ(spriteNode.getAnimations().size(), 1);
+  EXPECT_EQ(animStructRun.index, 0);
+  EXPECT_EQ(animStructRun.frames, 8);
+  EXPECT_EQ(animStructRun.speed, 150);
+  spriteNode.addAnimation("run", animStructRun);
+  EXPECT_EQ(spriteNode.getAnimations().size(), 2);
 }
 

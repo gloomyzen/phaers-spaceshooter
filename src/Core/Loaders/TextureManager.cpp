@@ -10,6 +10,10 @@ SDL_Texture* TextureManager::LoadTexture(const char *fileName)
 
   SDL_FreeSurface(tempSurface);
 
+  if (texture == nullptr) {
+    //TODO LOG_ERROR here and do nothing!
+  }
+
   return texture;
 }
 

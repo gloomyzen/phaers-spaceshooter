@@ -26,6 +26,14 @@ init_test(TestNodeSystem ./TestNodeSystem.cpp
         ../src/Core/Components/TransformComponent.h
         ../src/Core/DataTypes/Vector2D.cpp
         ../src/Core/DataTypes/Vector2D.h
+        ../src/Core/Components/SpriteComponent.h
+        ../src/Core/Loaders/TextureManager.cpp
+        ../src/Core/Loaders/TextureManager.h
+        ../src/Core/moduleDefinitions.h
+        ../src/Core/Application.cpp
+        ../src/Core/Application.h
+        ../src/Core/GameApplication.cpp
+        ../src/Core/GameApplication.h
         )
 add_deps_to_test(TestNodeSystem project_dependency)
 
