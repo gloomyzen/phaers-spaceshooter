@@ -89,11 +89,37 @@ TEST(NodeManager, NodeManagerTest) {
 }
 
 TEST(NodeTransform, NodeManagerTest) {
+  float five = 5.f;
+  float zero = 0.f;
   auto node = new Node("test1");
   node->addComponent<TransformComponent>();
+  EXPECT_EQ(node->getComponent<TransformComponent>().getPosition().getX(), zero);
+  EXPECT_EQ(node->getComponent<TransformComponent>().getPosition().getY(), zero);
   auto transform = node->getComponent<TransformComponent>();
-  transform.setPosition(5.f, 5.f);
-  EXPECT_EQ(transform.getPosition().getY(), Vector2D(5.f, 5.f).getY());
-  EXPECT_EQ(transform.getPosition().getX(), Vector2D(5.f, 5.f).getX());
+  transform.setPosition(five, five);
+  EXPECT_EQ(transform.getPosition().getY(), Vector2D(five, five).getY());
+  EXPECT_EQ(transform.getPosition().getX(), Vector2D(five, five).getX());
+  //test width height and scale
+  EXPECT_EQ(transform.getWidth(), 0);
+  EXPECT_EQ(transform.getHeight(), 0);
+  EXPECT_EQ(transform.getScale(), 1.f);
+  int testWidth = 32;
+  int testHeight = 110;
+  float testScale = 3.f;
+  transform.setWidth(testWidth);
+  transform.setHeight(testHeight);
+  transform.setScale(testScale);
+  EXPECT_EQ(transform.getWidth(), testWidth);
+  EXPECT_EQ(transform.getHeight(), testHeight);
+  EXPECT_EQ(transform.getScale(), testScale);
+  //test wrong values
+  transform.setWidth(-15);
+  transform.setHeight(-25);
+  transform.setScale(-1);
+  EXPECT_EQ(transform.getWidth(), testWidth);
+  EXPECT_EQ(transform.getHeight(), testHeight);
+  EXPECT_EQ(transform.getScale(), testScale);
+  //test node access from component
+  EXPECT_EQ(transform.getNode().getId(), "test1");
 }
 

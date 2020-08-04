@@ -40,6 +40,7 @@ public:
   void update() {}
   void render() {}
   void setNode(Node* _node) { node = _node; }
+  Node &getNode() { return *node; }
   ~Component() = default;
 };
 
