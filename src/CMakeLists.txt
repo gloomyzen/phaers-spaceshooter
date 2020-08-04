@@ -18,14 +18,16 @@ add_executable(main
 #        Core/Components/CameraComponent.h
 #        Core/Components/ColliderComponent.h
 #        Core/Components/CollisionDetection.h
-#        Core/Components/ECS.h
-#        Core/Components/ECS.cpp
 #        Core/Components/KeyboardController.h
 #        Core/Components/TouchController.h
         #### Nodes ####
         Core/Nodes/Node.h
         Core/Nodes/NodeManager.h
-        Core/Nodes/NodeManager.cpp)
+        Core/Nodes/NodeManager.cpp
+        Core/Nodes/PropertyNode.cpp Core/Nodes/PropertyNode.h
+        #### Game Module ####
+        Game/Interface/InterfaceModule.cpp
+        Game/Interface/InterfaceModule.h Core/Loaders/JsonLoader.h)
 
 set_property(TARGET main PROPERTY CXX_STANDARD 11)
 target_compile_options(main PRIVATE -Wall)

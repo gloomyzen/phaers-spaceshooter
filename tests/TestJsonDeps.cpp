@@ -1,11 +1,11 @@
 #include <gtest/gtest.h>
 #include <fstream>
-#include <cstdlib>
 #include "rapidjson/document.h"
 #include <rapidjson/istreamwrapper.h>
 #include <rapidjson/writer.h>
 #include <rapidjson/stringbuffer.h>
 #include <rapidjson/ostreamwrapper.h>
+#include "../src/Core/Loaders/JsonLoader.h"
 
 int main(int argc, char** argv) {
     testing::InitGoogleTest(&argc, argv);
@@ -48,4 +48,13 @@ TEST(TestJsonFileRead, IncludeJsonTest) {
 //  rapidjson::Writer<rapidjson::StringBuffer> writer { buffer };
 //  document.Accept( writer );
 //  EXPECT_FALSE(document.HasParseError());
+}
+
+TEST(TestCorJsonLoader, IncludeJsonTest) {
+  using namespace TGEngine::core;
+  ASSERT_TRUE(true);
+  auto json = JsonLoader::loadJson("resources/data/nodes/defaultScene.json", "../");
+  ASSERT_TRUE(json.IsObject());
+  auto notValidJson = JsonLoader::loadJson("resources/data/nodes/defaultSceneNotValid.json", "../");
+  EXPECT_EQ(notValidJson.IsObject(), false);
 }
