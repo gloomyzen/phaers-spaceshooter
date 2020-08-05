@@ -47,8 +47,10 @@ private:
   ComponentBitSet componentBitSet;
   std::vector<Node*> childs{};
   std::string id{};
-  std::string module{};
+  std::string moduleId{};
 public:
+
+  Node() {}
 
   Node(std::string nodeId) {
     if (nodeId.empty()) {
@@ -63,9 +65,7 @@ public:
     }
   }
 
-  void init() override {
-    loadProperty();
-  }
+  void init() override {}
 
   void update() override
   {
@@ -107,6 +107,10 @@ public:
   };
 
   void addChild(Node *node) {
+    if (node->getId().empty()) {
+      //TODO LOG_ERROR this!
+      return;
+    }
     childs.emplace_back(node);
   }
 
@@ -114,9 +118,9 @@ public:
 
   void setId(std::string newId){ id = newId; }
 
-  std::string &getModule() { return module; }
+  std::string &getModuleId() { return moduleId; }
 
-  void setModule(std::string newModule){ module = newModule; }
+  void setModuleId(std::string newModule){ moduleId = newModule; }
 
   Node* findNode(std::string findId) {
     if (getId() == findId) return this;

@@ -65,9 +65,9 @@ TEST(NodeManager, NodeManagerTest) {
   ground->addChild(fortress);
   //Сверяем имя ноды Units
   EXPECT_EQ(fortress->getId(), "fortress");
-  EXPECT_EQ(fortress->getModule(), "");
-  fortress->setModule("window");
-  EXPECT_EQ(fortress->getModule(), "window");
+  EXPECT_EQ(fortress->getModuleId(), "");
+  fortress->setModuleId("window");
+  EXPECT_EQ(fortress->getModuleId(), "window");
 
   //Ищем ноду крепости в ноде Ground
   EXPECT_EQ(ground->findNode("fortress"), fortress);
@@ -154,3 +154,9 @@ TEST(NodeSpriteComponen, NodeManagerTest)
   EXPECT_EQ(spriteNode.getAnimations().size(), 2);
 }
 
+TEST(NodeLoadProperty, NodeManagerTest) {
+  auto node = new Node();
+  node->setId("popup");
+  node->setModuleId("windows");
+  node->loadProperty();
+}
