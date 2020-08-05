@@ -133,16 +133,21 @@ TEST(NodeSpriteComponen, NodeManagerTest)
   EXPECT_EQ(spriteNode.getNode().getId(), "test1");
   EXPECT_FALSE(spriteNode.isAnimated());
   //TODO try get animation
-//  EXPECT_EQ(spriteNode.getAnimation("testAnim"), nullptr);
+  EXPECT_EQ(spriteNode.getAnimation("testAnim"), nullptr);
   EXPECT_EQ(spriteNode.getAnimations().size(), 0);
   //set animation
-  auto animStructRun = sAnimation(0, 8, 150);
+  auto animStructRun = new sAnimation();
+  animStructRun->index = 0;
+  animStructRun->frames = 8;
+  animStructRun->speed = 150;
   spriteNode.addAnimation("idle", 0, 8, 150);
+  EXPECT_TRUE(spriteNode.hasAnimation("idle"));
   EXPECT_EQ(spriteNode.getAnimations().size(), 1);
-  EXPECT_EQ(animStructRun.index, 0);
-  EXPECT_EQ(animStructRun.frames, 8);
-  EXPECT_EQ(animStructRun.speed, 150);
+  EXPECT_EQ(animStructRun->index, 0);
+  EXPECT_EQ(animStructRun->frames, 8);
+  EXPECT_EQ(animStructRun->speed, 150);
   spriteNode.addAnimation("run", animStructRun);
+  EXPECT_TRUE(spriteNode.hasAnimation("run"));
   EXPECT_EQ(spriteNode.getAnimations().size(), 2);
 }
 
