@@ -7,6 +7,7 @@
 #include <bitset>
 #include <array>
 #include "../Components/Component.h"
+#include "../Loaders/JsonLoader.h"
 
 namespace TGEngine::core {
 
@@ -46,6 +47,7 @@ private:
   ComponentBitSet componentBitSet;
   std::vector<Node*> childs{};
   std::string id{};
+  std::string module{};
 public:
 
   Node(std::string nodeId) {
@@ -62,7 +64,7 @@ public:
   }
 
   void init() override {
-//    if (!hasComponent<Tra>())
+    loadProperty();
   }
 
   void update() override
@@ -112,6 +114,10 @@ public:
 
   void setId(std::string newId){ id = newId; }
 
+  std::string &getModule() { return module; }
+
+  void setModule(std::string newModule){ module = newModule; }
+
   Node* findNode(std::string findId) {
     if (getId() == findId) return this;
     for (auto c : childs) {
@@ -119,6 +125,8 @@ public:
     }
     return nullptr;
   }
+
+  void loadProperty();
 
 };
 

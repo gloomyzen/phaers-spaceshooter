@@ -21,6 +21,7 @@ add_deps_to_test(TestVector2D project_dependency)
 #################### Node System ####################
 init_test(TestNodeSystem ./TestNodeSystem.cpp
         ../src/Core/Nodes/Node.h
+        ../src/Core/Nodes/Node.cpp
         ../src/Core/Nodes/NodeManager.h
         ../src/Core/Nodes/NodeManager.cpp
         ../src/Core/Components/TransformComponent.h

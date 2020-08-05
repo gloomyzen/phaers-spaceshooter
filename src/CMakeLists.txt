@@ -2,14 +2,10 @@
 add_executable(main
         main.cpp
         Core/moduleDefinitions.h
-        Core/Application.cpp
-        Core/Application.h
-        Core/GameApplication.cpp
-        Core/GameApplication.h
-        Core/Loaders/TextureManager.cpp
-        Core/Loaders/TextureManager.h
-        Core/DataTypes/Vector2D.cpp
-        Core/DataTypes/Vector2D.h
+        Core/Application.cpp Core/Application.h
+        Core/GameApplication.cpp Core/GameApplication.h
+        Core/Loaders/TextureManager.cpp Core/Loaders/TextureManager.h
+        Core/DataTypes/Vector2D.cpp Core/DataTypes/Vector2D.h
         #### Components ####
         Core/Components/Component.h
         Core/Components/AllComponentsHeaders.h
@@ -21,15 +17,12 @@ add_executable(main
 #        Core/Components/KeyboardController.h
 #        Core/Components/TouchController.h
         #### Nodes ####
-        Core/Nodes/Node.h
-        Core/Nodes/NodeManager.h
-        Core/Nodes/NodeManager.cpp
+        Core/Nodes/Node.h Core/Nodes/Node.cpp
+        Core/Nodes/NodeManager.h Core/Nodes/NodeManager.cpp
         Core/Nodes/PropertyNode.cpp Core/Nodes/PropertyNode.h
         #### Game Module ####
-        Game/Interface/InterfaceModule.cpp
-        Game/Interface/InterfaceModule.h
-        Core/Loaders/JsonLoader.cpp
-        Core/Loaders/JsonLoader.h
+        Game/Interface/InterfaceModule.cpp Game/Interface/InterfaceModule.h
+        Core/Loaders/JsonLoader.cpp Core/Loaders/JsonLoader.h
         )
 
 set_property(TARGET main PROPERTY CXX_STANDARD 11)

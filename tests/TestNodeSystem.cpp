@@ -65,6 +65,9 @@ TEST(NodeManager, NodeManagerTest) {
   ground->addChild(fortress);
   //Сверяем имя ноды Units
   EXPECT_EQ(fortress->getId(), "fortress");
+  EXPECT_EQ(fortress->getModule(), "");
+  fortress->setModule("window");
+  EXPECT_EQ(fortress->getModule(), "window");
 
   //Ищем ноду крепости в ноде Ground
   EXPECT_EQ(ground->findNode("fortress"), fortress);
