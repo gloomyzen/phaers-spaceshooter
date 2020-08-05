@@ -27,7 +27,10 @@ add_executable(main
         Core/Nodes/PropertyNode.cpp Core/Nodes/PropertyNode.h
         #### Game Module ####
         Game/Interface/InterfaceModule.cpp
-        Game/Interface/InterfaceModule.h Core/Loaders/JsonLoader.h)
+        Game/Interface/InterfaceModule.h
+        Core/Loaders/JsonLoader.cpp
+        Core/Loaders/JsonLoader.h
+        )
 
 set_property(TARGET main PROPERTY CXX_STANDARD 11)
 target_compile_options(main PRIVATE -Wall)

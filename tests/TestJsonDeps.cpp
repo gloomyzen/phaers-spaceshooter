@@ -53,8 +53,8 @@ TEST(TestJsonFileRead, IncludeJsonTest) {
 TEST(TestCorJsonLoader, IncludeJsonTest) {
   using namespace TGEngine::core;
   ASSERT_TRUE(true);
-  auto json = JsonLoader::loadJson("resources/data/nodes/defaultScene.json", "../");
+  auto json = GET_JSON_PREF("nodes/defaultScene.json", "../");
   ASSERT_TRUE(json.IsObject());
-  auto notValidJson = JsonLoader::loadJson("resources/data/nodes/defaultSceneNotValid.json", "../");
+  auto notValidJson = GET_JSON_PREF("nodes/defaultSceneNotValid.json", "../");
   EXPECT_EQ(notValidJson.IsObject(), false);
 }

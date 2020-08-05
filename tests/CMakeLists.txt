@@ -13,7 +13,7 @@ function(ADD_DEPS_TO_TEST ARG_TARGET)
 endfunction()
 
 ################### General tests ###################
-init_test(TestJsonDeps ./TestJsonDeps.cpp ../src/Core/Loaders/JsonLoader.h)
+init_test(TestJsonDeps ./TestJsonDeps.cpp ../src/Core/Loaders/JsonLoader.h ../src/Core/Loaders/JsonLoader.cpp)
 
 #################### Core Module ####################
 init_test(TestVector2D ./TestVector2D.cpp ../src/Core/DataTypes/Vector2D.cpp ../src/Core/DataTypes/Vector2D.h)
