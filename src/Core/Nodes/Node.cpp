@@ -8,14 +8,17 @@ void Node::loadProperty() {
     return;
   }
 
-  std::string path = "nodes/";
+  std::string pathNodes = "nodes/";
+  std::string pathProperties = "properties/";
   if (!getModuleId().empty()) {
-    path += getModuleId() + "/" + getId();
+    pathNodes += getModuleId() + "/" + getId();
+    pathProperties += getModuleId() + "/" + getId();
   } else {
-    path += getId();
+    pathNodes += getId();
+    pathProperties += getId();
   }
 
-  auto json = GET_JSON(path);
+  auto json = GET_JSON(pathNodes);
   if (json.HasParseError() || !json.IsObject()) {
     //TODO LOG_ERROR this!
     return;
@@ -24,10 +27,19 @@ void Node::loadProperty() {
     //TODO LOG_ERROR this!
     return;
   }
-  //TODO get "properties/"
 
   if (json["childs"].IsArray()) {
     //TODO get childs
   }
+
+  //TODO get "properties/"
+  //1. составляем список нод из nodes и создаем пустые ноды
+  //2. забираем все из properties и обновляет ноды через find
+
+  auto propJson = GET_JSON(pathProperties);
+  if (propJson.HasParseError() || !propJson.IsObject()) {
+    return;
+  }
+  //TODO then run without log warnings
 
 }
