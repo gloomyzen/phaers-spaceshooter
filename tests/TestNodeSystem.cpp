@@ -162,6 +162,8 @@ TEST(NodeLoadProperty, NodeManagerTest) {
   node->loadProperty("../");
   EXPECT_FALSE(node->hasChilds());
   EXPECT_TRUE(node->findNode("mainMenuBG") == nullptr);
+  EXPECT_TRUE(node->hasComponent<TransformComponent>());
+  EXPECT_FALSE(node->hasComponent<SpriteComponent>());
 
   // Node with childs
   auto nodeNext = new Node();
@@ -177,5 +179,4 @@ TEST(NodeLoadProperty, NodeManagerTest) {
   EXPECT_TRUE(nodeNext->hasNode("node2.1"));
   EXPECT_TRUE(nodeNext->findNode("node2.1") != nullptr);
   EXPECT_TRUE(nodeNext->findNode("node2.2") != nullptr);
-
 }

@@ -1,4 +1,5 @@
 #include "Node.h"
+#include "../Components/AllComponentsHeaders.h"
 
 using namespace TGEngine::core;
 
@@ -37,7 +38,7 @@ void Node::loadProperty(const std::string &prefix)
     parseData(this, json["childs"].GetArray());
   }
 
-  parseProperty(this, pathProperties);
+  parseProperty(this, pathProperties, prefix);
 }
 void Node::parseData(Node *node, const rapidjson::GenericValue<rapidjson::UTF8<char>>::Array &array)
 {
@@ -51,13 +52,33 @@ void Node::parseData(Node *node, const rapidjson::GenericValue<rapidjson::UTF8<c
     }
   }
 }
-void Node::parseProperty(Node *node, const std::string &pathProperties) {
+void Node::parseProperty(Node *node, const std::string &pathProperties, const std::string &prefix) {
   // TODO
   //  1. составляем список нод из nodes и создаем пустые ноды
   //  2. забираем все из properties и обновляет ноды через find
   // TODO then run without log warnings
 
-  auto propJson = GET_JSON(pathProperties);
+  auto propJson = GET_JSON_PREF(pathProperties, prefix);
+
   if (propJson.HasParseError() || !propJson.IsObject()) { return; }
+
+  for (auto &propList : propJson.GetObject()) {
+    auto nodeName = propList.name.GetString();
+
+    if (!propJson[nodeName].IsObject()) {
+      continue;
+    }
+    auto targetNode = node->findNode(nodeName);
+    for (auto &components : propJson[nodeName].GetObject()) {
+      std::string componentName = components.name.GetString();
+      //TODO change to map with enum!
+      if (componentName == static_cast<const char*>("TransformComponent")) {
+        targetNode->addComponent<TransformComponent>();
+      } else if (componentName == static_cast<const char*>("SpriteComponent")) {
+        targetNode->addComponent<SpriteComponent>();
+      }
+    }
+
+  }
 
 }

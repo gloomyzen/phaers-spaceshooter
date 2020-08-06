@@ -163,7 +163,7 @@ public:
 
 protected:
   void parseData(Node* node, const rapidjson::GenericValue<rapidjson::UTF8<char>>::Array &array);
-  void parseProperty(Node *node, const std::string &string);
+  void parseProperty(Node *node, const std::string &string, const std::string &prefix = "");
 
 };
 
