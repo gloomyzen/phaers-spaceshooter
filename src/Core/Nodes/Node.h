@@ -114,6 +114,10 @@ public:
     childs.emplace_back(node);
   }
 
+  bool hasChilds() {
+    return !childs.empty();
+  }
+
   std::string &getId() { return id; }
 
   void setId(std::string newId){ id = newId; }
@@ -127,12 +131,28 @@ public:
    * @param findId id искомого объекта
    * @return Node*
    */
-  Node* findNode(std::string findId) {
+  Node* findNode(const std::string &findId) {
     if (getId() == findId) return this;
     for (auto c : childs) {
       if (c->getId() == findId) return c;
+      if (c->hasChilds()) {
+        auto find = c->findNode(findId);
+        if (find != nullptr) {
+          return find;
+        }
+      }
     }
     return nullptr;
+  }
+
+  bool hasNode(const std::string &findId) {
+    if (getId() == findId) return true;
+    bool currentLevel = false;
+    for (auto c : childs) {
+      currentLevel = c->hasNode(findId);
+      if (currentLevel) return true;
+    }
+    return false;
   }
 
   /***

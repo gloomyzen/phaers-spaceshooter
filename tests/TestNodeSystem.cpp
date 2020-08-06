@@ -155,9 +155,27 @@ TEST(NodeSpriteComponen, NodeManagerTest)
 }
 
 TEST(NodeLoadProperty, NodeManagerTest) {
+  // Simple node
   auto node = new Node();
-  node->setId("gtest");
-  node->setModuleId("simpleNode");
+  node->setId("simpleNode");
+  node->setModuleId("gtest");
   node->loadProperty("../");
-//  EXPECT_TRUE(node->findNode("mainMenuBG") != nullptr);
+  EXPECT_FALSE(node->hasChilds());
+  EXPECT_TRUE(node->findNode("mainMenuBG") == nullptr);
+
+  // Node with childs
+  auto nodeNext = new Node();
+  nodeNext->setId("nodeWithChilds");
+  nodeNext->setModuleId("gtest");
+  nodeNext->loadProperty("../");
+  EXPECT_TRUE(nodeNext->hasChilds());
+  EXPECT_TRUE(nodeNext->findNode("mainMenuBG") == nullptr);
+  EXPECT_FALSE(nodeNext->hasNode("mainMenuBG"));
+  EXPECT_TRUE(nodeNext->hasNode("node1"));
+  EXPECT_TRUE(nodeNext->hasNode("testWrongName"));
+  EXPECT_TRUE(nodeNext->hasNode("node2"));
+  EXPECT_TRUE(nodeNext->hasNode("node2.1"));
+  EXPECT_TRUE(nodeNext->findNode("node2.1") != nullptr);
+  EXPECT_TRUE(nodeNext->findNode("node2.2") != nullptr);
+
 }
