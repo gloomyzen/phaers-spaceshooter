@@ -156,7 +156,8 @@ TEST(NodeSpriteComponen, NodeManagerTest)
 
 TEST(NodeLoadProperty, NodeManagerTest) {
   auto node = new Node();
-  node->setId("popup");
-  node->setModuleId("windows");
-  node->loadProperty();
+  node->setId("gtest");
+  node->setModuleId("simpleNode");
+  node->loadProperty("../");
+//  EXPECT_TRUE(node->findNode("mainMenuBG") != nullptr);
 }

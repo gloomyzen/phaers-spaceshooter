@@ -30,7 +30,7 @@ TEST(TestJsonFileRead, IncludeJsonTest) {
   /*** Note: need use ../ because all tests located in test folder */
   //usefull links: https://rapidjson.org/md_doc_stream.html#FileReadStream
   //usefull links: https://stackoverflow.com/questions/45248182/how-to-read-json-file-using-rapidjson-and-output-to-stdstring
-  std::ifstream ifs ("../resources/data/nodes/mainMenu.json", std::ifstream::in);
+  std::ifstream ifs ("../resources/data/nodes/gtest/simpleNode.json", std::ifstream::in);
   EXPECT_TRUE(ifs.is_open());
 
   //read
@@ -53,8 +53,8 @@ TEST(TestJsonFileRead, IncludeJsonTest) {
 TEST(TestCorJsonLoader, IncludeJsonTest) {
   using namespace TGEngine::core;
   ASSERT_TRUE(true);
-  auto json = GET_JSON_PREF("nodes/defaultScene.json", "../");
+  auto json = GET_JSON_PREF("nodes/gtest/simpleNode", "../");
   ASSERT_TRUE(json.IsObject());
-  auto notValidJson = GET_JSON_PREF("nodes/defaultSceneNotValid.json", "../");
+  auto notValidJson = GET_JSON_PREF("nodes/gtest/NotValid", "../");
   EXPECT_EQ(notValidJson.IsObject(), false);
 }

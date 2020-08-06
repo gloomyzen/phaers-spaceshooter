@@ -122,6 +122,11 @@ public:
 
   void setModuleId(std::string newModule){ moduleId = newModule; }
 
+  /***
+   * Поиск ноды потомка по id
+   * @param findId id искомого объекта
+   * @return Node*
+   */
   Node* findNode(std::string findId) {
     if (getId() == findId) return this;
     for (auto c : childs) {
@@ -130,7 +135,15 @@ public:
     return nullptr;
   }
 
-  void loadProperty();
+  /***
+   * Парсинг параметров из json файла
+   * @param prefix @only for GTests
+   */
+  void loadProperty(const std::string &prefix = "");
+
+protected:
+  void parseData(Node* node, const rapidjson::GenericValue<rapidjson::UTF8<char>>::Array &array);
+  void parseProperty(Node *node, const std::string &string);
 
 };
 

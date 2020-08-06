@@ -19,7 +19,7 @@ JsonLoader::~JsonLoader() {}
 rapidjson::Document JsonLoader::loadJson(const std::string &path, const std::string &prefix)
 {
   const std::string pref = prefix + propFolder;
-  std::ifstream ifs(pref + path, std::ifstream::in);
+  std::ifstream ifs(pref + path + ".json", std::ifstream::in);
   if (!ifs.is_open()) {
     return nullptr;
   }
