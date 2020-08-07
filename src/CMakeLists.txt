@@ -6,7 +6,7 @@ add_executable(main
         Core/Debug/Logger.h
         Core/Application.cpp Core/Application.h
         Core/GameApplication.cpp Core/GameApplication.h
-        Core/Loaders/TextureManager.cpp Core/Loaders/TextureManager.h
+        Core/Loaders/ResourceManager.cpp Core/Loaders/ResourceManager.h
         Core/DataTypes/Vector2D.cpp Core/DataTypes/Vector2D.h
         #### Components ####
         Core/Components/Component.h
@@ -25,7 +25,7 @@ add_executable(main
         #### Game Module ####
         Game/Interface/InterfaceModule.cpp Game/Interface/InterfaceModule.h
         Core/Loaders/JsonLoader.cpp Core/Loaders/JsonLoader.h
-        )
+        Core/Loaders/ResourceManager.cpp Core/Loaders/ResourceManager.h)
 
 set_property(TARGET main PROPERTY CXX_STANDARD 11)
 target_compile_options(main PRIVATE -Wall)

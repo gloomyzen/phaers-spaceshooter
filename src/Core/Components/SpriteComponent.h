@@ -3,7 +3,7 @@
 
 #include "AllComponentsHeaders.h"
 #include "SDL.h"
-#include "../Loaders/TextureManager.h"
+#include "../Loaders/ResourceManager.h"
 #include <map>
 #include "../moduleDefinitions.h"
 
@@ -65,9 +65,13 @@ namespace TGEngine::core {
             destRect.h = static_cast<int>(static_cast<float>(transform->getHeight()) * transform->getScale());
         }
 
-        void render() override { TextureManager::DrawFlip(texture, srcRect, destRect, spriteFlip); }
+        void render() override {
+            GET_RESOURCE_MANAGER().DrawFlip(texture, srcRect, destRect, spriteFlip);
+        }
 
-        void setTexture(const char *path) { texture = TextureManager::LoadTexture(path); }
+        void setTexture(const char *path) {
+            texture = GET_RESOURCE_MANAGER().LoadTexture(path);
+        }
 
         bool textureIsInited() { return texture != nullptr; }
 

@@ -4,7 +4,6 @@
 
 using namespace TGEngine::core;
 
-//TODO Need resource manager!
 SDL_Texture *TextureManager::LoadTexture(const char *fileName) {
     SDL_Surface *tempSurface = IMG_Load(fileName);
     SDL_Texture *texture = SDL_CreateTextureFromSurface(GET_APPLICATION().getRenderer(), tempSurface);

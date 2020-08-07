@@ -20,21 +20,15 @@ init_test(TestVector2D ./TestVector2D.cpp ../src/Core/DataTypes/Vector2D.cpp ../
 add_deps_to_test(TestVector2D project_dependency)
 #################### Node System ####################
 init_test(TestNodeSystem ./TestNodeSystem.cpp
-        ../src/Core/Nodes/Node.h
-        ../src/Core/Nodes/Node.cpp
-        ../src/Core/Nodes/NodeManager.h
-        ../src/Core/Nodes/NodeManager.cpp
+        ../src/Core/Nodes/Node.h ../src/Core/Nodes/Node.cpp
+        ../src/Core/Nodes/NodeManager.h ../src/Core/Nodes/NodeManager.cpp
         ../src/Core/Components/TransformComponent.h
-        ../src/Core/DataTypes/Vector2D.cpp
-        ../src/Core/DataTypes/Vector2D.h
+        ../src/Core/DataTypes/Vector2D.cpp ../src/Core/DataTypes/Vector2D.h
         ../src/Core/Components/SpriteComponent.h
-        ../src/Core/Loaders/TextureManager.cpp
-        ../src/Core/Loaders/TextureManager.h
+        ../src/Core/Loaders/ResourceManager.cpp ../src/Core/Loaders/ResourceManager.h
         ../src/Core/moduleDefinitions.h
-        ../src/Core/Application.cpp
-        ../src/Core/Application.h
-        ../src/Core/GameApplication.cpp
-        ../src/Core/GameApplication.h
+        ../src/Core/Application.cpp ../src/Core/Application.h
+        ../src/Core/GameApplication.cpp ../src/Core/GameApplication.h
         ../src/Core/Loaders/JsonLoader.h ../src/Core/Loaders/JsonLoader.cpp
         ../src/Core/Nodes/NodeFactory.h ../src/Core/Nodes/NodeFactory.cpp
         ../src/Core/Debug/Logger.h ../src/Core/Debug/Logger.cpp
