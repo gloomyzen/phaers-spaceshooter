@@ -3,7 +3,6 @@
 
 #include "../moduleDefinitions.h"
 #include "AllComponentsHeaders.h"
-#include <iostream>
 #include "SDL.h"
 
 namespace TGEngine::core {

@@ -1,5 +1,6 @@
 #include "TextureManager.h"
 #include "../GameApplication.h"
+#include "../Debug/Logger.h"
 
 using namespace TGEngine::core;
 
@@ -11,7 +12,7 @@ SDL_Texture *TextureManager::LoadTexture(const char *fileName) {
     SDL_FreeSurface(tempSurface);
 
     if (texture == nullptr) {
-        //TODO LOG_ERROR here and do nothing!
+        LOG_ERROR("Texture '" + static_cast<std::string>(fileName) + "' not loaded!");
     }
 
     return texture;

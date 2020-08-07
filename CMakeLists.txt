@@ -19,9 +19,9 @@ if (NOT CMAKE_BUILD_TYPE)
 endif ()
 
 if (${CMAKE_BUILD_TYPE} STREQUAL "Debug")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D__DEBUG__")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DDEBUG")
 else ()
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D__RELEASE__")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DRELEASE")
 endif ()
 
 include(ExternalProject)
@@ -69,7 +69,7 @@ endif ()
 #------------------------------------------------------------------------------
 if (EMSCRIPTEN)
 # TODO move this to cmake/platform/emscripten
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D__EMSCRIPTEN__")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DEMSCRIPTEN")
 
     # Enabling debug bar.
     if (${CMAKE_BUILD_TYPE} STREQUAL "Debug")
@@ -118,7 +118,7 @@ else () # Not Web
 
     # sdl
     if (APPLE OR MAC)
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D__APPLE__")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DAPPLE")
         set(CMAKE_MACOSX_RPATH 1)
         if (NOT EXISTS "${CMAKE_SOURCE_DIR}/lib/macOS/SDL2.framework")
             message("Downloading SDL2 frameworks")

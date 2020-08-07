@@ -1,27 +1,26 @@
 #ifndef TOWERDEFENSE_GAME_MODULEDEFINITIONS_H
 #define TOWERDEFENSE_GAME_MODULEDEFINITIONS_H
 
-#include <iostream>
 #ifdef WIN32
 #define SDL_MAIN_HANDLED //Do not delete this!
 #include <SDL.h>
 #include <SDL_image.h>
 #else
 #include <SDL2/SDL.h>
-#if defined(__APPLE__) || defined(APPLE)
+#if defined(APPLE) || defined(MACOS)
 #include <SDL2_image/SDL_image.h>
 #else
 #include <SDL2/SDL_image.h>
-#endif //__APPLE__ || APPLE
+#endif //APPLE || MACOS
 #endif
-#if defined(__EMSCRIPTEN__) || defined(EMSCRIPTEN)
+#if defined(EMSCRIPTEN)
 #include <emscripten.h>
 #define EMSCRIPTEN_FLAG 0;
 #else
 #define EMSCRIPTEN_FLAG 1;
-#endif //__EMSCRIPTEN__
+#endif //EMSCRIPTEN
 
-#if defined(__DEBUG__) || defined(DEBUG)
+#if defined(DEBUG)
 const bool debugMode = true;
 #else
 const bool debugMode = false;
@@ -29,11 +28,10 @@ const bool debugMode = false;
 
 
 #include <functional>
-#include <iostream>
 #include <stdexcept>
 #include <string>
 
-#ifdef __EMSCRIPTEN__
+#ifdef EMSCRIPTEN
 #include <emscripten.h>
 #include <emscripten/html5.h>
 #include <cmath>

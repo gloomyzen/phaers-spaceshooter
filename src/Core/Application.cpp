@@ -18,8 +18,7 @@ Application::Application()
         : state(stateReady), width(TGAME_WINDOW_WIDTH), height(TGAME_WINDOW_HEIGHT), title(TGAME_WINDOW_TITLE) {
     currentApplication = this;
 
-//  std::cout << "[Info] SDL initialisation" << std::endl;
-  LOG_INFO("SDL initialisation");
+    LOG_INFO("SDL initialisation");
 
     const int fullscreen_flag = 0; // for fullscreen SDL_WINDOW_FULLSCREEN
     const Uint32 render_flag = SDL_RENDERER_ACCELERATED;
@@ -32,25 +31,27 @@ Application::Application()
 #endif
     if ((isEmscripten() && SDL_Init(SDL_INIT_VIDEO) == 0) || (!isEmscripten() && SDL_Init(SDL_INIT_EVERYTHING) == 0)) {
         if (!SDL_SetHint(SDL_HINT_RENDER_VSYNC, "1")) {
-            std::cout << "[Warning] Vsync rendering not enabled!" << std::endl;
+            LOG_WARNING("Vsync rendering not enabled!");
         }
-        std::cout << "[Info] SDL initialized" << std::endl;
+        LOG_INFO("SDL initialized");
 
         window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height,
                                   fullscreen_flag);
-        if (window != nullptr) { std::cout << "[Info] Window created" << std::endl; }
+        if (window != nullptr) {
+            LOG_INFO("Window created");
+        }
 
         renderer = SDL_CreateRenderer(window, -1, render_flag);
         if (renderer != nullptr) {
             renderDrawColor();
             SDL_RenderClear(renderer);
-            std::cout << "[Info] Renderer created" << std::endl;
+            LOG_INFO("Renderer created");
         }
         //TODO    Application::camera = {0, 0, width, height};
         state = State::stateReady;
     } else {
         state = State::stateExit;
-        std::cout << "[Error] Couldn't init SDL!" << std::endl;
+        LOG_ERROR("Couldn't init SDL!");
     }
 }
 
@@ -105,7 +106,7 @@ void Application::run() {
 
     };
 
-#ifdef __EMSCRIPTEN__
+#ifdef EMSCRIPTEN
     emscripten_set_main_loop(loop_iteration, 0, 1);
 #else
     while (state == stateRun) { loop_iteration(); }
@@ -113,13 +114,13 @@ void Application::run() {
     SDL_DestroyRenderer(renderer);
     IMG_Quit();
     SDL_Quit();
-    std::cout << "[Info] Application stopped" << std::endl;
+    LOG_INFO("Application stopped");
 #endif
 }
 
 void Application::detectWindowDimensionChange() {
     int w, h;
-#if defined(__EMSCRIPTEN__) || defined(EMSCRIPTEN)
+#if defined(EMSCRIPTEN)
     emscripten_get_canvas_element_size("canvas", &w, &h);
 #else
     SDL_GetWindowSize(getWindow(), &w, &h);

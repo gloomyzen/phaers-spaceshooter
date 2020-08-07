@@ -3,7 +3,7 @@
 
 #include "Application.h"
 
-#ifdef __DEBUG__1
+#ifdef DEBUG1
 #include "Debug/ImGuiLoader.h"
 #endif
 
@@ -26,7 +26,7 @@ namespace TGEngine::core {
         void PostRender();
 
     private:
-#ifdef __DEBUG__1
+#ifdef DEBUG1
         ImGuiLoader *imGuiInstance = nullptr;
 #endif
     };
