@@ -6,41 +6,54 @@
 
 namespace TGEngine::core {
 
-class Vector2D
-{
-public:
-  Vector2D();
-  Vector2D(float x, float y);
+    class Vector2D {
+    public:
+        Vector2D();
 
-  float getX() const { return x; };
-  float getY() const { return y; };
+        Vector2D(float x, float y);
 
-  void setX(float _x) { x = _x; };
-  void setY(float _y) { y = _y; };
+        float getX() const { return x; };
 
-  Vector2D &Add(const Vector2D &vec);
-  Vector2D &Subtract(const Vector2D &vec);
-  Vector2D &Multiply(const Vector2D &vec);
-  Vector2D &Divide(const Vector2D &vec);
-  Vector2D &Zero();
+        float getY() const { return y; };
 
-  friend Vector2D &operator+(Vector2D &v1, const Vector2D &v2);
-  friend Vector2D &operator-(Vector2D &v1, const Vector2D &v2);
-  friend Vector2D &operator*(Vector2D &v1, const Vector2D &v2);
-  friend Vector2D &operator/(Vector2D &v1, const Vector2D &v2);
+        void setX(float _x) { x = _x; };
 
-  Vector2D &operator+=(const Vector2D &vec);
-  Vector2D &operator-=(const Vector2D &vec);
-  Vector2D &operator*=(const Vector2D &vec);
-  Vector2D &operator/=(const Vector2D &vec);
+        void setY(float _y) { y = _y; };
 
-  template<typename T> Vector2D &operator*(const T &i);
+        Vector2D &Add(const Vector2D &vec);
 
-  friend std::ostream &operator<<(std::ostream &stream, const Vector2D &vec);
+        Vector2D &Subtract(const Vector2D &vec);
 
-private:
-  float x, y;
-};
+        Vector2D &Multiply(const Vector2D &vec);
+
+        Vector2D &Divide(const Vector2D &vec);
+
+        Vector2D &Zero();
+
+        friend Vector2D &operator+(Vector2D &v1, const Vector2D &v2);
+
+        friend Vector2D &operator-(Vector2D &v1, const Vector2D &v2);
+
+        friend Vector2D &operator*(Vector2D &v1, const Vector2D &v2);
+
+        friend Vector2D &operator/(Vector2D &v1, const Vector2D &v2);
+
+        Vector2D &operator+=(const Vector2D &vec);
+
+        Vector2D &operator-=(const Vector2D &vec);
+
+        Vector2D &operator*=(const Vector2D &vec);
+
+        Vector2D &operator/=(const Vector2D &vec);
+
+        template<typename T>
+        Vector2D &operator*(const T &i);
+
+        friend std::ostream &operator<<(std::ostream &stream, const Vector2D &vec);
+
+    private:
+        float x, y;
+    };
 
 }
 

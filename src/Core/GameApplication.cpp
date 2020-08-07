@@ -2,10 +2,9 @@
 
 using namespace TGEngine::core;
 
-GameApplication::GameApplication() : Application()
-{
+GameApplication::GameApplication() : Application() {
 #ifdef __DEBUG__1
-  imGuiInstance = new ImGuiLoader(getWindow(), glslVersion);
+    imGuiInstance = new ImGuiLoader(getWindow(), glslVersion);
 #endif
 }
 
@@ -15,17 +14,18 @@ void GameApplication::ProcessInput() {}
 
 void GameApplication::Update() {
 #ifdef __DEBUG__1
-  imGuiInstance->Update(dt);
+    imGuiInstance->Update(dt);
 #endif
 }
+
 void GameApplication::Render() {
 #ifdef __DEBUG__1
-  imGuiInstance->Render();
+    imGuiInstance->Render();
 #endif
 }
 
 void GameApplication::PostRender() {
 #ifdef __DEBUG__1
-  imGuiInstance->PostRender();
+    imGuiInstance->PostRender();
 #endif
 }

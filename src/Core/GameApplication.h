@@ -2,6 +2,7 @@
 #define TOWERDEFENSE_GAME_GAMEAPPLICATION_H
 
 #include "Application.h"
+
 #ifdef __DEBUG__1
 #include "Debug/ImGuiLoader.h"
 #endif
@@ -10,21 +11,25 @@
 
 namespace TGEngine::core {
 
-class GameApplication : public Application
-{
-public:
-  GameApplication();
-  ~GameApplication();
-  void ProcessInput();
-  void Update();
-  void Render();
-  void PostRender();
+    class GameApplication : public Application {
+    public:
+        GameApplication();
 
-private:
+        ~GameApplication();
+
+        void ProcessInput();
+
+        void Update();
+
+        void Render();
+
+        void PostRender();
+
+    private:
 #ifdef __DEBUG__1
-  ImGuiLoader *imGuiInstance = nullptr;
+        ImGuiLoader *imGuiInstance = nullptr;
 #endif
-};
+    };
 
 }
 

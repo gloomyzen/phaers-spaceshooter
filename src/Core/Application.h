@@ -9,80 +9,89 @@
 
 namespace TGEngine::core {
 
-class Application
-{
-public:
-  Application();
+    class Application {
+    public:
+        Application();
 
-  virtual ~Application(){};
+        virtual ~Application() {};
 
-  virtual void ProcessInput(){};
-  virtual void Update(){};
-  virtual void Render(){};
-  virtual void PostRender(){};
+        virtual void ProcessInput() {};
+
+        virtual void Update() {};
+
+        virtual void Render() {};
+
+        virtual void PostRender() {};
 
 
-  static Application &getInstance();
+        static Application &getInstance();
 
-  // get the window
-  SDL_Window *getWindow();
+        // get the window
+        SDL_Window *getWindow();
 
-  // get the renderer
-  SDL_Renderer *getRenderer();
+        // get the renderer
+        SDL_Renderer *getRenderer();
 
-  // get the input events
-  SDL_Event &getEvents();
+        // get the input events
+        SDL_Event &getEvents();
 
-  // window control
-  void exit();
+        // window control
+        void exit();
 
-  // delta time between frame and time from beginning
-  int getFrameDeltaTime() const;
+        // delta time between frame and time from beginning
+        int getFrameDeltaTime() const;
 
-  // application run
-  void run();
+        // application run
+        void run();
 
-  // Application informations
-  [[maybe_unused]] int getWidth() const;
-  [[maybe_unused]] int getHeight() const;
-  [[maybe_unused]] float getWindowRatio() const;
-  [[maybe_unused]] bool windowDimensionChanged() const;
+        // Application informations
+        [[maybe_unused]] int getWidth() const;
+
+        [[maybe_unused]] int getHeight() const;
+
+        [[maybe_unused]] float getWindowRatio() const;
+
+        [[maybe_unused]] bool windowDimensionChanged() const;
+
 //  [[maybe_unused]] std::tuple<int, int, float> GetWindowResolution();
-  bool isEmscripten() const;
+        bool isEmscripten() const;
 
-private:
-  enum State { stateReady, stateRun, stateExit };
+    private:
+        enum State {
+            stateReady, stateRun, stateExit
+        };
 
-  State state;
+        State state;
 
-  Application &operator=(const Application &) { return *this; }
+        Application &operator=(const Application &) { return *this; }
 
-  SDL_Window *window = nullptr;
-  SDL_Renderer *renderer = nullptr;
-  SDL_Event event;
+        SDL_Window *window = nullptr;
+        SDL_Renderer *renderer = nullptr;
+        SDL_Event event;
 
-  void renderDrawColor();
+        void renderDrawColor();
 
-  // Time:
-  const int FPS = 60;
-  const int frameDelay = 1000 / FPS;
-  Uint32 frameStart;
-  int deltaTime;
+        // Time:
+        const int FPS = 60;
+        const int frameDelay = 1000 / FPS;
+        Uint32 frameStart;
+        int deltaTime;
 
-  // Dimensions:
-  int width;
-  int height;
-  bool dimensionChanged;
-  void detectWindowDimensionChange();
+        // Dimensions:
+        int width;
+        int height;
+        bool dimensionChanged;
 
-  // Runtime env
-  bool emscripten;
+        void detectWindowDimensionChange();
 
-protected:
-  Application(const Application &){};
+        // Runtime env
+        bool emscripten;
 
-  std::string title;
-};
+    protected:
+        Application(const Application &) {};
+
+        std::string title;
+    };
 
 }
 

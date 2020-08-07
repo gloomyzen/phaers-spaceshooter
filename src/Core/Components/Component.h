@@ -3,46 +3,44 @@
 
 namespace TGEngine::core {
 
-class Node;
+    class Node;
 
-class IComponent
-{
-private:
-  bool active = true;
+    class IComponent {
+    private:
+        bool active = true;
 
-public:
+    public:
 
-  IComponent(){};
-  IComponent(const IComponent &){};
+        IComponent() {};
+        IComponent(const IComponent &) {};
+        virtual ~IComponent() = default;
 
-  virtual ~IComponent() = default;
+        virtual void init() {}
+        virtual void update() {}
+        virtual void render() {}
 
-  virtual void init() {}
-  virtual void update() {}
-  virtual void render() {}
-  void destroy() { active = false; }
+        void destroy() { active = false; }
+        bool &getActive() { return active; };
+        bool isActive() const { return active; };
+        void setActive(bool _active) { active = _active; };
 
-  bool &getActive() { return active; };
-  bool isActive() const { return active; };
-  void setActive(bool _active) { active = _active; };
+        IComponent &operator=(const IComponent &) { return *this; }
+    };
 
-  IComponent &operator=(const IComponent &) { return *this; }
-};
+    class Component : public IComponent {
+    private:
+        Node *node;
+    public:
+        Component() {}
 
-class Component : public IComponent
-{
-private:
-  Node *node;
-public:
-  Component() {}
+        void init() {}
+        void update() {}
+        void render() {}
 
-  void init() {}
-  void update() {}
-  void render() {}
-  void setNode(Node* _node) { node = _node; }
-  Node &getNode() { return *node; }
-  ~Component() = default;
-};
+        void setNode(Node *_node) { node = _node; }
+        Node &getNode() { return *node; }
+        ~Component() = default;
+    };
 
 }
 

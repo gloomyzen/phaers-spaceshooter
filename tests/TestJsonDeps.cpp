@@ -7,7 +7,7 @@
 #include <rapidjson/ostreamwrapper.h>
 #include "../src/Core/Loaders/JsonLoader.h"
 
-int main(int argc, char** argv) {
+int main(int argc, char **argv) {
     testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
 }
@@ -27,23 +27,23 @@ TEST(TestJsonDeps, IncludeJsonTest) {
 }
 
 TEST(TestJsonFileRead, IncludeJsonTest) {
-  /*** Note: need use ../ because all tests located in test folder */
-  //usefull links: https://rapidjson.org/md_doc_stream.html#FileReadStream
-  //usefull links: https://stackoverflow.com/questions/45248182/how-to-read-json-file-using-rapidjson-and-output-to-stdstring
-  std::ifstream ifs ("../resources/data/nodes/gtest/simpleNode.json", std::ifstream::in);
-  EXPECT_TRUE(ifs.is_open());
+    /*** Note: need use ../ because all tests located in test folder */
+    //usefull links: https://rapidjson.org/md_doc_stream.html#FileReadStream
+    //usefull links: https://stackoverflow.com/questions/45248182/how-to-read-json-file-using-rapidjson-and-output-to-stdstring
+    std::ifstream ifs("../resources/data/nodes/gtest/simpleNode.json", std::ifstream::in);
+    EXPECT_TRUE(ifs.is_open());
 
-  //read
-  rapidjson::IStreamWrapper isw { ifs };
+    //read
+    rapidjson::IStreamWrapper isw{ifs};
 
-  rapidjson::Document document {};
-  document.ParseStream( isw );
-  ASSERT_TRUE(document.IsObject());
-  ASSERT_TRUE(document.HasMember("type"));
-  ASSERT_TRUE(document["type"].IsString());
-  EXPECT_EQ(document["type"], "node");
+    rapidjson::Document document{};
+    document.ParseStream(isw);
+    ASSERT_TRUE(document.IsObject());
+    ASSERT_TRUE(document.HasMember("type"));
+    ASSERT_TRUE(document["type"].IsString());
+    EXPECT_EQ(document["type"], "node");
 
-  //write
+    //write
 //  rapidjson::StringBuffer buffer {};
 //  rapidjson::Writer<rapidjson::StringBuffer> writer { buffer };
 //  document.Accept( writer );
@@ -51,10 +51,10 @@ TEST(TestJsonFileRead, IncludeJsonTest) {
 }
 
 TEST(TestCorJsonLoader, IncludeJsonTest) {
-  using namespace TGEngine::core;
-  ASSERT_TRUE(true);
-  auto json = GET_JSON_PREF("nodes/gtest/simpleNode", "../");
-  ASSERT_TRUE(json.IsObject());
-  auto notValidJson = GET_JSON_PREF("nodes/gtest/NotValid", "../");
-  EXPECT_EQ(notValidJson.IsObject(), false);
+    using namespace TGEngine::core;
+    ASSERT_TRUE(true);
+    auto json = GET_JSON_PREF("nodes/gtest/simpleNode", "../");
+    ASSERT_TRUE(json.IsObject());
+    auto notValidJson = GET_JSON_PREF("nodes/gtest/NotValid", "../");
+    EXPECT_EQ(notValidJson.IsObject(), false);
 }
