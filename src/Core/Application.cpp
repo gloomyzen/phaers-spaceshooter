@@ -1,4 +1,5 @@
 #include "Application.h"
+#include "Debug/Logger.h"
 
 using namespace TGEngine::core;
 
@@ -17,7 +18,8 @@ Application::Application()
         : state(stateReady), width(TGAME_WINDOW_WIDTH), height(TGAME_WINDOW_HEIGHT), title(TGAME_WINDOW_TITLE) {
     currentApplication = this;
 
-    std::cout << "[Info] SDL initialisation" << std::endl;
+//  std::cout << "[Info] SDL initialisation" << std::endl;
+  LOG_INFO("SDL initialisation");
 
     const int fullscreen_flag = 0; // for fullscreen SDL_WINDOW_FULLSCREEN
     const Uint32 render_flag = SDL_RENDERER_ACCELERATED;

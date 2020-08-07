@@ -2,6 +2,8 @@
 add_executable(main
         main.cpp
         Core/moduleDefinitions.h
+        Core/Debug/Logger.cpp
+        Core/Debug/Logger.h
         Core/Application.cpp Core/Application.h
         Core/GameApplication.cpp Core/GameApplication.h
         Core/Loaders/TextureManager.cpp Core/Loaders/TextureManager.h
