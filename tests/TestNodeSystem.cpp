@@ -3,6 +3,7 @@
 #include "../src/Core/Nodes/NodeManager.h"
 #include "../src/Core/Components/TransformComponent.h"
 #include "../src/Core/Components/SpriteComponent.h"
+#include "../src/Core/Nodes/NodeFactory.h"
 
 using namespace TGEngine::core;
 
@@ -179,4 +180,15 @@ TEST(NodeLoadProperty, NodeManagerTest) {
   EXPECT_TRUE(nodeNext->hasNode("node2.1"));
   EXPECT_TRUE(nodeNext->findNode("node2.1") != nullptr);
   EXPECT_TRUE(nodeNext->findNode("node2.2") != nullptr);
+}
+
+TEST(NodeNodeFactory, NodeManagerTest) {
+
+  EXPECT_TRUE(NodeFactory::hasRegisteredComponent("TransformComponent"));
+  EXPECT_TRUE(NodeFactory::hasRegisteredComponent("SpriteComponent"));
+  EXPECT_TRUE(NodeFactory::hasRegisteredComponent("AnimspriteComponent"));
+  auto *node = new Node();
+  node->setId("nodeWithChilds");
+  node->setModuleId("gtest");
+
 }

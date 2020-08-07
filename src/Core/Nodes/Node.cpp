@@ -1,5 +1,6 @@
 #include "Node.h"
 #include "../Components/AllComponentsHeaders.h"
+#include "../Nodes/NodeFactory.h"
 
 using namespace TGEngine::core;
 
@@ -68,15 +69,10 @@ void Node::parseProperty(Node *node, const std::string &pathProperties, const st
     if (!propJson[nodeName].IsObject()) {
       continue;
     }
-    auto targetNode = node->findNode(nodeName);
-    for (auto &components : propJson[nodeName].GetObject()) {
-      std::string componentName = components.name.GetString();
-      //TODO change to map with enum!
-      if (componentName == static_cast<const char*>("TransformComponent")) {
-        targetNode->addComponent<TransformComponent>();
-      } else if (componentName == static_cast<const char*>("SpriteComponent")) {
-        targetNode->addComponent<SpriteComponent>();
-      }
+    auto *targetNode = node->findNode(nodeName);
+    for (auto &item : propJson[nodeName].GetObject()) {
+      std::string componentName = item.name.GetString();
+      NodeFactory::getComponents(targetNode, componentName);
     }
 
   }

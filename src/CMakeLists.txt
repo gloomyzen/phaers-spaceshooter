@@ -19,7 +19,7 @@ add_executable(main
         #### Nodes ####
         Core/Nodes/Node.h Core/Nodes/Node.cpp
         Core/Nodes/NodeManager.h Core/Nodes/NodeManager.cpp
-        Core/Nodes/PropertyNode.cpp Core/Nodes/PropertyNode.h
+        Core/Nodes/NodeFactory.h Core/Nodes/NodeFactory.cpp
         #### Game Module ####
         Game/Interface/InterfaceModule.cpp Game/Interface/InterfaceModule.h
         Core/Loaders/JsonLoader.cpp Core/Loaders/JsonLoader.h
