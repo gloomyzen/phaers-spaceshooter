@@ -22,10 +22,13 @@ add_executable(main
         Core/Nodes/Node.h Core/Nodes/Node.cpp
         Core/Nodes/NodeManager.h Core/Nodes/NodeManager.cpp
         Core/Nodes/NodeFactory.h Core/Nodes/NodeFactory.cpp
+        #### Resources managers ####
+        Core/Loaders/ResourceManager.cpp Core/Loaders/ResourceManager.h
+        Core/Loaders/JsonLoader.cpp Core/Loaders/JsonLoader.h
         #### Game Module ####
         Game/Interface/InterfaceModule.cpp Game/Interface/InterfaceModule.h
-        Core/Loaders/JsonLoader.cpp Core/Loaders/JsonLoader.h
-        Core/Loaders/ResourceManager.cpp Core/Loaders/ResourceManager.h)
+        Game/Scenes/ScenesModule.cpp Game/Scenes/ScenesModule.h
+        )
 
 set_property(TARGET main PROPERTY CXX_STANDARD 11)
 target_compile_options(main PRIVATE -Wall)

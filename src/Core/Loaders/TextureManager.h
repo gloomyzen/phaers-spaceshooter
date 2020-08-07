@@ -3,7 +3,7 @@
 
 #include "../moduleDefinitions.h"
 
-namespace TGEngine::core {
+namespace TGEngine::core::deprecated {
 
     class TextureManager {
     public:

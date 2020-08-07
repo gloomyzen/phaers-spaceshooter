@@ -2,7 +2,7 @@
 #include "../GameApplication.h"
 #include "../Debug/Logger.h"
 
-using namespace TGEngine::core;
+using namespace TGEngine::core::deprecated;
 
 SDL_Texture *TextureManager::LoadTexture(const char *fileName) {
     SDL_Surface *tempSurface = IMG_Load(fileName);

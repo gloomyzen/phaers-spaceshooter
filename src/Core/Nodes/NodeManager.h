@@ -32,6 +32,10 @@ namespace TGEngine::core {
                 return nullptr;
             }
 
+            void init() {
+                //TODO Load Scenes with states
+            }
+
             void update() {
                 for (auto &n : nodes) n->update();
             }
