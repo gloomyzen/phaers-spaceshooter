@@ -4,6 +4,7 @@
 #include "../moduleDefinitions.h"
 #include "Component.h"
 #include "../DataTypes/Vector2D.h"
+#include "../Debug/Logger.h"
 
 // TODO need rotation
 namespace TGEngine::core {
@@ -41,7 +42,7 @@ namespace TGEngine::core {
             if (_width >= 0) {
                 width = _width;
             } else {
-                //TODO Add here Log_error and do nothing!
+                LOG_ERROR("TransformComponent::setWidth Trying add to width value '" + std::to_string(_width) + "'!");
             }
         }
 
@@ -49,7 +50,7 @@ namespace TGEngine::core {
             if (_height >= 0) {
                 height = _height;
             } else {
-                //TODO Add here Log_error and do nothing!
+                LOG_ERROR("TransformComponent::setHeight Trying add to height value '" + std::to_string(_height) + "'!");
             }
         }
 
@@ -63,7 +64,7 @@ namespace TGEngine::core {
             if (_scale >= 0 && _scale <= 10) {
                 scale = _scale;
             } else {
-                //TODO Add here Log_error and do nothing!
+                LOG_ERROR("TransformComponent::setScale Trying add to scale value '" + std::to_string(_scale) + "'!");
             }
         }
 

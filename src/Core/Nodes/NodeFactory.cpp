@@ -1,4 +1,5 @@
 #include "NodeFactory.h"
+#include "../Debug/Logger.h"
 
 using namespace TGEngine::core;
 
@@ -13,7 +14,7 @@ void NodeFactory::getComponents(Node *node, const std::string &componentName) {
         return;
 
     if (!hasRegisteredComponent(componentName)) {
-        //TODO LOG_ERROR!!!
+        LOG_ERROR("NodeFactory::getComponents Component '" + componentName + "' was not found!");
         return;
     }
 

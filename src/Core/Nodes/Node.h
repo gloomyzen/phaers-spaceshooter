@@ -8,6 +8,7 @@
 #include <array>
 #include "../Components/Component.h"
 #include "../Loaders/JsonLoader.h"
+#include "../Debug/Logger.h"
 
 namespace TGEngine::core {
 
@@ -107,7 +108,7 @@ namespace TGEngine::core {
 
         void addChild(Node *node) {
             if (node->getId().empty()) {
-                //TODO LOG_ERROR this!
+                LOG_ERROR("Node::addChild Child node has no identifier!");
                 return;
             }
             childs.emplace_back(node);

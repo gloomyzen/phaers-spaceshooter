@@ -31,7 +31,7 @@ Application::Application()
 #endif
     if ((isEmscripten() && SDL_Init(SDL_INIT_VIDEO) == 0) || (!isEmscripten() && SDL_Init(SDL_INIT_EVERYTHING) == 0)) {
         if (!SDL_SetHint(SDL_HINT_RENDER_VSYNC, "1")) {
-            LOG_WARNING("Vsync rendering not enabled!");
+            LOG_WARNING("Application::Application Vsync rendering not enabled!");
         }
         LOG_INFO("SDL initialized");
 
@@ -51,7 +51,7 @@ Application::Application()
         state = State::stateReady;
     } else {
         state = State::stateExit;
-        LOG_ERROR("Couldn't init SDL!");
+        LOG_ERROR("Application::Application Couldn't init SDL!");
     }
 }
 

@@ -6,7 +6,7 @@ using namespace TGEngine::core;
 
 void Node::loadProperty(const std::string &prefix) {
     if (getId().empty()) {
-        // TODO LOG_ERROR this!
+        LOG_ERROR("Node::loadProperty Node has no identifier!");
         return;
     }
 
@@ -22,16 +22,17 @@ void Node::loadProperty(const std::string &prefix) {
 
     auto json = GET_JSON_PREF(pathNodes, prefix);
     if (json.HasParseError() || !json.IsObject()) {
-        // TODO LOG_ERROR("Node::loadProperty json file 'pathNodes' is not valid!")
+        LOG_ERROR("Node::loadProperty Json file '" + pathNodes + "' is not valid!");
         return;
     }
     if (!json.HasMember("type") || !json.HasMember("name") || !json["type"].IsString() || !json["name"].IsString()) {
-        // TODO LOG_ERROR("Node::loadProperty json file 'pathNodes' not has 'type' and 'name'!")
+        LOG_ERROR("Node::loadProperty Json file '" + pathNodes + "' not has 'type' and 'name'!");
         return;
     }
 
     if (json["name"].GetString() != getId()) {
-        // TODO LOG_ERROR("Node::loadProperty and id: getId() is not match!")
+        LOG_ERROR("Node::loadProperty Node id: '" + static_cast<std::string>(json["name"].GetString()) + "' and getId() '" + getId() + "' is not match!");
+        return;
     }
 
     if (json.HasMember("childs") && json["childs"].IsArray()) {

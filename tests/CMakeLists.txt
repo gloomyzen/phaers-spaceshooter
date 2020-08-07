@@ -37,6 +37,7 @@ init_test(TestNodeSystem ./TestNodeSystem.cpp
         ../src/Core/GameApplication.h
         ../src/Core/Loaders/JsonLoader.h ../src/Core/Loaders/JsonLoader.cpp
         ../src/Core/Nodes/NodeFactory.h ../src/Core/Nodes/NodeFactory.cpp
+        ../src/Core/Debug/Logger.h ../src/Core/Debug/Logger.cpp
         )
 add_deps_to_test(TestNodeSystem project_dependency)
 

@@ -12,7 +12,7 @@ SDL_Texture *TextureManager::LoadTexture(const char *fileName) {
     SDL_FreeSurface(tempSurface);
 
     if (texture == nullptr) {
-        LOG_ERROR("Texture '" + static_cast<std::string>(fileName) + "' not loaded!");
+        LOG_ERROR("TextureManager::LoadTexture Texture '" + static_cast<std::string>(fileName) + "' not loaded!");
     }
 
     return texture;
