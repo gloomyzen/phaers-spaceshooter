@@ -1,23 +1,16 @@
-#include "ResourceManager.h"
-#include "../GameApplication.h"
-#include "../Debug/Logger.h"
+#include "TextureManager.h"
+#include "../../GameApplication.h"
+#include "../../Debug/Logger.h"
 
 using namespace TGEngine::core;
 
-ResourceManager *currentResourceManager = nullptr;
+TextureManager::TextureManager() {}
 
-ResourceManager::ResourceManager() {}
-
-ResourceManager::~ResourceManager() {}
-
-ResourceManager &ResourceManager::getInstance() {
-    if (currentResourceManager == nullptr) {
-        currentResourceManager =  new ResourceManager();
-    }
-    return *currentResourceManager;
+TextureManager::~TextureManager() {
+    clearStorage();
 }
 
-SDL_Texture *ResourceManager::LoadTexture(const char *fileName) {
+SDL_Texture *TextureManager::LoadTexture(const char *fileName) {
     if (hasLoadedTexture(fileName)) {
         return texturesMap[fileName];
     }
@@ -34,14 +27,18 @@ SDL_Texture *ResourceManager::LoadTexture(const char *fileName) {
     return texture;
 }
 
-void ResourceManager::Draw(SDL_Texture *tex, SDL_Rect src, SDL_Rect dest) {
+void TextureManager::Draw(SDL_Texture *tex, SDL_Rect src, SDL_Rect dest) {
     SDL_RenderCopy(GET_APPLICATION().getRenderer(), tex, &src, &dest);
 }
 
-void ResourceManager::DrawFlip(SDL_Texture *tex, SDL_Rect src, SDL_Rect dest, double angle, SDL_RendererFlip flip) {
+void TextureManager::DrawFlip(SDL_Texture *tex, SDL_Rect src, SDL_Rect dest, double angle, SDL_RendererFlip flip) {
     SDL_RenderCopyEx(GET_APPLICATION().getRenderer(), tex, &src, &dest, angle, nullptr, flip);
 }
 
-bool ResourceManager::hasLoadedTexture(const char *fileName) {
+bool TextureManager::hasLoadedTexture(const char *fileName) {
     return texturesMap.find(fileName) != texturesMap.end();
+}
+
+void TextureManager::clearStorage() {
+    texturesMap.clear();
 }

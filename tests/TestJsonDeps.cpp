@@ -5,7 +5,8 @@
 #include <rapidjson/writer.h>
 #include <rapidjson/stringbuffer.h>
 #include <rapidjson/ostreamwrapper.h>
-#include "../src/Core/Loaders/JsonLoader.h"
+#include "../src/Core/ResourceModule/ResourceManager.h"
+#include "../src/Core/ResourceModule/Loaders/JsonLoader.h"
 
 int main(int argc, char **argv) {
     testing::InitGoogleTest(&argc, argv);

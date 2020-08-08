@@ -3,7 +3,7 @@
 
 #include "AllComponentsHeaders.h"
 #include "SDL.h"
-#include "../Loaders/ResourceManager.h"
+#include "../ResourceModule/ResourceManager.h"
 #include <map>
 #include "../moduleDefinitions.h"
 
@@ -66,11 +66,11 @@ namespace TGEngine::core {
         }
 
         void render() override {
-            GET_RESOURCE_MANAGER().DrawFlip(texture, srcRect, destRect, spriteFlip);
+            GET_TEXTURE_MANAGER()->DrawFlip(texture, srcRect, destRect, spriteFlip);
         }
 
         void setTexture(const char *path) {
-            texture = GET_RESOURCE_MANAGER().LoadTexture(path);
+            texture = GET_TEXTURE_MANAGER()->LoadTexture(path);
         }
 
         bool textureIsInited() { return texture != nullptr; }

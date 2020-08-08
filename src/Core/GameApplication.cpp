@@ -10,7 +10,7 @@ GameApplication::GameApplication() : Application() {
 }
 
 GameApplication::~GameApplication() {
-    GET_NODE_MANAGER().init();
+//    GET_NODE_MANAGER().init();
 }
 
 void GameApplication::ProcessInput() {}
@@ -19,14 +19,14 @@ void GameApplication::Update() {
 #ifdef DEBUG1
     imGuiInstance->Update(dt);
 #endif
-    GET_NODE_MANAGER().update();
+//    GET_NODE_MANAGER().update();
 }
 
 void GameApplication::Render() {
 #ifdef DEBUG1
     imGuiInstance->Render();
 #endif
-    GET_NODE_MANAGER().render();
+//    GET_NODE_MANAGER().render();
 }
 
 void GameApplication::PostRender() {

@@ -13,7 +13,23 @@ function(ADD_DEPS_TO_TEST ARG_TARGET)
 endfunction()
 
 ################### General tests ###################
-init_test(TestJsonDeps ./TestJsonDeps.cpp ../src/Core/Loaders/JsonLoader.h ../src/Core/Loaders/JsonLoader.cpp)
+init_test(TestJsonDeps ./TestJsonDeps.cpp
+        ../src/Core/Nodes/Node.h ../src/Core/Nodes/Node.cpp
+        ../src/Core/Nodes/NodeManager.h ../src/Core/Nodes/NodeManager.cpp
+        ../src/Core/Components/TransformComponent.h
+        ../src/Core/DataTypes/Vector2D.cpp ../src/Core/DataTypes/Vector2D.h
+        ../src/Core/Components/SpriteComponent.h
+        ../src/Core/moduleDefinitions.h
+        ../src/Core/Application.cpp ../src/Core/Application.h
+        ../src/Core/GameApplication.cpp ../src/Core/GameApplication.h
+        ../src/Core/Nodes/NodeFactory.h ../src/Core/Nodes/NodeFactory.cpp
+        ../src/Core/Debug/Logger.h ../src/Core/Debug/Logger.cpp
+        #### Resources managers ####
+        ../src/Core/ResourceModule/ResourceManager.cpp ../src/Core/ResourceModule/ResourceManager.h
+        ../src/Core/ResourceModule/Loaders/TextureManager.cpp ../src/Core/ResourceModule/Loaders/TextureManager.h
+        ../src/Core/ResourceModule/Loaders/JsonLoader.cpp ../src/Core/ResourceModule/Loaders/JsonLoader.h
+        )
+add_deps_to_test(TestJsonDeps project_dependency)
 
 #################### Core Module ####################
 init_test(TestVector2D ./TestVector2D.cpp ../src/Core/DataTypes/Vector2D.cpp ../src/Core/DataTypes/Vector2D.h)
@@ -25,13 +41,15 @@ init_test(TestNodeSystem ./TestNodeSystem.cpp
         ../src/Core/Components/TransformComponent.h
         ../src/Core/DataTypes/Vector2D.cpp ../src/Core/DataTypes/Vector2D.h
         ../src/Core/Components/SpriteComponent.h
-        ../src/Core/Loaders/ResourceManager.cpp ../src/Core/Loaders/ResourceManager.h
         ../src/Core/moduleDefinitions.h
         ../src/Core/Application.cpp ../src/Core/Application.h
         ../src/Core/GameApplication.cpp ../src/Core/GameApplication.h
-        ../src/Core/Loaders/JsonLoader.h ../src/Core/Loaders/JsonLoader.cpp
         ../src/Core/Nodes/NodeFactory.h ../src/Core/Nodes/NodeFactory.cpp
         ../src/Core/Debug/Logger.h ../src/Core/Debug/Logger.cpp
+        #### Resources managers ####
+        ../src/Core/ResourceModule/ResourceManager.cpp ../src/Core/ResourceModule/ResourceManager.h
+        ../src/Core/ResourceModule/Loaders/TextureManager.cpp ../src/Core/ResourceModule/Loaders/TextureManager.h
+        ../src/Core/ResourceModule/Loaders/JsonLoader.cpp ../src/Core/ResourceModule/Loaders/JsonLoader.h
         )
 add_deps_to_test(TestNodeSystem project_dependency)
 

@@ -7,7 +7,7 @@
 #include <bitset>
 #include <array>
 #include "../Components/Component.h"
-#include "../Loaders/JsonLoader.h"
+#include "../ResourceModule/Loaders/JsonLoader.h"
 #include "../Debug/Logger.h"
 
 namespace TGEngine::core {

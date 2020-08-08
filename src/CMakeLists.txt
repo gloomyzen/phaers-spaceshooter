@@ -2,11 +2,12 @@
 add_executable(main
         main.cpp
         Core/moduleDefinitions.h
+        #### DEBUG ####
         Core/Debug/Logger.cpp
         Core/Debug/Logger.h
+        #### APPLICATION ####
         Core/Application.cpp Core/Application.h
         Core/GameApplication.cpp Core/GameApplication.h
-        Core/Loaders/ResourceManager.cpp Core/Loaders/ResourceManager.h
         Core/DataTypes/Vector2D.cpp Core/DataTypes/Vector2D.h
         #### Components ####
         Core/Components/Component.h
@@ -23,8 +24,9 @@ add_executable(main
         Core/Nodes/NodeManager.h Core/Nodes/NodeManager.cpp
         Core/Nodes/NodeFactory.h Core/Nodes/NodeFactory.cpp
         #### Resources managers ####
-        Core/Loaders/ResourceManager.cpp Core/Loaders/ResourceManager.h
-        Core/Loaders/JsonLoader.cpp Core/Loaders/JsonLoader.h
+        Core/ResourceModule/ResourceManager.cpp Core/ResourceModule/ResourceManager.h
+        Core/ResourceModule/Loaders/TextureManager.cpp Core/ResourceModule/Loaders/TextureManager.h
+        Core/ResourceModule/Loaders/JsonLoader.cpp Core/ResourceModule/Loaders/JsonLoader.h
         #### Game Module ####
         Game/Interface/InterfaceModule.cpp Game/Interface/InterfaceModule.h
         Game/Scenes/ScenesModule.cpp Game/Scenes/ScenesModule.h
@@ -35,6 +37,9 @@ target_compile_options(main PRIVATE -Wall)
 
 target_link_libraries(
         main PRIVATE project_options project_dependency project_warnings)
+
+#add_library(core_module INTERFACE)
+#add_library(game_module INTERFACE)
 
 if (EMSCRIPTEN)
     set_target_properties(main PROPERTIES OUTPUT_NAME "main.js")

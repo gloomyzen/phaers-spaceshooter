@@ -118,9 +118,9 @@ TEST(NodeTransformComponent, NodeManagerTest) {
     EXPECT_EQ(transform.getHeight(), testHeight);
     EXPECT_EQ(transform.getScale(), testScale);
     //test wrong values
-    transform.setWidth(-15);
-    transform.setHeight(-25);
-    transform.setScale(-1);
+    transform.setWidth(-15);    //May be generate log error
+    transform.setHeight(-25);  //May be generate log error
+    transform.setScale(-1);     //May be generate log error
     EXPECT_EQ(transform.getWidth(), testWidth);
     EXPECT_EQ(transform.getHeight(), testHeight);
     EXPECT_EQ(transform.getScale(), testScale);

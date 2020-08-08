@@ -1,20 +1,16 @@
-#ifndef TOWERDEFENSE_GAME_RESOURCEMANAGER_H
-#define TOWERDEFENSE_GAME_RESOURCEMANAGER_H
+#ifndef TOWERDEFENSE_GAME_TEXTUREMANAGER_H
+#define TOWERDEFENSE_GAME_TEXTUREMANAGER_H
 
-#include "../moduleDefinitions.h"
+#include "../../moduleDefinitions.h"
 #include <map>
 #include <string>
 
-#define GET_RESOURCE_MANAGER() TGEngine::core::ResourceManager::getInstance()
-
 namespace TGEngine::core {
 
-    class ResourceManager {
+    class TextureManager {
     public:
-        ResourceManager();
-        ~ResourceManager();
-
-        static ResourceManager &getInstance();
+        TextureManager();
+        ~TextureManager();
 
         bool hasLoadedTexture(const char *fileName);
 
@@ -24,6 +20,8 @@ namespace TGEngine::core {
 
         void DrawFlip(SDL_Texture *tex, SDL_Rect src, SDL_Rect dest, double angle = 0.0, SDL_RendererFlip flip = SDL_FLIP_NONE);
 
+        void clearStorage();
+
     private:
         std::map<const char *, SDL_Texture*> texturesMap{};
     };
@@ -31,4 +29,4 @@ namespace TGEngine::core {
 }//TGEngine::core
 
 
-#endif //TOWERDEFENSE_GAME_RESOURCEMANAGER_H
+#endif //TOWERDEFENSE_GAME_TEXTUREMANAGER_H

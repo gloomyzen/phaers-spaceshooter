@@ -9,9 +9,6 @@
 #include <rapidjson/ostreamwrapper.h>
 #include <string>
 
-#define GET_JSON(L) TGEngine::core::JsonLoader().getInstance().loadJson(L)
-#define GET_JSON_PREF(L, K) TGEngine::core::JsonLoader().getInstance().loadJson(L, K)
-
 namespace TGEngine::core {
 
     class JsonLoader {
@@ -19,8 +16,6 @@ namespace TGEngine::core {
         JsonLoader();
 
         ~JsonLoader();
-
-        static JsonLoader &getInstance();
 
         /**
          * Method for load unparsed json, as is, with is object check
