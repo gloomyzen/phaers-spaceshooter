@@ -16,7 +16,7 @@ namespace TGEngine::core {
 
     class NodeFactory {
     public:
-        static void getComponents(Node *node, const std::string &componentName);
+        static void getComponents(Node *node, const std::string &componentName, const rapidjson::GenericValue<rapidjson::UTF8<char>>::Object &object);
 
         static bool hasRegisteredComponent(const std::string &componentName);
     };

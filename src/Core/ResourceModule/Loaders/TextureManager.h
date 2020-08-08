@@ -12,9 +12,9 @@ namespace TGEngine::core {
         TextureManager();
         ~TextureManager();
 
-        bool hasLoadedTexture(const char *fileName);
+        bool hasLoadedTexture(const char *filePath);
 
-        SDL_Texture *LoadTexture(const char *fileName);
+        SDL_Texture *LoadTexture(const char *filePath);
 
         void Draw(SDL_Texture *tex, SDL_Rect src, SDL_Rect dest);
 

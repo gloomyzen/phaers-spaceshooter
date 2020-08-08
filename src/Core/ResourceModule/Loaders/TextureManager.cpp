@@ -10,19 +10,21 @@ TextureManager::~TextureManager() {
     clearStorage();
 }
 
-SDL_Texture *TextureManager::LoadTexture(const char *fileName) {
-    if (hasLoadedTexture(fileName)) {
-        return texturesMap[fileName];
+SDL_Texture *TextureManager::LoadTexture(const char *filePath) {
+    std::string fullPath = "resources/sprites/";
+    fullPath += filePath;
+    if (hasLoadedTexture(fullPath.c_str())) {
+        return texturesMap[fullPath.c_str()];
     }
-    SDL_Surface *tempSurface = IMG_Load(fileName);
+    SDL_Surface *tempSurface = IMG_Load(fullPath.c_str());
     SDL_Texture *texture = SDL_CreateTextureFromSurface(GET_APPLICATION().getRenderer(), tempSurface);
 
     SDL_FreeSurface(tempSurface);
 
     if (texture == nullptr) {
-        LOG_ERROR("ResourceManager::LoadTexture Texture '" + static_cast<std::string>(fileName) + "' not loaded!");
+        LOG_ERROR("ResourceManager::LoadTexture Texture '" + fullPath + "' not loaded!");
     }
-    texturesMap.insert(std::pair(fileName, texture));
+    texturesMap.insert(std::pair(fullPath.c_str(), texture));
 
     return texture;
 }
@@ -35,8 +37,8 @@ void TextureManager::DrawFlip(SDL_Texture *tex, SDL_Rect src, SDL_Rect dest, dou
     SDL_RenderCopyEx(GET_APPLICATION().getRenderer(), tex, &src, &dest, angle, nullptr, flip);
 }
 
-bool TextureManager::hasLoadedTexture(const char *fileName) {
-    return texturesMap.find(fileName) != texturesMap.end();
+bool TextureManager::hasLoadedTexture(const char *filePath) {
+    return texturesMap.find(filePath) != texturesMap.end();
 }
 
 void TextureManager::clearStorage() {

@@ -73,7 +73,9 @@ void Node::parseProperty(Node *node, const std::string &pathProperties, const st
         auto *targetNode = node->findNode(nodeName);
         for (auto &item : propJson[nodeName].GetObject()) {
             std::string componentName = item.name.GetString();
-            NodeFactory::getComponents(targetNode, componentName);
+            if (item.value.IsObject()) {
+                NodeFactory::getComponents(targetNode, componentName, item.value.GetObject());
+            }
         }
 
     }

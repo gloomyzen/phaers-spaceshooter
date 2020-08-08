@@ -163,7 +163,7 @@ TEST(NodeLoadProperty, NodeManagerTest) {
     EXPECT_FALSE(node->hasChilds());
     EXPECT_TRUE(node->findNode("mainMenuBG") == nullptr);
     EXPECT_TRUE(node->hasComponent<TransformComponent>());
-    EXPECT_FALSE(node->hasComponent<SpriteComponent>());
+    EXPECT_TRUE(node->hasComponent<SpriteComponent>());
 
     // Node with childs
     auto nodeNext = new Node();
@@ -188,15 +188,14 @@ TEST(NodeNodeFactory, NodeManagerTest) {
     EXPECT_TRUE(NodeFactory::hasRegisteredComponent("AnimspriteComponent"));
 
     auto *node = new Node();
-    node->setId("nodeWithChilds");
+    node->setId("simpleNode");
     node->setModuleId("gtest");
 
     EXPECT_FALSE(node->hasComponent<TransformComponent>());
-    NodeFactory::getComponents(node, "TransformComponent");
-    EXPECT_TRUE(node->hasComponent<TransformComponent>());
-
     EXPECT_FALSE(node->hasComponent<SpriteComponent>());
-    NodeFactory::getComponents(node, "SpriteComponent");
+
+    node->loadProperty("../");
+    EXPECT_TRUE(node->hasComponent<TransformComponent>());
     EXPECT_TRUE(node->hasComponent<SpriteComponent>());
 
 }
