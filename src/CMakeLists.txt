@@ -1,6 +1,7 @@
-#TODO add library core and main target
-add_executable(main
-        main.cpp
+#------------------------------------------------------------------------------
+#                       All modules and submodules
+#------------------------------------------------------------------------------
+add_library(core_module STATIC
         Core/moduleDefinitions.h
         #### DEBUG ####
         Core/Debug/Logger.cpp
@@ -27,20 +28,29 @@ add_executable(main
         Core/ResourceModule/ResourceManager.cpp Core/ResourceModule/ResourceManager.h
         Core/ResourceModule/Loaders/TextureManager.cpp Core/ResourceModule/Loaders/TextureManager.h
         Core/ResourceModule/Loaders/JsonLoader.cpp Core/ResourceModule/Loaders/JsonLoader.h
+        )
+
+add_library(game_module STATIC
         #### Game Module ####
         Game/Interface/InterfaceModule.cpp Game/Interface/InterfaceModule.h
         Game/Scenes/ScenesModule.cpp Game/Scenes/ScenesModule.h
         )
 
-set_property(TARGET main PROPERTY CXX_STANDARD 11)
-target_compile_options(main PRIVATE -Wall)
+#------------------------------------------------------------------------------
+#                           Modules output dirs
+#------------------------------------------------------------------------------
+set_target_properties(core_module PROPERTIES
+        LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+set_target_properties(game_module PROPERTIES
+        LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 
-target_link_libraries(
-        main PRIVATE project_options project_dependency project_warnings)
+#------------------------------------------------------------------------------
+#                            Modules dependency
+#------------------------------------------------------------------------------
+target_link_libraries(core_module PRIVATE game_module project_options project_dependency project_warnings)
+target_link_libraries(game_module PRIVATE core_module project_options project_dependency project_warnings)
 
-#add_library(core_module INTERFACE)
-#add_library(game_module INTERFACE)
-
+#TODO move this in toolchain
 if (EMSCRIPTEN)
     set_target_properties(main PROPERTIES OUTPUT_NAME "main.js")
 

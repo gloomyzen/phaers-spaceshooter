@@ -1,5 +1,5 @@
 #------------------------------------------------------------------------------
-# General Projects Settings
+#                       General Projects Settings
 #------------------------------------------------------------------------------
 cmake_minimum_required(VERSION 3.11)
 project(towerdefense-game
@@ -8,7 +8,7 @@ project(towerdefense-game
 include(cmake/StandardProjectSettings.cmake)
 
 #------------------------------------------------------------------------------
-# Dependencies
+#                              Dependencies
 #------------------------------------------------------------------------------
 add_library(project_options INTERFACE)
 target_compile_features(project_options INTERFACE cxx_std_17)
@@ -27,7 +27,7 @@ endif ()
 include(ExternalProject)
 
 #------------------------------------------------------------------------------
-# General dependencies.
+#                           General dependencies.
 #------------------------------------------------------------------------------
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
 
@@ -65,7 +65,8 @@ if (ENABLE_PCH)
 endif ()
 
 #------------------------------------------------------------------------------
-# Detect emscripten is used.
+#                           Detect emscripten is used.
+# TODO: move this in toolchain
 #------------------------------------------------------------------------------
 if (EMSCRIPTEN)
 # TODO move this to cmake/platform/emscripten
@@ -187,7 +188,9 @@ else () # Not Web
 
 endif()
 
-# Rapidjson
+#------------------------------------------------------------------------------
+#                               Rapidjson
+#------------------------------------------------------------------------------
 include_directories(
         ${CMAKE_CURRENT_SOURCE_DIR}/lib/rapidjson/include
 )
@@ -198,10 +201,23 @@ if(IMGUI_ENABLED)
     target_link_libraries(project_dependency INTERFACE imgui_target)
 endif()
 
+#------------------------------------------------------------------------------
+#                         Include src with modules
+#------------------------------------------------------------------------------
 add_subdirectory(src)
 
 #------------------------------------------------------------------------------
-# Tests section
+#                               Main Target
+#------------------------------------------------------------------------------
+add_executable(main src/main.cpp)
+
+set_property(TARGET main PROPERTY CXX_STANDARD 11)
+target_compile_options(main PRIVATE -Wall)
+
+target_link_libraries(main PRIVATE core_module game_module project_options project_dependency project_warnings)
+
+#------------------------------------------------------------------------------
+#                               Tests section
 #------------------------------------------------------------------------------
 
 if (NOT EMSCRIPTEN)
