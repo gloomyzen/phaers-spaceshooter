@@ -1,0 +1,12 @@
+{
+  "simpleNode": {
+    "TransformComponent": {
+      "position": [ 50.2, 50.5 ],
+      "size": [ 250, 250 ],
+      "scale": 3.2
+    },
+    "SpriteComponent": {
+      "comment": "without image, only for test"
+    }
+  }
+}

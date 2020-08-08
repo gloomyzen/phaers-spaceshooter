@@ -1,0 +1,10 @@
+{
+  "type": "node",
+  "name": "mainMenu",
+  "childs": [
+    {
+      "type": "sprite",
+      "name": "mainMenuBG"
+    }
+  ]
+}

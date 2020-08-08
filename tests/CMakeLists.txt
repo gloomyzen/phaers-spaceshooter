@@ -14,9 +14,14 @@ endfunction()
 
 ################### General tests ###################
 init_test(TestJsonDeps ./TestJsonDeps.cpp)
+add_deps_to_test(TestJsonDeps core_module game_module)
 
 #################### Core Module ####################
 init_test(TestVector2D ./TestVector2D.cpp ../src/Core/DataTypes/Vector2D.cpp ../src/Core/DataTypes/Vector2D.h)
 add_deps_to_test(TestVector2D project_dependency)
+
+#################### Node System ####################
+init_test(TestNodeSystem ./TestNodeSystem.cpp)
+add_deps_to_test(TestNodeSystem core_module game_module)
 
 #init_test(TestLevelLoad ./TestLevelLoad.cpp ../src/Classes/Utilities/LoadManager.cpp ../src/Classes/Utilities/JsonLoadManager.cpp)

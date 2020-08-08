@@ -1,55 +1,58 @@
 #include "Application.h"
+#include "Debug/Logger.h"
 
 using namespace TGEngine::core;
 
 std::function<void()> registered_loop;
+
 void loop_iteration() { registered_loop(); }
 
 Application *currentApplication = nullptr;
 
-Application &Application::getInstance()
-{
-  if (currentApplication != nullptr) { return *currentApplication; }
-  throw std::runtime_error("There is no current Application");
+Application &Application::getInstance() {
+    if (currentApplication != nullptr) { return *currentApplication; }
+    throw std::runtime_error("There is no current Application");
 }
 
 Application::Application()
-  : state(stateReady), width(TGAME_WINDOW_WIDTH), height(TGAME_WINDOW_HEIGHT), title(TGAME_WINDOW_TITLE)
-{
-  currentApplication = this;
+        : state(stateReady), width(TGAME_WINDOW_WIDTH), height(TGAME_WINDOW_HEIGHT), title(TGAME_WINDOW_TITLE) {
+    currentApplication = this;
 
-  std::cout << "[Info] SDL initialisation" << std::endl;
+    LOG_INFO("SDL initialisation");
 
-  const int fullscreen_flag = 0; // for fullscreen SDL_WINDOW_FULLSCREEN
-  const Uint32 render_flag = SDL_RENDERER_ACCELERATED;
+    const int fullscreen_flag = 0; // for fullscreen SDL_WINDOW_FULLSCREEN
+    const Uint32 render_flag = SDL_RENDERER_ACCELERATED;
 
-  auto emsTemp = EMSCRIPTEN_FLAG;
-  emscripten = emsTemp == 0;
+    auto emsTemp = EMSCRIPTEN_FLAG;
+    emscripten = emsTemp == 0;
 
 #ifdef WIN32
-  SDL_SetMainReady();
+    SDL_SetMainReady();
 #endif
-  if ((isEmscripten() && SDL_Init(SDL_INIT_VIDEO) == 0) || (!isEmscripten() && SDL_Init(SDL_INIT_EVERYTHING) == 0)) {
-    if (!SDL_SetHint(SDL_HINT_RENDER_VSYNC, "1")) {
-      std::cout << "[Warning] Vsync rendering not enabled!" << std::endl;
-    }
-    std::cout << "[Info] SDL initialized" << std::endl;
+    if ((isEmscripten() && SDL_Init(SDL_INIT_VIDEO) == 0) || (!isEmscripten() && SDL_Init(SDL_INIT_EVERYTHING) == 0)) {
+        if (!SDL_SetHint(SDL_HINT_RENDER_VSYNC, "1")) {
+            LOG_WARNING("Application::Application Vsync rendering not enabled!");
+        }
+        LOG_INFO("SDL initialized");
 
-    window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, fullscreen_flag);
-    if (window != nullptr) { std::cout << "[Info] Window created" << std::endl; }
+        window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height,
+                                  fullscreen_flag);
+        if (window != nullptr) {
+            LOG_INFO("Window created");
+        }
 
-    renderer = SDL_CreateRenderer(window, -1, render_flag);
-    if (renderer != nullptr) {
-      renderDrawColor();
-      SDL_RenderClear(renderer);
-      std::cout << "[Info] Renderer created" << std::endl;
+        renderer = SDL_CreateRenderer(window, -1, render_flag);
+        if (renderer != nullptr) {
+            renderDrawColor();
+            SDL_RenderClear(renderer);
+            LOG_INFO("Renderer created");
+        }
+        //TODO    Application::camera = {0, 0, width, height};
+        state = State::stateReady;
+    } else {
+        state = State::stateExit;
+        LOG_ERROR("Application::Application Couldn't init SDL!");
     }
-    //    Application::camera = {0, 0, width, height};
-    state = State::stateReady;
-  } else {
-    state = State::stateExit;
-    std::cout << "[Error] Couldn't init SDL!" << std::endl;
-  }
 }
 
 void Application::renderDrawColor() { SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255); }
@@ -65,72 +68,71 @@ void Application::exit() { state = stateExit; }
 /// Данные в милисекундах
 int Application::getFrameDeltaTime() const { return deltaTime; }
 
-void Application::run()
-{
-  state = stateRun;
+void Application::run() {
+    state = stateRun;
 
-  registered_loop = [&]() {
-    // compute new time and delta time
-    frameStart = SDL_GetTicks();
+    registered_loop = [&]() {
+        // compute new time and delta time
+        frameStart = SDL_GetTicks();
 
-    // Detect window related changes
-    detectWindowDimensionChange();
+        // Detect window related changes
+        detectWindowDimensionChange();
 
-    // ------- execute the frame code -------
+        // ------- execute the frame code -------
 
-    // 1. manage user input
-    // -----------------
-    SDL_PollEvent(&getEvents());
-    if (getEvents().type == SDL_QUIT) { state = stateExit; }
+        // 1. manage user input
+        // -----------------
+        SDL_PollEvent(&getEvents());
+        if (getEvents().type == SDL_QUIT) { state = stateExit; }
 
-    ProcessInput();
+        ProcessInput();
 
-    // update game state
-    // -----------------
-    Update();
+        // update game state
+        // -----------------
+        Update();
 
-    // render
-    // ------
-    SDL_RenderClear(renderer);
+        // render
+        // ------
+        SDL_RenderClear(renderer);
 
-    Render();
+        Render();
 
-    PostRender();
+        PostRender();
 
-    SDL_RenderPresent(renderer);
+        SDL_RenderPresent(renderer);
 
-    deltaTime = static_cast<int>(SDL_GetTicks() - frameStart);
-    if (frameDelay > deltaTime) { SDL_Delay(static_cast<Uint32>(frameDelay - deltaTime)); }
+        deltaTime = static_cast<int>(SDL_GetTicks() - frameStart);
+        if (frameDelay > deltaTime) { SDL_Delay(static_cast<Uint32>(frameDelay - deltaTime)); }
 
-  };
+    };
 
-#ifdef __EMSCRIPTEN__
-  emscripten_set_main_loop(loop_iteration, 0, 1);
+#ifdef EMSCRIPTEN
+    emscripten_set_main_loop(loop_iteration, 0, 1);
 #else
-  while (state == stateRun) { loop_iteration(); }
-  SDL_DestroyWindow(window);
-  SDL_DestroyRenderer(renderer);
-  SDL_Quit();
-  std::cout << "[Info] Application stopped" << std::endl;
+    while (state == stateRun) { loop_iteration(); }
+    SDL_DestroyWindow(window);
+    SDL_DestroyRenderer(renderer);
+    IMG_Quit();
+    SDL_Quit();
+    LOG_INFO("Application stopped");
 #endif
 }
 
-void Application::detectWindowDimensionChange()
-{
-  int w, h;
-#if defined(__EMSCRIPTEN__) || defined(EMSCRIPTEN)
-  emscripten_get_canvas_element_size("canvas", &w, &h);
+void Application::detectWindowDimensionChange() {
+    int w, h;
+#if defined(EMSCRIPTEN)
+    emscripten_get_canvas_element_size("canvas", &w, &h);
 #else
-  SDL_GetWindowSize(getWindow(), &w, &h);
+    SDL_GetWindowSize(getWindow(), &w, &h);
 #endif
 
-  dimensionChanged = (w != width || h != height);
-  if (dimensionChanged) {
-    width = w;
-    height = h;
-    SDL_SetWindowSize(getWindow(), width, height);
-    // TODO reinit game or camera ?
-  }
+    dimensionChanged = (w != width || h != height);
+    if (dimensionChanged) {
+        width = w;
+        height = h;
+        SDL_SetWindowSize(getWindow(), width, height);
+        // TODO reinit game or camera ?
+    }
 }
 
 [[maybe_unused]] int Application::getWidth() const { return width; }
@@ -141,6 +143,7 @@ void Application::detectWindowDimensionChange()
 
 [[maybe_unused]] bool Application::windowDimensionChanged() const { return dimensionChanged; }
 
+//TODO test this
 //[[maybe_unused]] std::tuple<int, int, float> Application::GetWindowResolution()
 //{
 //

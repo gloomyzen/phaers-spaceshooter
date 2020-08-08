@@ -1,5 +1,5 @@
 #------------------------------------------------------------------------------
-# General Projects Settings
+#                       General Projects Settings
 #------------------------------------------------------------------------------
 cmake_minimum_required(VERSION 3.11)
 project(towerdefense-game
@@ -8,7 +8,7 @@ project(towerdefense-game
 include(cmake/StandardProjectSettings.cmake)
 
 #------------------------------------------------------------------------------
-# Dependencies
+#                              Dependencies
 #------------------------------------------------------------------------------
 add_library(project_options INTERFACE)
 target_compile_features(project_options INTERFACE cxx_std_17)
@@ -19,15 +19,15 @@ if (NOT CMAKE_BUILD_TYPE)
 endif ()
 
 if (${CMAKE_BUILD_TYPE} STREQUAL "Debug")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D__DEBUG__")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DDEBUG")
 else ()
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D__RELEASE__")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DRELEASE")
 endif ()
 
 include(ExternalProject)
 
 #------------------------------------------------------------------------------
-# General dependencies.
+#                           General dependencies.
 #------------------------------------------------------------------------------
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
 
@@ -61,15 +61,16 @@ if (ENABLE_PCH)
     # is a good idea if any #define's change
     #
     # consider breaking this out per project as necessary
-    target_precompile_headers(project_options INTERFACE <vector> <string> <map> <utility>)
+    target_precompile_headers(project_options INTERFACE <vector> <array> <string> <map> <utility> <memory> <algorithm> <bitset>)
 endif ()
 
 #------------------------------------------------------------------------------
-# Detect emscripten is used.
+#                           Detect emscripten is used.
+# TODO: move this in toolchain
 #------------------------------------------------------------------------------
 if (EMSCRIPTEN)
 # TODO move this to cmake/platform/emscripten
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D__EMSCRIPTEN__")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DEMSCRIPTEN")
 
     # Enabling debug bar.
     if (${CMAKE_BUILD_TYPE} STREQUAL "Debug")
@@ -118,7 +119,7 @@ else () # Not Web
 
     # sdl
     if (APPLE OR MAC)
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D__APPLE__")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DAPPLE")
         set(CMAKE_MACOSX_RPATH 1)
         if (NOT EXISTS "${CMAKE_SOURCE_DIR}/lib/macOS/SDL2.framework")
             message("Downloading SDL2 frameworks")
@@ -187,7 +188,9 @@ else () # Not Web
 
 endif()
 
-# Rapidjson
+#------------------------------------------------------------------------------
+#                               Rapidjson
+#------------------------------------------------------------------------------
 include_directories(
         ${CMAKE_CURRENT_SOURCE_DIR}/lib/rapidjson/include
 )
@@ -198,10 +201,23 @@ if(IMGUI_ENABLED)
     target_link_libraries(project_dependency INTERFACE imgui_target)
 endif()
 
+#------------------------------------------------------------------------------
+#                         Include src with modules
+#------------------------------------------------------------------------------
 add_subdirectory(src)
 
 #------------------------------------------------------------------------------
-# Tests section
+#                               Main Target
+#------------------------------------------------------------------------------
+add_executable(main src/main.cpp)
+
+set_property(TARGET main PROPERTY CXX_STANDARD 11)
+target_compile_options(main PRIVATE -Wall)
+
+target_link_libraries(main PRIVATE core_module game_module project_options project_dependency project_warnings)
+
+#------------------------------------------------------------------------------
+#                               Tests section
 #------------------------------------------------------------------------------
 
 if (NOT EMSCRIPTEN)

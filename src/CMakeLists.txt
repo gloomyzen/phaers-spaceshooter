@@ -1,33 +1,56 @@
-#TODO add library core and main target
-add_executable(main
-        main.cpp
+#------------------------------------------------------------------------------
+#                       All modules and submodules
+#------------------------------------------------------------------------------
+add_library(core_module STATIC
         Core/moduleDefinitions.h
-        Core/Application.cpp
-        Core/Application.h
-        Core/GameApplication.cpp
-        Core/GameApplication.h
-        Core/Loaders/TextureManager.cpp
-        Core/Loaders/TextureManager.h
-        Core/DataTypes/Vector2D.cpp
-        Core/DataTypes/Vector2D.h
-        Core/ECS/Animation.h
-        Core/ECS/CameraComponent.h
-        Core/ECS/ColliderComponent.h
-        Core/ECS/CollisionDetection.h
-        Core/ECS/AllComponentsHeaders.h
-        Core/ECS/ECS.h
-        Core/ECS/ECS.cpp
-        Core/ECS/KeyboardController.h
-        Core/ECS/SpriteComponent.h
-        Core/ECS/TouchController.h
-        Core/ECS/TransformComponent.h)
+        #### DEBUG ####
+        Core/Debug/Logger.cpp
+        Core/Debug/Logger.h
+        #### APPLICATION ####
+        Core/Application.cpp Core/Application.h
+        Core/GameApplication.cpp Core/GameApplication.h
+        Core/DataTypes/Vector2D.cpp Core/DataTypes/Vector2D.h
+        #### Components ####
+        Core/Components/Component.h
+        Core/Components/AllComponentsHeaders.h
+        Core/Components/TransformComponent.h
+        Core/Components/SpriteComponent.h
+#        Core/Components/CameraComponent.h
+#        Core/Components/ColliderComponent.h
+#        Core/Components/CollisionDetection.h
+#        Core/Components/KeyboardController.h
+#        Core/Components/TouchController.h
+        #### Nodes ####
+        Core/Nodes/Node.h Core/Nodes/Node.cpp
+        Core/Nodes/NodeManager.h Core/Nodes/NodeManager.cpp
+        Core/Nodes/NodeFactory.h Core/Nodes/NodeFactory.cpp
+        #### Resources managers ####
+        Core/ResourceModule/ResourceManager.cpp Core/ResourceModule/ResourceManager.h
+        Core/ResourceModule/Loaders/TextureManager.cpp Core/ResourceModule/Loaders/TextureManager.h
+        Core/ResourceModule/Loaders/JsonLoader.cpp Core/ResourceModule/Loaders/JsonLoader.h
+        )
 
-set_property(TARGET main PROPERTY CXX_STANDARD 11)
-target_compile_options(main PRIVATE -Wall)
+add_library(game_module STATIC
+        #### Game Module ####
+        Game/Interface/InterfaceModule.cpp Game/Interface/InterfaceModule.h
+        Game/Scenes/ScenesModule.cpp Game/Scenes/ScenesModule.h
+        )
 
-target_link_libraries(
-        main PRIVATE project_options project_dependency project_warnings)
+#------------------------------------------------------------------------------
+#                           Modules output dirs
+#------------------------------------------------------------------------------
+set_target_properties(core_module PROPERTIES
+        LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+set_target_properties(game_module PROPERTIES
+        LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 
+#------------------------------------------------------------------------------
+#                            Modules dependency
+#------------------------------------------------------------------------------
+target_link_libraries(core_module PRIVATE game_module project_options project_dependency project_warnings)
+target_link_libraries(game_module PRIVATE core_module project_options project_dependency project_warnings)
+
+#TODO move this in toolchain
 if (EMSCRIPTEN)
     set_target_properties(main PROPERTIES OUTPUT_NAME "main.js")
 

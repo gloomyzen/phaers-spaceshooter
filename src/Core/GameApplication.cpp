@@ -1,31 +1,36 @@
 #include "GameApplication.h"
+#include "Nodes/NodeManager.h"
 
 using namespace TGEngine::core;
 
-GameApplication::GameApplication() : Application()
-{
-#ifdef __DEBUG__1
-  imGuiInstance = new ImGuiLoader(getWindow(), glslVersion);
+GameApplication::GameApplication() : Application() {
+#ifdef DEBUG1
+    imGuiInstance = new ImGuiLoader(getWindow(), glslVersion);
 #endif
 }
 
-GameApplication::~GameApplication() {}
+GameApplication::~GameApplication() {
+//    GET_NODE_MANAGER().init();
+}
 
 void GameApplication::ProcessInput() {}
 
 void GameApplication::Update() {
-#ifdef __DEBUG__1
-  imGuiInstance->Update(dt);
+#ifdef DEBUG1
+    imGuiInstance->Update(dt);
 #endif
+//    GET_NODE_MANAGER().update();
 }
+
 void GameApplication::Render() {
-#ifdef __DEBUG__1
-  imGuiInstance->Render();
+#ifdef DEBUG1
+    imGuiInstance->Render();
 #endif
+//    GET_NODE_MANAGER().render();
 }
 
 void GameApplication::PostRender() {
-#ifdef __DEBUG__1
-  imGuiInstance->PostRender();
+#ifdef DEBUG1
+    imGuiInstance->PostRender();
 #endif
 }

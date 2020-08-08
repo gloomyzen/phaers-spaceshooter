@@ -1,0 +1,32 @@
+{
+  "type": "node",
+  "name": "nodeWithChilds",
+  "childs": [
+    {
+      "type": "node",
+      "name": "node1"
+    },
+    {
+      "type": "node",
+      "name": "testWrongName"
+    },
+    {
+      "type": "node",
+      "name": "testWrongName"
+    },
+    {
+      "type": "node",
+      "name": "node2",
+      "childs": [
+        {
+          "type": "node",
+          "name": "node2.1"
+        },
+        {
+          "type": "node",
+          "name": "node2.2"
+        }
+      ]
+    }
+  ]
+}
