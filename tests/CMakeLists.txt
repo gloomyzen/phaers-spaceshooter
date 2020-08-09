@@ -23,5 +23,3 @@ add_deps_to_test(TestVector2D ${CORE_MODULE_NAME} ${GAME_MODULE_NAME})
 #################### Node System ####################
 init_test(TestNodeSystem ./TestNodeSystem.cpp)
 add_deps_to_test(TestNodeSystem ${CORE_MODULE_NAME} ${GAME_MODULE_NAME})
-
-#init_test(TestLevelLoad ./TestLevelLoad.cpp ../src/Classes/Utilities/LoadManager.cpp ../src/Classes/Utilities/JsonLoadManager.cpp)
