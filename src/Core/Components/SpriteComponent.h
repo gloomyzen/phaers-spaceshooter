@@ -3,9 +3,9 @@
 
 #include "AllComponentsHeaders.h"
 #include "SDL.h"
-#include "../ResourceModule/ResourceManager.h"
+#include "Core/ResourceModule/ResourceManager.h"
 #include <map>
-#include "../moduleDefinitions.h"
+#include "Core/moduleDefinitions.h"
 
 namespace TGEngine::core {
 

@@ -6,9 +6,9 @@
 #include <algorithm>
 #include <bitset>
 #include <array>
-#include "../Components/Component.h"
-#include "../ResourceModule/Loaders/JsonLoader.h"
-#include "../Debug/Logger.h"
+#include "Core/Components/Component.h"
+#include "Core/ResourceModule/Loaders/JsonLoader.h"
+#include "Core/Debug/Logger.h"
 
 namespace TGEngine::core {
 

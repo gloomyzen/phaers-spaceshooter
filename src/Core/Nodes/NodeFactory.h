@@ -2,7 +2,7 @@
 #define TOWERDEFENSE_GAME_NODEFACTORY_H
 
 #include "Node.h"
-#include "../Components/AllComponentsHeaders.h"
+#include "Core/Components/AllComponentsHeaders.h"
 #include <string>
 #include <map>
 

@@ -1,6 +1,6 @@
 #include "Node.h"
-#include "../Components/AllComponentsHeaders.h"
-#include "../Nodes/NodeFactory.h"
+#include "Core/Components/AllComponentsHeaders.h"
+#include "Core/Nodes/NodeFactory.h"
 
 using namespace TGEngine::core;
 

@@ -1,10 +1,10 @@
 #ifndef TOWERDEFENSE_GAME_TRANSFORMCOMPONENT_H
 #define TOWERDEFENSE_GAME_TRANSFORMCOMPONENT_H
 
-#include "../moduleDefinitions.h"
+#include "Core/moduleDefinitions.h"
 #include "Component.h"
-#include "../DataTypes/Vector2D.h"
-#include "../Debug/Logger.h"
+#include "Core/DataTypes/Vector2D.h"
+#include "Core/Debug/Logger.h"
 
 // TODO need rotation
 namespace TGEngine::core {

@@ -1,6 +1,6 @@
 #include "ResourceManager.h"
-#include "../GameApplication.h"
-#include "../Debug/Logger.h"
+#include "Core/GameApplication.h"
+#include "Core/Debug/Logger.h"
 
 using namespace TGEngine::core;
 

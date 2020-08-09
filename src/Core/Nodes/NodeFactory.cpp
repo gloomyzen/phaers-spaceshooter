@@ -1,5 +1,5 @@
 #include "NodeFactory.h"
-#include "../Debug/Logger.h"
+#include "Core/Debug/Logger.h"
 
 using namespace TGEngine::core;
 

@@ -1,7 +1,7 @@
 #ifndef TOWERDEFENSE_GAME_TEXTUREMANAGER_H
 #define TOWERDEFENSE_GAME_TEXTUREMANAGER_H
 
-#include "../../moduleDefinitions.h"
+#include "Core/moduleDefinitions.h"
 #include <map>
 #include <string>
 
