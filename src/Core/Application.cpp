@@ -15,7 +15,7 @@ Application &Application::getInstance() {
 }
 
 Application::Application()
-        : state(stateReady), width(TGAME_WINDOW_WIDTH), height(TGAME_WINDOW_HEIGHT), title(TGAME_WINDOW_TITLE) {
+        : width(TGAME_WINDOW_WIDTH), height(TGAME_WINDOW_HEIGHT), title(TGAME_WINDOW_TITLE), state(stateReady) {
     currentApplication = this;
 
     LOG_INFO("SDL initialisation");
@@ -42,9 +42,9 @@ Application::Application()
         }
 
         renderer = SDL_CreateRenderer(window, -1, render_flag);
-        if (renderer != nullptr) {
+        if (getRenderer() != nullptr) {
             renderDrawColor();
-            SDL_RenderClear(renderer);
+            SDL_RenderClear(getRenderer());
             LOG_INFO("Renderer created");
         }
         //TODO    Application::camera = {0, 0, width, height};
@@ -74,44 +74,38 @@ void Application::run() {
     registered_loop = [&]() {
         // compute new time and delta time
         frameStart = SDL_GetTicks();
-
         // Detect window related changes
         detectWindowDimensionChange();
-
         // ------- execute the frame code -------
-
         // 1. manage user input
         // -----------------
-        SDL_PollEvent(&getEvents());
-        if (getEvents().type == SDL_QUIT) { state = stateExit; }
-
         ProcessInput();
-
         // update game state
         // -----------------
         Update();
-
         // render
         // ------
-        SDL_RenderClear(renderer);
-
+        SDL_RenderClear(getRenderer());
         Render();
-
         PostRender();
-
-        SDL_RenderPresent(renderer);
-
+        SDL_RenderPresent(getRenderer());
         deltaTime = static_cast<int>(SDL_GetTicks() - frameStart);
         if (frameDelay > deltaTime) { SDL_Delay(static_cast<Uint32>(frameDelay - deltaTime)); }
-
     };
+
+    /***
+     * Main loop
+     */
+    Init();
 
 #ifdef EMSCRIPTEN
     emscripten_set_main_loop(loop_iteration, 0, 1);
 #else
-    while (state == stateRun) { loop_iteration(); }
+    while (state == stateRun) {
+        loop_iteration();
+    }
     SDL_DestroyWindow(window);
-    SDL_DestroyRenderer(renderer);
+    SDL_DestroyRenderer(getRenderer());
     IMG_Quit();
     SDL_Quit();
     LOG_INFO("Application stopped");

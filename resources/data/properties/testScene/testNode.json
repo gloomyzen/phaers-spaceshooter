@@ -1,0 +1,32 @@
+{
+  "testNode": {
+    "TransformComponent": {
+      "position": [ 200, 200 ],
+      "size": [ 128, 120 ],
+      "scale": 1
+    },
+    "SpriteComponent": {
+      "image": "testTiles/tile_2.png"
+    }
+  },
+  "testNode1": {
+    "TransformComponent": {
+      "position": [ 250, 250 ],
+      "size": [ 128, 120 ],
+      "scale": 1
+    },
+    "SpriteComponent": {
+      "image": "testTiles/tile_3.png"
+    }
+  },
+  "testNode2": {
+    "TransformComponent": {
+      "position": [ 300, 300 ],
+      "size": [ 128, 120 ],
+      "scale": 1
+    },
+    "SpriteComponent": {
+      "image": "testTiles/tile_4.png"
+    }
+  }
+}

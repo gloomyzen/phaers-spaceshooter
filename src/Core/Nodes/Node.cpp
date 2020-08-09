@@ -46,7 +46,7 @@ void Node::parseData(Node *node, const rapidjson::GenericValue<rapidjson::UTF8<c
     for (auto &item : array) {
         if (item["type"].IsString() && item["name"].IsString()) {
             auto childNode = new Node(item["name"].GetString());
-            if (item.HasMember("childs") && item["childs"].IsArray()) {
+            if (item.HasMember("childs")) {
                 parseData(childNode, item["childs"].GetArray());
             }
             node->addChild(childNode);

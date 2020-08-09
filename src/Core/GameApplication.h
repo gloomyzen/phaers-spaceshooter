@@ -17,6 +17,8 @@ namespace TGEngine::core {
 
         ~GameApplication();
 
+        void Init();
+
         void ProcessInput();
 
         void Update();

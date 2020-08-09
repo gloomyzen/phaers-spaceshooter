@@ -23,7 +23,7 @@ void NodeFactory::getComponents(Node *node, const std::string &componentName, co
     switch (needle) {
         case TRANSFORM_COMPONENT: {
             node->addComponent<TransformComponent>();
-            auto transform = node->getComponent<TransformComponent>();
+            auto &transform = node->getComponent<TransformComponent>();
             if (object.HasMember("position")) {
                 auto positions = object["position"].GetArray();
                 if (positions.Size() == 2) {
@@ -48,7 +48,7 @@ void NodeFactory::getComponents(Node *node, const std::string &componentName, co
             break;
         case SPRITE_COMPONENT: {
             node->addComponent<SpriteComponent>();
-            auto sprite = node->getComponent<SpriteComponent>();
+            auto &sprite = node->getComponent<SpriteComponent>();
             if (object.HasMember("image") && object["image"].IsString()) {
                 sprite.setTexture(object["image"].GetString());
             }

@@ -29,6 +29,7 @@ namespace TGEngine::core {
         int animIndex = 0;
         std::map<std::string, sAnimation *> animations;
         SDL_RendererFlip spriteFlip = SDL_FLIP_NONE;
+        double angle = 0.0;
 
     public:
         SpriteComponent() = default;
@@ -66,7 +67,7 @@ namespace TGEngine::core {
         }
 
         void render() override {
-            GET_TEXTURE_MANAGER()->DrawFlip(texture, srcRect, destRect, spriteFlip);
+            GET_TEXTURE_MANAGER()->DrawFlip(texture, srcRect, destRect, angle, spriteFlip);
         }
 
         void setTexture(const char *path) {

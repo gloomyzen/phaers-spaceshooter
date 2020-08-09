@@ -15,6 +15,8 @@ namespace TGEngine::core {
 
         virtual ~Application() {};
 
+        virtual void Init() {};
+
         virtual void ProcessInput() {};
 
         virtual void Update() {};
@@ -57,12 +59,6 @@ namespace TGEngine::core {
         bool isEmscripten() const;
 
     private:
-        enum State {
-            stateReady, stateRun, stateExit
-        };
-
-        State state;
-
         Application &operator=(const Application &) { return *this; }
 
         SDL_Window *window = nullptr;
@@ -91,6 +87,12 @@ namespace TGEngine::core {
         Application(const Application &) {};
 
         std::string title;
+
+        enum State {
+            stateReady, stateRun, stateExit
+        };
+
+        State state;
     };
 
 }

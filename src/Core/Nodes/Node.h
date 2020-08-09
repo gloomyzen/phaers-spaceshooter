@@ -33,7 +33,7 @@ namespace TGEngine::core {
         return typeID;
     }
 
-    constexpr std::size_t maxComponents = 32;
+    constexpr std::size_t maxComponents = 6;
 
     using ComponentBitSet = std::bitset<maxComponents>;
     using ComponentArray = std::array<Component *, maxComponents>;
@@ -68,13 +68,27 @@ namespace TGEngine::core {
 
         void update() override {
             for (auto &c : componentArray) {
-                if (c->getActive()) c->update();
+                if (c != nullptr && c->getActive()) {
+                    c->update();
+                }
+            }
+            for (auto &c : childs) {
+                if (c->getActive()) {
+                    c->update();
+                }
             }
         }
 
         void render() override {
             for (auto &c : components) {
-                if (c->isActive()) c->render();
+                if (c != nullptr && c->isActive()) {
+                    c->render();
+                }
+            }
+            for (auto &c : childs) {
+                if (c->getActive()) {
+                    c->render();
+                }
             }
         }
 
