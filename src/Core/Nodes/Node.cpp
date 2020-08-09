@@ -4,7 +4,7 @@
 
 using namespace TGEngine::core;
 
-void Node::loadProperty(const std::string &prefix) {
+void Node::loadProperty(const std::string &module, const std::string &prefix) {
     if (getId().empty()) {
         LOG_ERROR("Node::loadProperty Node has no identifier!");
         return;
@@ -12,9 +12,9 @@ void Node::loadProperty(const std::string &prefix) {
 
     std::string pathNodes = "nodes/";
     std::string pathProperties = "properties/";
-    if (!getModuleId().empty()) {
-        pathNodes += getModuleId() + "/" + getId();
-        pathProperties += getModuleId() + "/" + getId();
+    if (!module.empty()) {
+        pathNodes += module + "/" + getId();
+        pathProperties += module + "/" + getId();
     } else {
         pathNodes += getId();
         pathProperties += getId();

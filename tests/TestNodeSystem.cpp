@@ -66,9 +66,6 @@ TEST(NodeManager, NodeManagerTest) {
     ground->addChild(fortress);
     //Сверяем имя ноды Units
     EXPECT_EQ(fortress->getId(), "fortress");
-    EXPECT_EQ(fortress->getModuleId(), "");
-    fortress->setModuleId("window");
-    EXPECT_EQ(fortress->getModuleId(), "window");
 
     //Ищем ноду крепости в ноде Ground
     EXPECT_EQ(ground->findNode("fortress"), fortress);
@@ -158,8 +155,7 @@ TEST(NodeLoadProperty, NodeManagerTest) {
     // Simple node
     auto node = new Node();
     node->setId("simpleNode");
-    node->setModuleId("gtest");
-    node->loadProperty("../");
+    node->loadProperty("gtest", "../");
     EXPECT_FALSE(node->hasChilds());
     EXPECT_TRUE(node->findNode("mainMenuBG") == nullptr);
     EXPECT_TRUE(node->hasComponent<TransformComponent>());
@@ -168,8 +164,7 @@ TEST(NodeLoadProperty, NodeManagerTest) {
     // Node with childs
     auto nodeNext = new Node();
     nodeNext->setId("nodeWithChilds");
-    nodeNext->setModuleId("gtest");
-    nodeNext->loadProperty("../");
+    nodeNext->loadProperty("gtest", "../");
     EXPECT_TRUE(nodeNext->hasChilds());
     EXPECT_TRUE(nodeNext->findNode("mainMenuBG") == nullptr);
     EXPECT_FALSE(nodeNext->hasNode("mainMenuBG"));
@@ -189,12 +184,11 @@ TEST(NodeNodeFactory, NodeManagerTest) {
 
     auto *node = new Node();
     node->setId("simpleNode");
-    node->setModuleId("gtest");
 
     EXPECT_FALSE(node->hasComponent<TransformComponent>());
     EXPECT_FALSE(node->hasComponent<SpriteComponent>());
 
-    node->loadProperty("../");
+    node->loadProperty("gtest", "../");
     EXPECT_TRUE(node->hasComponent<TransformComponent>());
     EXPECT_TRUE(node->hasComponent<SpriteComponent>());
 

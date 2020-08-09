@@ -47,7 +47,6 @@ namespace TGEngine::core {
         ComponentBitSet componentBitSet;
         std::vector<Node *> childs{};
         std::string id{};
-        std::string moduleId{};
     public:
 
         Node() {}
@@ -122,10 +121,6 @@ namespace TGEngine::core {
 
         void setId(std::string newId) { id = newId; }
 
-        std::string &getModuleId() { return moduleId; }
-
-        void setModuleId(std::string newModule) { moduleId = newModule; }
-
         /***
          * Поиск ноды потомка по id
          * @param findId id искомого объекта
@@ -157,9 +152,10 @@ namespace TGEngine::core {
 
         /***
          * Парсинг параметров из json файла
+         * @param module Module name
          * @param prefix @only for GTests
          */
-        void loadProperty(const std::string &prefix = "");
+        void loadProperty(const std::string &module = "", const std::string &prefix = "");
 
     protected:
         void parseData(Node *node, const rapidjson::GenericValue<rapidjson::UTF8<char>>::Array &array);
