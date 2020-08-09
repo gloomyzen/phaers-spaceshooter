@@ -44,15 +44,8 @@ namespace TGEngine::core {
                 for (auto &n : nodes) n->render();
             }
 
-            Node &addNode(std::string id) {
-                auto *n = new Node(id);
-                std::unique_ptr<Node> uPtr{n};
-                nodes.emplace_back(std::move(uPtr));
-                return *n;
-            }
-
         private:
-            std::vector<std::unique_ptr<Node>> nodes;
+            std::vector<Node*> nodes;
         };
 
     }//nodeManager

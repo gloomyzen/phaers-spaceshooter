@@ -46,6 +46,7 @@ namespace TGEngine::core {
         ComponentArray componentArray{};
         ComponentBitSet componentBitSet;
         std::vector<Node *> childs{};
+        std::vector<Node *> childsList{};
         std::string id{};
     public:
 
@@ -119,11 +120,16 @@ namespace TGEngine::core {
             return childs;
         };
 
+        std::vector<Node *> &getChildsList() {
+            return childsList;
+        };
+
         void addChild(Node *node) {
             if (node->getId().empty()) {
                 LOG_ERROR("Node::addChild Child node has no identifier!");
                 return;
             }
+            node->childsList.emplace_back(this);
             childs.emplace_back(node);
         }
 

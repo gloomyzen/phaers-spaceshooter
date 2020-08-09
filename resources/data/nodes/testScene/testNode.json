@@ -4,11 +4,19 @@
   "childs": [
     {
       "type": "node",
-      "name": "testNode1"
+      "name": "testNode1",
+      "childs": [{
+        "type": "node",
+        "name": "testNode11"
+      }]
     },
     {
       "type": "node",
-      "name": "testNode2"
+      "name": "testNode2",
+      "childs": [{
+        "type": "node",
+        "name": "testNode21"
+      }]
     }
   ]
 }

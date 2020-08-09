@@ -6,7 +6,7 @@
 #include "Core/DataTypes/Vector2D.h"
 #include "Core/Debug/Logger.h"
 
-// TODO need rotation
+// TODO need rotation and anchor!
 namespace TGEngine::core {
 
     class TransformComponent : public Component {
@@ -79,6 +79,26 @@ namespace TGEngine::core {
         void setPosition(float _x, float _y) {
             position.setX(_x);
             position.setY(_y);
+        }
+
+        float getRenderX() {
+            float renderX = getPosition().getX();
+            for (auto child : getNode().getChildsList()) {
+                if (child->hasComponent<TransformComponent>()) {
+                    renderX += child->getComponent<TransformComponent>().getPosition().getX();
+                }
+            }
+            return renderX;
+        }
+
+        float getRenderY() {
+            float renderY = getPosition().getY();
+            for (auto child : getNode().getChildsList()) {
+                if (child->hasComponent<TransformComponent>()) {
+                    renderY += child->getComponent<TransformComponent>().getPosition().getY();
+                }
+            }
+            return renderY;
         }
     };
 
