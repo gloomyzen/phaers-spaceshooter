@@ -1,4 +1,4 @@
-#include "../src/Core/DataTypes/Vector2D.h"
+#include "Core/DataTypes/Vector2D.h"
 #include <gtest/gtest.h>
 
 int main(int argc, char **argv) {

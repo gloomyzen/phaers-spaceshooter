@@ -214,7 +214,7 @@ add_executable(main src/main.cpp)
 set_property(TARGET main PROPERTY CXX_STANDARD 11)
 target_compile_options(main PRIVATE -Wall)
 
-target_link_libraries(main PRIVATE core_module game_module project_options project_dependency project_warnings)
+target_link_libraries(main PRIVATE ${CORE_MODULE_NAME} ${GAME_MODULE_NAME} project_options project_dependency project_warnings)
 
 #------------------------------------------------------------------------------
 #                               Tests section

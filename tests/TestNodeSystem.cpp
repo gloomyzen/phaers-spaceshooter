@@ -1,9 +1,9 @@
 #include <gtest/gtest.h>
-#include "../src/Core/Nodes/Node.h"
-#include "../src/Core/Nodes/NodeManager.h"
-#include "../src/Core/Components/TransformComponent.h"
-#include "../src/Core/Components/SpriteComponent.h"
-#include "../src/Core/Nodes/NodeFactory.h"
+#include "Core/Nodes/Node.h"
+#include "Core/Nodes/NodeManager.h"
+#include "Core/Nodes/NodeFactory.h"
+#include "Core/Components/TransformComponent.h"
+#include "Core/Components/SpriteComponent.h"
 
 using namespace TGEngine::core;
 

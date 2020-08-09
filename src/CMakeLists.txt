@@ -1,7 +1,13 @@
 #------------------------------------------------------------------------------
 #                       All modules and submodules
 #------------------------------------------------------------------------------
-add_library(core_module STATIC
+set(CORE_MODULE_NAME CoreModule CACHE INTERNAL "")
+set(GAME_MODULE_NAME GameModule CACHE INTERNAL "")
+
+#------------------------------------------------------------------------------
+#                          All modules sources
+#------------------------------------------------------------------------------
+add_library(${CORE_MODULE_NAME} STATIC
         Core/moduleDefinitions.h
         #### DEBUG ####
         Core/Debug/Logger.cpp
@@ -30,25 +36,37 @@ add_library(core_module STATIC
         Core/ResourceModule/Loaders/JsonLoader.cpp Core/ResourceModule/Loaders/JsonLoader.h
         )
 
-add_library(game_module STATIC
+
+add_library(${GAME_MODULE_NAME} STATIC
         #### Game Module ####
         Game/Interface/InterfaceModule.cpp Game/Interface/InterfaceModule.h
-        Game/Scenes/ScenesModule.cpp Game/Scenes/ScenesModule.h
+        Game/StateModule/StateManager.cpp Game/StateModule/StateManager.h)
+
+#------------------------------------------------------------------------------
+#                           Target interfaces
+#------------------------------------------------------------------------------
+
+target_include_directories(${CORE_MODULE_NAME} INTERFACE
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/>
+
+        )
+target_include_directories(${GAME_MODULE_NAME} INTERFACE
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/>
         )
 
 #------------------------------------------------------------------------------
 #                           Modules output dirs
 #------------------------------------------------------------------------------
-set_target_properties(core_module PROPERTIES
+set_target_properties(${CORE_MODULE_NAME} PROPERTIES
         LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
-set_target_properties(game_module PROPERTIES
+set_target_properties(${GAME_MODULE_NAME} PROPERTIES
         LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 
 #------------------------------------------------------------------------------
 #                            Modules dependency
 #------------------------------------------------------------------------------
-target_link_libraries(core_module PRIVATE game_module project_options project_dependency project_warnings)
-target_link_libraries(game_module PRIVATE core_module project_options project_dependency project_warnings)
+target_link_libraries(${CORE_MODULE_NAME} PRIVATE ${GAME_MODULE_NAME} project_options project_dependency project_warnings)
+target_link_libraries(${GAME_MODULE_NAME} PRIVATE ${CORE_MODULE_NAME} project_options project_dependency project_warnings)
 
 #TODO move this in toolchain
 if (EMSCRIPTEN)
