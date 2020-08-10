@@ -12,6 +12,7 @@ add_library(${CORE_MODULE_NAME} STATIC
         #### DEBUG ####
         Core/Debug/Logger.cpp
         Core/Debug/Logger.h
+        Core/Debug/imgui_sdl.cpp Core/Debug/imgui_sdl.h
         #### APPLICATION ####
         Core/Application.cpp Core/Application.h
         Core/GameApplication.cpp Core/GameApplication.h
@@ -48,7 +49,6 @@ add_library(${GAME_MODULE_NAME} STATIC
 
 target_include_directories(${CORE_MODULE_NAME} INTERFACE
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/>
-
         )
 target_include_directories(${GAME_MODULE_NAME} INTERFACE
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/>

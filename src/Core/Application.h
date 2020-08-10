@@ -93,6 +93,9 @@ namespace TGEngine::core {
         };
 
         State state;
+
+        //ImGui
+        int wheel = 0;
     };
 
 }

@@ -1,5 +1,8 @@
+#include <imgui.h>
 #include "Application.h"
 #include "Debug/Logger.h"
+#include "imgui.h"
+#include "Debug/imgui_sdl.h"
 
 using namespace TGEngine::core;
 
@@ -47,6 +50,8 @@ Application::Application()
             SDL_RenderClear(getRenderer());
             LOG_INFO("Renderer created");
         }
+        ImGui::CreateContext();
+        ImGuiSDL::Initialize(renderer, width * 2, height * 2);
         //TODO    Application::camera = {0, 0, width, height};
         state = State::stateReady;
     } else {
@@ -104,8 +109,10 @@ void Application::run() {
     while (state == stateRun) {
         loop_iteration();
     }
-    SDL_DestroyWindow(window);
+    ImGuiSDL::Deinitialize();
     SDL_DestroyRenderer(getRenderer());
+    SDL_DestroyWindow(window);
+    ImGui::DestroyContext();
     IMG_Quit();
     SDL_Quit();
     LOG_INFO("Application stopped");
