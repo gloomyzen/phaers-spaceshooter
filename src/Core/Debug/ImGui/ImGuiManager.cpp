@@ -1,10 +1,14 @@
 #include "ImGuiManager.h"
 #if defined(IMGUI_ENABLED)
 #include "imgui.h"
+#include "imgui_internal.h"
 #include "Core/Debug/ImGui/SDLImplements/imgui_sdl.h"
 #include "Core/GameApplication.h"
+#include "Core/Nodes/NodeManager.h"
+#include "Core/Nodes/Node.h"
 #endif
 
+using namespace TGEngine::core;
 using namespace TGEngine::core::debug;
 
 ImGuiManager *imguiInstance = nullptr;
@@ -64,29 +68,42 @@ void ImGuiManager::ProcessInput() {
 #endif
 }
 
+ImRect RenderTree(std::vector<Node *> n);
+
 void ImGuiManager::Render() {
 #if defined(IMGUI_ENABLED)
     ImGui::NewFrame();
 
-    static float f = 0.0f;
-    static int counter = 0;
+    RenderTree(GET_NODE_MANAGER().getChilds());
 
-    ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
+    ImGui::Begin("Options");
+    if (ImGui::Button("Debug"))
+    {
 
-    ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
-
-    ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
-
-    if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
-        counter++;
-    ImGui::SameLine();
-    ImGui::Text("counter = %d", counter);
-
-    ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", static_cast<double>(1000.0f / ImGui::GetIO().Framerate),
-                static_cast<double>(ImGui::GetIO().Framerate));
+    }
     ImGui::End();
 #endif
 }
+
+#if defined(IMGUI_ENABLED)
+ImRect RenderTree(std::vector<Node *> n)
+{
+    const ImRect nodeRect = ImRect(ImGui::GetItemRectMin(), ImGui::GetItemRectMax());
+    for (auto node : n) {
+        const bool recurse = ImGui::TreeNode(node->getId().c_str());
+
+//        ImDrawList* drawList = ImGui::GetWindowDrawList();
+        if (recurse) {
+            RenderTree(node->getChilds());
+            ImGui::TreePop();
+            ImGui::Separator();
+        }
+    }
+
+
+    return nodeRect;
+}
+#endif
 
 void ImGuiManager::PostRender() {
 #if defined(IMGUI_ENABLED)

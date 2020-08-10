@@ -32,6 +32,10 @@ namespace TGEngine::core {
                 return nullptr;
             }
 
+            std::vector<Node *> &getChilds() {
+                return nodes;
+            };
+
             void init() {
                 //TODO Load Scenes with states
             }
