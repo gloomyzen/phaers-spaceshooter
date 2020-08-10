@@ -1,6 +1,7 @@
 #include "GameApplication.h"
 #include "Nodes/NodeManager.h"
 #include "Game/StateModule/StateManager.h"
+#include "Core/Debug/ImGui/ImGuiManager.h"
 
 using namespace TGEngine::core;
 
@@ -17,32 +18,35 @@ void GameApplication::Init() {
         return true;
     });
     GET_STATE_MANAGER().changeState(TGEngine::game::eStateType::MAIN_MENU);
-#ifdef DEBUG1
-    imGuiInstance = new ImGuiLoader(getWindow(), glslVersion);
-#endif
 }
 
 void GameApplication::ProcessInput() {
     SDL_PollEvent(&getEvents());
     if (getEvents().type == SDL_QUIT) { state = stateExit; }
+    else if (getEvents().type == SDL_MOUSEWHEEL)
+    {
+#if defined(IMGUI_ENABLED)
+        GET_IMGUI_MANAGER().setWheel(getEvents().wheel.y);
+#endif
+    }
+#if defined(IMGUI_ENABLED)
+    GET_IMGUI_MANAGER().ProcessInput();
+#endif
 }
 
 void GameApplication::Update() {
-#ifdef DEBUG1
-    imGuiInstance->Update(dt);
-#endif
     GET_NODE_MANAGER().update();
 }
 
 void GameApplication::Render() {
-#ifdef DEBUG1
-    imGuiInstance->Render();
-#endif
     GET_NODE_MANAGER().render();
+#if defined(IMGUI_ENABLED)
+    GET_IMGUI_MANAGER().Render();
+#endif
 }
 
 void GameApplication::PostRender() {
-#ifdef DEBUG1
-    imGuiInstance->PostRender();
+#if defined(IMGUI_ENABLED)
+    GET_IMGUI_MANAGER().PostRender();
 #endif
 }

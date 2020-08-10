@@ -3,10 +3,6 @@
 
 #include "Application.h"
 
-#ifdef DEBUG1
-#include "Debug/ImGuiLoader.h"
-#endif
-
 #define GET_APPLICATION() TGEngine::core::GameApplication::getInstance()
 
 namespace TGEngine::core {
@@ -26,11 +22,6 @@ namespace TGEngine::core {
         void Render();
 
         void PostRender();
-
-    private:
-#ifdef DEBUG1
-        ImGuiLoader *imGuiInstance = nullptr;
-#endif
     };
 
 }

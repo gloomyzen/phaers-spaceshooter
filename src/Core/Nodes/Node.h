@@ -129,8 +129,23 @@ namespace TGEngine::core {
                 LOG_ERROR("Node::addChild Child node has no identifier!");
                 return;
             }
+//            std::for_each(this->childsList.begin(), this->childsList.end(), [&node](Node* n) {
+//                node->childsList.emplace_back(n);
+//            });
+//            for(auto c : childsList) {
+//                node->childsList.emplace_back(c);
+//            }
+//            std::for_each(node->childsList.begin(), node->childsList.end(), [&](Node* n) {
+//                childsList.emplace_back(n);
+//            });
+//            for(auto c : node->childsList) {
+//                childsList.emplace_back(c);
+//            }
             node->childsList.emplace_back(this);
             childs.emplace_back(node);
+            //node
+            //*** node <- current
+            //*** *** node
         }
 
         bool hasChilds() {

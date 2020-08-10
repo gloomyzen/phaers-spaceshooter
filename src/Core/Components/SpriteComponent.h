@@ -60,8 +60,8 @@ namespace TGEngine::core {
             }
             srcRect.y = animIndex * transform->getHeight();
 
-            destRect.x = static_cast<int>(transform->getRenderX());
-            destRect.y = static_cast<int>(transform->getRenderY());
+            destRect.x = static_cast<int>(transform->getGlobalX());
+            destRect.y = static_cast<int>(transform->getGlobalY());
             destRect.w = static_cast<int>(static_cast<float>(transform->getWidth()) * transform->getScale());
             destRect.h = static_cast<int>(static_cast<float>(transform->getHeight()) * transform->getScale());
         }

@@ -1,5 +1,6 @@
 #include "Application.h"
 #include "Debug/Logger.h"
+#include "Debug/ImGui/ImGuiManager.h"
 
 using namespace TGEngine::core;
 
@@ -47,8 +48,19 @@ Application::Application()
             SDL_RenderClear(getRenderer());
             LOG_INFO("Renderer created");
         }
-        //TODO    Application::camera = {0, 0, width, height};
+
         state = State::stateReady;
+
+        /***
+         * Change renderer scale for all devices
+         */
+        auto [_w, _h, _dpi] = GetWindowResolution();
+        SDL_RenderSetScale(getRenderer(), _dpi, _dpi);
+
+#if defined(IMGUI_ENABLED)
+        GET_IMGUI_MANAGER().Initialize();
+#endif
+
     } else {
         state = State::stateExit;
         LOG_ERROR("Application::Application Couldn't init SDL!");
@@ -104,8 +116,18 @@ void Application::run() {
     while (state == stateRun) {
         loop_iteration();
     }
-    SDL_DestroyWindow(window);
+
+#if defined(IMGUI_ENABLED)
+    GET_IMGUI_MANAGER().Deinitialize();
+#endif
+
     SDL_DestroyRenderer(getRenderer());
+    SDL_DestroyWindow(window);
+
+#if defined(IMGUI_ENABLED)
+    GET_IMGUI_MANAGER().DestroyContext();
+#endif
+
     IMG_Quit();
     SDL_Quit();
     LOG_INFO("Application stopped");
@@ -125,7 +147,13 @@ void Application::detectWindowDimensionChange() {
         width = w;
         height = h;
         SDL_SetWindowSize(getWindow(), width, height);
-        // TODO reinit game or camera ?
+        auto [w, h, dpi] = GetWindowResolution();
+        SDL_RenderSetScale(renderer, dpi, dpi);
+
+#if defined(IMGUI_ENABLED)
+        GET_IMGUI_MANAGER().ChangeDimension();
+#endif
+
     }
 }
 
@@ -138,17 +166,17 @@ void Application::detectWindowDimensionChange() {
 [[maybe_unused]] bool Application::windowDimensionChanged() const { return dimensionChanged; }
 
 //TODO test this
-//[[maybe_unused]] std::tuple<int, int, float> Application::GetWindowResolution()
-//{
-//
-//  int w, h;
-//  if (!isEmscripten() && SDL_GetRendererOutputSize(getRenderer(), &w, &h) == 0) {
+[[maybe_unused]] std::tuple<int, int, float> Application::GetWindowResolution()
+{
+
+  int w, h;
+  if (!isEmscripten() && SDL_GetRendererOutputSize(getRenderer(), &w, &h) == 0) {
 //     Client window is high dpi device
-//    return std::make_tuple(w, h, static_cast<float>(std::abs(w / width)));
-//  }
-//
+    return std::make_tuple(w, h, static_cast<float>(std::abs(w / width)));
+  }
+
 //   Unable to get the actual area size in pixels, so the resolution is 1:1
-//  return std::make_tuple(width, height, 1);
-//}
+  return std::make_tuple(width, height, 1);
+}
 
 bool Application::isEmscripten() const { return false; }
