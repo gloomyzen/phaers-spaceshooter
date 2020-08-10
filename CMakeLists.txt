@@ -197,6 +197,7 @@ include_directories(
 
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/ImGui.cmake)
 if(IMGUI_ENABLED)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DIMGUI_ENABLED")
     target_link_libraries(imgui_target PUBLIC project_dependency)
     target_link_libraries(project_dependency INTERFACE imgui_target)
 endif()

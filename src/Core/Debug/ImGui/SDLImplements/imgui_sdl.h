@@ -1,4 +1,4 @@
-#if defined(DEBUG) && !defined(TOWERDEFENSE_GAME_IMGUI_SDL_H)
+#if defined(IMGUI_ENABLED) && !defined(TOWERDEFENSE_GAME_IMGUI_SDL_H)
 #define TOWERDEFENSE_GAME_IMGUI_SDL_H
 
 #include "Core/moduleDefinitions.h"
@@ -20,4 +20,4 @@ namespace ImGuiSDL
 }
 
 
-#endif //TOWERDEFENSE_GAME_IMGUI_SDL_H
+#endif //defined(IMGUI_ENABLED) && TOWERDEFENSE_GAME_IMGUI_SDL_H

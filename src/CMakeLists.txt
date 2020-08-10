@@ -10,9 +10,9 @@ set(GAME_MODULE_NAME GameModule CACHE INTERNAL "")
 add_library(${CORE_MODULE_NAME} STATIC
         Core/moduleDefinitions.h
         #### DEBUG ####
-        Core/Debug/Logger.cpp
-        Core/Debug/Logger.h
-        Core/Debug/imgui_sdl.cpp Core/Debug/imgui_sdl.h
+        Core/Debug/Logger.cpp Core/Debug/Logger.h
+        Core/Debug/ImGui/SDLImplements/imgui_sdl.cpp Core/Debug/ImGui/SDLImplements/imgui_sdl.h
+        Core/Debug/ImGui/ImGuiManager.cpp Core/Debug/ImGui/ImGuiManager.h
         #### APPLICATION ####
         Core/Application.cpp Core/Application.h
         Core/GameApplication.cpp Core/GameApplication.h

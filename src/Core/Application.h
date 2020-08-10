@@ -55,7 +55,8 @@ namespace TGEngine::core {
 
         [[maybe_unused]] bool windowDimensionChanged() const;
 
-//  [[maybe_unused]] std::tuple<int, int, float> GetWindowResolution();
+        [[maybe_unused]] std::tuple<int, int, float> GetWindowResolution();
+
         bool isEmscripten() const;
 
     private:
@@ -93,9 +94,6 @@ namespace TGEngine::core {
         };
 
         State state;
-
-        //ImGui
-        int wheel = 0;
     };
 
 }

@@ -1,16 +1,13 @@
 #include "imgui_sdl.h"
 
+#if defined(IMGUI_ENABLED)
+
 #include "Core/moduleDefinitions.h"
-
 #include "imgui.h"
-
-#include <map>
 #include <list>
 #include <cmath>
 #include <array>
-#include <vector>
 #include <memory>
-#include <iostream>
 #include <algorithm>
 #include <functional>
 #include <unordered_map>
@@ -677,3 +674,5 @@ namespace ImGuiSDL
         SDL_SetRenderDrawBlendMode(CurrentDevice->Renderer, blendMode);
     }
 }
+
+#endif //defined(IMGUI_ENABLED)
