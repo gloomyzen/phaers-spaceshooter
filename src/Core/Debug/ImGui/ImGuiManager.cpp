@@ -25,6 +25,7 @@ void ImGuiManager::Initialize() {
     ImGui::CreateContext();
     auto [width, height, dpi] = GET_APPLICATION().GetWindowResolution();
     ImGuiSDL::Initialize(GET_APPLICATION().getRenderer(), width, height);
+    ImGuiSDL::SetupImGuiStyle2();
 #endif
 }
 
