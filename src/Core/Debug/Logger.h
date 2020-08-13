@@ -38,13 +38,15 @@ namespace TGEngine::core {
 
         void error(const std::string &message);
 
+    private:
         /**
          * Получение префикса типа события
          * @return std::string
          */
         std::string getType(const eLogTypes&);
 
-    private:
+        void addLogMessage(sLogMessage *);
+
         std::vector<sLogMessage *> log{};
     };
 

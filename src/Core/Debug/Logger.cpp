@@ -4,11 +4,13 @@
 
 using namespace TGEngine::core;
 
-std::map<eLogTypes, std::string> mapPrefix = {
+const std::map<eLogTypes, std::string> mapPrefix = {
         {eLogTypes::INFO, "[INFO] "},
         {eLogTypes::WARNING, "[WARNING] "},
         {eLogTypes::ERROR, "[ERROR] "},
 };
+
+const size_t maxLogMessages = 32;
 
 void Logger::info(const std::string &message) {
 #ifdef DEBUG
@@ -18,7 +20,7 @@ void Logger::info(const std::string &message) {
     std::cout << "\033[1;32m" + getType(eLogTypes::INFO) + "\033[0m" << "\033[0;32m" << message << "\033[0m" << std::endl;
 #endif// WIN32
 #endif// DEBUG
-    log.emplace_back(new sLogMessage(eLogTypes::INFO, message));
+    addLogMessage(new sLogMessage(eLogTypes::INFO, message));
 }
 
 void Logger::warning(const std::string &message) {
@@ -29,7 +31,7 @@ void Logger::warning(const std::string &message) {
     std::cout << "\033[1;33m" + getType(eLogTypes::WARNING) + "\033[0m" << "\033[0;33m" << message << "\033[0m" << std::endl;
 #endif// WIN32
 #endif// DEBUG
-    log.emplace_back(new sLogMessage(eLogTypes::WARNING, message));
+    addLogMessage(new sLogMessage(eLogTypes::WARNING, message));
 }
 
 void Logger::error(const std::string &message) {
@@ -40,7 +42,7 @@ void Logger::error(const std::string &message) {
     std::cout << "\033[1;31m" + getType(eLogTypes::ERROR) + "\033[0m" << "\033[0;31m" << message << "\033[0m" << std::endl;
 #endif// WIN32
 #endif// DEBUG
-    log.emplace_back(new sLogMessage(eLogTypes::ERROR, message));
+    addLogMessage(new sLogMessage(eLogTypes::ERROR, message));
 }
 
 std::string Logger::getType(const eLogTypes &type) {
@@ -48,6 +50,13 @@ std::string Logger::getType(const eLogTypes &type) {
         return mapPrefix.find(type)->second;
     }
     return std::string();
+}
+
+void Logger::addLogMessage(sLogMessage * message) {
+    log.emplace_back(message);
+    if (log.size() > maxLogMessages) {
+        log.erase(log.begin());
+    }
 }
 
 Logger *_loggerInstance = nullptr;
