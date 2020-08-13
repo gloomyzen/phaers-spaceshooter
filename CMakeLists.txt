@@ -210,9 +210,9 @@ set_property(TARGET main PROPERTY CXX_STANDARD 11)
 
 # standard compiler warnings
 include(cmake/CompilerWarnings.cmake)
-add_library(module_warning_target INTERFACE)
-target_link_libraries(module_warning_target INTERFACE ${CORE_MODULE_NAME} ${GAME_MODULE_NAME})
-set_project_warnings(module_warning_target)
+add_library(project_warnings INTERFACE)
+set_project_warnings(project_warnings)
+target_link_libraries(project_warnings INTERFACE ${CORE_MODULE_NAME} ${GAME_MODULE_NAME})
 
 target_link_libraries(main PRIVATE ${CORE_MODULE_NAME} ${GAME_MODULE_NAME} project_options project_dependency)
 
