@@ -1,6 +1,8 @@
 #include "Application.h"
 #include "Debug/Logger.h"
+#if defined(IMGUI_ENABLED)
 #include "Debug/ImGui/ImGuiManager.h"
+#endif
 
 using namespace TGEngine::core;
 
@@ -58,7 +60,7 @@ Application::Application()
         SDL_RenderSetScale(getRenderer(), _dpi, _dpi);
 
 #if defined(IMGUI_ENABLED)
-        GET_IMGUI_MANAGER().Initialize();
+        GET_IMGUI_MANAGER().initialize();
 #endif
 
     } else {
@@ -118,14 +120,14 @@ void Application::run() {
     }
 
 #if defined(IMGUI_ENABLED)
-    GET_IMGUI_MANAGER().Deinitialize();
+    GET_IMGUI_MANAGER().deinitialize();
 #endif
 
     SDL_DestroyRenderer(getRenderer());
     SDL_DestroyWindow(window);
 
 #if defined(IMGUI_ENABLED)
-    GET_IMGUI_MANAGER().DestroyContext();
+    GET_IMGUI_MANAGER().destroyContext();
 #endif
 
     IMG_Quit();
@@ -151,7 +153,7 @@ void Application::detectWindowDimensionChange() {
         SDL_RenderSetScale(renderer, dpi, dpi);
 
 #if defined(IMGUI_ENABLED)
-        GET_IMGUI_MANAGER().ChangeDimension();
+        GET_IMGUI_MANAGER().changeDimension();
 #endif
 
     }

@@ -1,7 +1,9 @@
 #include "GameApplication.h"
 #include "Nodes/NodeManager.h"
 #include "Game/StateModule/StateManager.h"
+#if defined(IMGUI_ENABLED)
 #include "Core/Debug/ImGui/ImGuiManager.h"
+#endif
 
 using namespace TGEngine::core;
 
@@ -30,7 +32,7 @@ void GameApplication::ProcessInput() {
 #endif
     }
 #if defined(IMGUI_ENABLED)
-    GET_IMGUI_MANAGER().ProcessInput();
+    GET_IMGUI_MANAGER().processInput();
 #endif
 }
 
@@ -41,12 +43,12 @@ void GameApplication::Update() {
 void GameApplication::Render() {
     GET_NODE_MANAGER().render();
 #if defined(IMGUI_ENABLED)
-    GET_IMGUI_MANAGER().Render();
+    GET_IMGUI_MANAGER().render();
 #endif
 }
 
 void GameApplication::PostRender() {
 #if defined(IMGUI_ENABLED)
-    GET_IMGUI_MANAGER().PostRender();
+    GET_IMGUI_MANAGER().postRender();
 #endif
 }

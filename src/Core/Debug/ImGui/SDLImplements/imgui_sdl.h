@@ -11,7 +11,7 @@ namespace ImGuiSDL
     // Call this to initialize the SDL renderer device that is internally used by the renderer.
     void Initialize(SDL_Renderer* renderer, int windowWidth, int windowHeight);
 
-    void SetupImGuiStyle2();
+    void SetupImGuiStyle();
     // Call this before destroying your SDL renderer or ImGui to ensure that proper cleanup is done. This doesn't do anything critically important though,
     // so if you're fine with small memory leaks at the end of your application, you can even omit this.
     void Deinitialize();
