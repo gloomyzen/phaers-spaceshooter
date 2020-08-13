@@ -18,7 +18,7 @@ namespace TGEngine::core::debug {
         [[maybe_unused]] void setWheel(int _wheel);
 
     private:
-        [[maybe_unused]] int wheel = 0;
+        int wheel = 0;
     };
 }
 

@@ -12,7 +12,8 @@ include(cmake/StandardProjectSettings.cmake)
 #------------------------------------------------------------------------------
 add_library(project_options INTERFACE)
 target_compile_features(project_options INTERFACE cxx_std_17)
-target_compile_options(project_options INTERFACE -Wall)
+
+
 
 if (NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE ${CMAKE_BUILD_TYPE} Debug)
@@ -31,17 +32,10 @@ include(ExternalProject)
 #------------------------------------------------------------------------------
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
 
-# Link this 'library' to use the warnings specified in CompilerWarnings.cmake
-add_library(project_warnings INTERFACE)
-
 add_library(project_dependency INTERFACE)
 
 # enable cache system
 include(cmake/Cache.cmake)
-
-# standard compiler warnings
-include(cmake/CompilerWarnings.cmake)
-set_project_warnings(project_warnings)
 
 # sanitizer options if supported by compiler
 include(cmake/Sanitizers.cmake)
@@ -213,9 +207,14 @@ add_subdirectory(src)
 add_executable(main src/main.cpp)
 
 set_property(TARGET main PROPERTY CXX_STANDARD 11)
-target_compile_options(main PRIVATE -Wall)
 
-target_link_libraries(main PRIVATE ${CORE_MODULE_NAME} ${GAME_MODULE_NAME} project_options project_dependency project_warnings)
+# standard compiler warnings
+include(cmake/CompilerWarnings.cmake)
+add_library(module_warning_target INTERFACE)
+target_link_libraries(module_warning_target INTERFACE ${CORE_MODULE_NAME} ${GAME_MODULE_NAME})
+set_project_warnings(module_warning_target)
+
+target_link_libraries(main PRIVATE ${CORE_MODULE_NAME} ${GAME_MODULE_NAME} project_options project_dependency)
 
 #------------------------------------------------------------------------------
 #                               Tests section
