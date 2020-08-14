@@ -31,9 +31,6 @@ include(ExternalProject)
 #------------------------------------------------------------------------------
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
 
-# Link this 'library' to use the warnings specified in CompilerWarnings.cmake
-add_library(project_warnings INTERFACE)
-
 add_library(project_dependency INTERFACE)
 
 # enable cache system
@@ -41,7 +38,6 @@ include(cmake/Cache.cmake)
 
 # standard compiler warnings
 include(cmake/CompilerWarnings.cmake)
-set_project_warnings(project_warnings)
 
 # sanitizer options if supported by compiler
 include(cmake/Sanitizers.cmake)
@@ -210,6 +206,16 @@ add_subdirectory(src)
 #------------------------------------------------------------------------------
 #                               Export target
 #------------------------------------------------------------------------------
+add_executable(main src/main.cpp)
+
+set_property(TARGET main PROPERTY CXX_STANDARD 11)
+
+# standard compiler warnings
+add_library(project_warnings INTERFACE)
+set_project_warnings(project_warnings)
+target_link_libraries(project_warnings INTERFACE ${CORE_MODULE_NAME} ${GAME_MODULE_NAME})
+
+target_link_libraries(main PRIVATE ${CORE_MODULE_NAME} ${GAME_MODULE_NAME} project_options project_dependency)
 #add_library(${PROJECT_NAME} STATIC)
 #target_include_directories(${PROJECT_NAME} INTERFACE
 #        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>

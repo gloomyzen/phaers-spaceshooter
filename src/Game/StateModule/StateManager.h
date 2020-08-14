@@ -2,6 +2,7 @@
 #define TOWERDEFENSE_GAME_STATEMANAGER_H
 
 #include <map>
+#include <functional>
 
 #define GET_STATE_MANAGER() TGEngine::game::StateManagerInstance().getInstance()
 

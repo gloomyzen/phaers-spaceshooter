@@ -65,8 +65,8 @@ set_target_properties(${GAME_MODULE_NAME} PROPERTIES
 #------------------------------------------------------------------------------
 #                            Modules dependency
 #------------------------------------------------------------------------------
-target_link_libraries(${CORE_MODULE_NAME} PRIVATE ${GAME_MODULE_NAME} project_options project_dependency project_warnings)
-target_link_libraries(${GAME_MODULE_NAME} PRIVATE ${CORE_MODULE_NAME} project_options project_dependency project_warnings)
+target_link_libraries(${CORE_MODULE_NAME} PRIVATE ${GAME_MODULE_NAME} project_options project_dependency)
+target_link_libraries(${GAME_MODULE_NAME} PRIVATE ${CORE_MODULE_NAME} project_options project_dependency)
 
 #TODO move this in toolchain
 if (EMSCRIPTEN)
