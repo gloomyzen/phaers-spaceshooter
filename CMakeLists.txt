@@ -36,9 +36,6 @@ add_library(project_dependency INTERFACE)
 # enable cache system
 include(cmake/Cache.cmake)
 
-# standard compiler warnings
-include(cmake/CompilerWarnings.cmake)
-
 # sanitizer options if supported by compiler
 include(cmake/Sanitizers.cmake)
 enable_sanitizers(project_options)
@@ -204,23 +201,23 @@ endif()
 add_subdirectory(src)
 
 #------------------------------------------------------------------------------
-#                               Export target
+#                          Compiler warnings target
 #------------------------------------------------------------------------------
-add_executable(main src/main.cpp)
-
-set_property(TARGET main PROPERTY CXX_STANDARD 11)
-
-# standard compiler warnings
+include(cmake/CompilerWarnings.cmake)
 add_library(project_warnings INTERFACE)
-set_project_warnings(project_warnings)
+set_project_warnings(project_warnings) # <- set enabled maximum compile warnings
 target_link_libraries(project_warnings INTERFACE ${CORE_MODULE_NAME} ${GAME_MODULE_NAME})
 
-target_link_libraries(main PRIVATE ${CORE_MODULE_NAME} ${GAME_MODULE_NAME} project_options project_dependency)
-#add_library(${PROJECT_NAME} STATIC)
-#target_include_directories(${PROJECT_NAME} INTERFACE
-#        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
-#        )
-#target_link_libraries(${PROJECT_NAME} PRIVATE ${GAME_MODULE_NAME} project_options project_dependency project_warnings)
+#------------------------------------------------------------------------------
+#                               Export target
+#------------------------------------------------------------------------------
+add_library(${PROJECT_NAME} SHARED $<TARGET_OBJECTS:${CORE_MODULE_NAME}>
+        $<TARGET_OBJECTS:${GAME_MODULE_NAME}>
+        )
+target_include_directories(${PROJECT_NAME} INTERFACE
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
+        )
+target_link_libraries(${PROJECT_NAME} PUBLIC ${CORE_MODULE_NAME} ${GAME_MODULE_NAME} project_options project_dependency)
 
 #------------------------------------------------------------------------------
 #                               Example targets
@@ -231,7 +228,7 @@ add_executable(example_simple_draw src/main.cpp)
 set_property(TARGET example_simple_draw PROPERTY CXX_STANDARD 11)
 target_compile_options(example_simple_draw PRIVATE -Wall)
 
-target_link_libraries(example_simple_draw PRIVATE ${CORE_MODULE_NAME} ${GAME_MODULE_NAME} project_options project_dependency project_warnings)
+target_link_libraries(example_simple_draw PRIVATE ${PROJECT_NAME})
 
 #------------------------------------------------------------------------------
 #                               Tests section
