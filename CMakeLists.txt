@@ -2,7 +2,7 @@
 #                       General Projects Settings
 #------------------------------------------------------------------------------
 cmake_minimum_required(VERSION 3.11)
-project(towerdefense-game
+project(tgengine
         LANGUAGES CXX
         )
 include(cmake/StandardProjectSettings.cmake)
@@ -27,7 +27,7 @@ endif ()
 include(ExternalProject)
 
 #------------------------------------------------------------------------------
-#                           General dependencies.
+#                           General options.
 #------------------------------------------------------------------------------
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
 
@@ -66,7 +66,6 @@ endif ()
 
 #------------------------------------------------------------------------------
 #                           Detect emscripten is used.
-# TODO: move this in toolchain
 #------------------------------------------------------------------------------
 if (EMSCRIPTEN)
 # TODO move this to cmake/platform/emscripten
@@ -110,7 +109,8 @@ if (EMSCRIPTEN)
         message(STATUS CMAKE_CXX_FLAGS " --preload-file ${file}@/${relative_file}")
     endforeach ()
 
-else () # Not Web
+endif()
+if (NOT EMSCRIPTEN)
 
     file(COPY "${CMAKE_SOURCE_DIR}/resources/sprites/"
             DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/resources/sprites)
@@ -203,24 +203,35 @@ if(IMGUI_ENABLED)
 endif()
 
 #------------------------------------------------------------------------------
-#                         Include src with modules
+#                           Include src with modules
 #------------------------------------------------------------------------------
 add_subdirectory(src)
 
 #------------------------------------------------------------------------------
-#                               Main Target
+#                               Export target
 #------------------------------------------------------------------------------
-add_executable(main src/main.cpp)
+#add_library(${PROJECT_NAME} STATIC)
+#target_include_directories(${PROJECT_NAME} INTERFACE
+#        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
+#        )
+#target_link_libraries(${PROJECT_NAME} PRIVATE ${GAME_MODULE_NAME} project_options project_dependency project_warnings)
 
-set_property(TARGET main PROPERTY CXX_STANDARD 11)
-target_compile_options(main PRIVATE -Wall)
+#------------------------------------------------------------------------------
+#                               Example targets
+#------------------------------------------------------------------------------
 
-target_link_libraries(main PRIVATE ${CORE_MODULE_NAME} ${GAME_MODULE_NAME} project_options project_dependency project_warnings)
+add_executable(example_simple_draw src/main.cpp)
+
+set_property(TARGET example_simple_draw PROPERTY CXX_STANDARD 11)
+target_compile_options(example_simple_draw PRIVATE -Wall)
+
+target_link_libraries(example_simple_draw PRIVATE ${CORE_MODULE_NAME} ${GAME_MODULE_NAME} project_options project_dependency project_warnings)
 
 #------------------------------------------------------------------------------
 #                               Tests section
 #------------------------------------------------------------------------------
 
+#TODO is lib
 if (NOT EMSCRIPTEN)
     enable_testing()
     add_subdirectory(tests)
