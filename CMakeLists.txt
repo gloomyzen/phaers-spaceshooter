@@ -227,7 +227,8 @@ add_executable(example_simple_draw src/main.cpp)
 set_property(TARGET example_simple_draw PROPERTY CXX_STANDARD 11)
 target_compile_options(example_simple_draw PRIVATE -Wall)
 target_link_libraries(example_simple_draw PRIVATE ${PROJECT_NAME})
-update_project_resources(example_simple_draw ${CMAKE_CURRENT_SOURCE_DIR})
+#update_project_resources(example_simple_draw ${CMAKE_CURRENT_SOURCE_DIR})
+#update_project_target(example_simple_draw)
 
 #------------------------------------------------------------------------------
 #                               Tests section

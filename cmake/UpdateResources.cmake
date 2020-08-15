@@ -64,17 +64,20 @@ function(update_project_resources target_name target_current_source_dir)
     endif()# EMSCRIPTEN
 
     if (NOT EMSCRIPTEN)
+        if(EXISTS ${target_current_source_dir}/resources/${target_name}/sprites)
         file(COPY "${target_current_source_dir}/resources/${target_name}/sprites/"
                 DESTINATION ${CMAKE_BINARY_DIR}/${target_name}/sprites)
+        endif()
+
+        if(EXISTS ${target_current_source_dir}/resources/${target_name}/data)
 
         file(COPY "${target_current_source_dir}/resources/${target_name}/data/"
                 DESTINATION ${CMAKE_BINARY_DIR}/${target_name}/data)
+        endif()
 
         if(EXISTS ${target_current_source_dir}/resources/${target_name}/fonts)
-
             file(COPY "${target_current_source_dir}/resources/${target_name}/fonts/"
                     DESTINATION ${CMAKE_BINARY_DIR}/${target_name}/fonts)
-
         endif()
 
     endif()# NOT EMSCRIPTEN

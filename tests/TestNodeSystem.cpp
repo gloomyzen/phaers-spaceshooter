@@ -155,7 +155,7 @@ TEST(NodeLoadProperty, NodeManagerTest) {
     // Simple node
     auto node = new Node();
     node->setId("simpleNode");
-    node->loadProperty("gtest", "../");
+    node->loadProperty("gtest");
     EXPECT_FALSE(node->hasChilds());
     EXPECT_TRUE(node->findNode("mainMenuBG") == nullptr);
     EXPECT_TRUE(node->hasComponent<TransformComponent>());
@@ -164,7 +164,7 @@ TEST(NodeLoadProperty, NodeManagerTest) {
     // Node with childs
     auto nodeNext = new Node();
     nodeNext->setId("nodeWithChilds");
-    nodeNext->loadProperty("gtest", "../");
+    nodeNext->loadProperty("gtest");
     EXPECT_TRUE(nodeNext->hasChilds());
     EXPECT_TRUE(nodeNext->findNode("mainMenuBG") == nullptr);
     EXPECT_FALSE(nodeNext->hasNode("mainMenuBG"));
@@ -188,7 +188,7 @@ TEST(NodeNodeFactory, NodeManagerTest) {
     EXPECT_FALSE(node->hasComponent<TransformComponent>());
     EXPECT_FALSE(node->hasComponent<SpriteComponent>());
 
-    node->loadProperty("gtest", "../");
+    node->loadProperty("gtest");
     EXPECT_TRUE(node->hasComponent<TransformComponent>());
     EXPECT_TRUE(node->hasComponent<SpriteComponent>());
 

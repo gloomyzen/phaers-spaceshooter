@@ -14,7 +14,7 @@ endfunction()
 
 ################### General tests ###################
 init_test(TestJsonDeps ./TestJsonDeps.cpp)
-add_deps_to_test(TestJsonDeps ${CORE_MODULE_NAME} ${GAME_MODULE_NAME})
+add_deps_to_test(TestJsonDeps ${CORE_MODULE_NAME} ${GAME_MODULE_NAME} project_dependency)
 
 #################### Core Module ####################
 init_test(TestVector2D ./TestVector2D.cpp ../src/Core/DataTypes/Vector2D.cpp ../src/Core/DataTypes/Vector2D.h)
@@ -22,4 +22,5 @@ add_deps_to_test(TestVector2D ${CORE_MODULE_NAME} ${GAME_MODULE_NAME})
 
 #################### Node System ####################
 init_test(TestNodeSystem ./TestNodeSystem.cpp)
-add_deps_to_test(TestNodeSystem ${CORE_MODULE_NAME} ${GAME_MODULE_NAME})
+add_deps_to_test(TestNodeSystem ${CORE_MODULE_NAME} ${GAME_MODULE_NAME} project_dependency)
+update_project_resources(TestNodeSystem "${CMAKE_CURRENT_SOURCE_DIR}/..")
