@@ -1,4 +1,14 @@
 #------------------------------------------------------------------------------
+# External dependencies and external project flags:
+#------------------------------------------------------------------------------
+# ID NAME           FLAG FOR EXTERNAL USE       TARGET NAME FOR EXTERNAL PACKAGE
+# 1. ImGui          FLAG_EXTERNAL_IMGUI         imgui_ext_target                TODO <- ready
+# 2. RapidJson      FLAG_EXTERNAL_RAPIDJSON     rapidjson_ext_target            TODO <- ready
+# 3. SDL2           FLAG_EXTERNAL_SDL2          //                              TODO <- not working
+# 4. SDL2_ttf       FLAG_EXTERNAL_SDL2TTF       //                              TODO <- not working
+# 5. SDL2_mixer     FLAG_EXTERNAL_SDL2MIXER     //                              TODO <- not working
+# 6. SDL2_image     FLAG_EXTERNAL_SDL2IMAGE     //                              TODO <- not working
+#------------------------------------------------------------------------------
 #                       General Projects Settings
 #------------------------------------------------------------------------------
 cmake_minimum_required(VERSION 3.11)
@@ -182,17 +192,40 @@ if (NOT EMSCRIPTEN)
 endif()
 
 #------------------------------------------------------------------------------
+#                        ImGui, included for debugging only
+#------------------------------------------------------------------------------
+if (NOT FLAG_EXTERNAL_IMGUI)
+    if (NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/lib/imgui/imgui.cpp)
+        message(FATAL_ERROR "ImGui not found, download lib/imgui or use 'git submodules update'.")
+    endif()
+    include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/ImGui.cmake)
+    if(IMGUI_ENABLED)
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DIMGUI_ENABLED")
+        target_link_libraries(project_dependency INTERFACE imgui_target)
+    endif()
+elseif(FLAG_EXTERNAL_IMGUI)
+    # Using external imgui_ext_target
+    if(IMGUI_ENABLED)
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DIMGUI_ENABLED")
+        target_link_libraries(project_dependency INTERFACE imgui_ext_target)
+    endif()
+endif()
+
+#------------------------------------------------------------------------------
 #                               Rapidjson
 #------------------------------------------------------------------------------
-include_directories(
-        ${CMAKE_CURRENT_SOURCE_DIR}/lib/rapidjson/include
-)
-
-include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/ImGui.cmake)
-if(IMGUI_ENABLED)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DIMGUI_ENABLED")
-    target_link_libraries(imgui_target PUBLIC project_dependency)
-    target_link_libraries(project_dependency INTERFACE imgui_target)
+if (NOT FLAG_EXTERNAL_RAPIDJSON)
+    if (NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/lib/rapidjson/include)
+        message(FATAL_ERROR "Rapidjson not found, download lib/rapidjson or use 'git submodules update'.")
+    endif()
+    add_library(rapidjson_target INTERFACE)
+    target_include_directories(rapidjson_target INTERFACE
+            $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib/rapidjson/include>
+            )
+    target_link_libraries(project_dependency INTERFACE rapidjson_target)
+elseif(FLAG_EXTERNAL_RAPIDJSON)
+    # Using external rapidjson_ext_target
+    target_link_libraries(project_dependency INTERFACE rapidjson_target)
 endif()
 
 #------------------------------------------------------------------------------
