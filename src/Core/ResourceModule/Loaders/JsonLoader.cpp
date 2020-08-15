@@ -2,7 +2,7 @@
 
 using namespace TGEngine::core;
 
-const std::string propFolder = "resources/data/";
+const std::string propFolder = "data/";
 
 JsonLoader::JsonLoader() {}
 JsonLoader::~JsonLoader() {}

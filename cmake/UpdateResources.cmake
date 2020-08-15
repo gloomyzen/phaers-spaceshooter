@@ -25,8 +25,8 @@ function(update_project_resources target_name target_current_source_dir)
             ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${target_name}"
             LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${target_name}"
             RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${target_name}"
-            COMPILE_DEFINITIONS "RESOURCES_PATH='${target_name}'"
-#            COMPILE_OPTIONS "-DRESOURCES_PATH=${CMAKE_BINARY_DIR}/${target_name}"
+#            COMPILE_DEFINITIONS "RESOURCES_PATH='${target_name}'"
+##            COMPILE_OPTIONS "-DRESOURCES_PATH=${CMAKE_BINARY_DIR}/${target_name}"
             )
 #    target_compile_definitions(${target_name} PUBLIC
 #            RESOURCES_PATH="${CMAKE_BINARY_DIR}/${target_name}")
@@ -56,7 +56,7 @@ function(update_project_resources target_name target_current_source_dir)
         endif ()
 
         foreach (file ${assets_files})
-            file(RELATIVE_PATH relative_file ${CMAKE_SOURCE_DIR} ${file})
+            file(RELATIVE_PATH relative_file "${target_current_source_dir}/resources/" ${file})
             string(APPEND CMAKE_CXX_FLAGS " --preload-file ${file}@/${relative_file}")
             message(STATUS CMAKE_CXX_FLAGS " --preload-file ${file}@/${relative_file}")
         endforeach ()
@@ -65,15 +65,15 @@ function(update_project_resources target_name target_current_source_dir)
 
     if (NOT EMSCRIPTEN)
         file(COPY "${target_current_source_dir}/resources/${target_name}/sprites/"
-                DESTINATION ${CMAKE_BINARY_DIR}/resources/${target_name}/sprites)
+                DESTINATION ${CMAKE_BINARY_DIR}/${target_name}/sprites)
 
         file(COPY "${target_current_source_dir}/resources/${target_name}/data/"
-                DESTINATION ${CMAKE_BINARY_DIR}/resources/${target_name}/data)
+                DESTINATION ${CMAKE_BINARY_DIR}/${target_name}/data)
 
         if(EXISTS ${target_current_source_dir}/resources/${target_name}/fonts)
 
             file(COPY "${target_current_source_dir}/resources/${target_name}/fonts/"
-                    DESTINATION ${CMAKE_BINARY_DIR}/resources/${target_name}/fonts)
+                    DESTINATION ${CMAKE_BINARY_DIR}/${target_name}/fonts)
 
         endif()
 
@@ -110,7 +110,7 @@ function(update_project_target target_name)
             list(APPEND CURRENT_TARGET_OPTION " -O3")
         endif ()
 
-        set_target_properties( ${target_name} PROPERTIES COMPILE_OPTIONS ${CURRENT_TARGET_OPTION})
+        set_target_properties( ${target_name} PROPERTIES COMPILE_FLAGS ${CURRENT_TARGET_OPTION})
 
     endif()
 endfunction()

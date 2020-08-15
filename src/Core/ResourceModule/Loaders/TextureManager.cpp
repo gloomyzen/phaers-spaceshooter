@@ -4,6 +4,8 @@
 
 using namespace TGEngine::core;
 
+const std::string spriteFolder = "sprites/";
+
 TextureManager::TextureManager() {}
 
 TextureManager::~TextureManager() {
@@ -11,8 +13,7 @@ TextureManager::~TextureManager() {
 }
 
 SDL_Texture *TextureManager::LoadTexture(const char *filePath) {
-    std::string fullPath = "resources/sprites/";
-    fullPath += filePath;
+    std::string fullPath = spriteFolder + filePath;
     if (hasLoadedTexture(fullPath.c_str())) {
         return texturesMap[fullPath.c_str()];
     }
