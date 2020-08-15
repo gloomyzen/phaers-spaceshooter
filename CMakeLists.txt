@@ -18,7 +18,7 @@ project(tgengine
 include(cmake/StandardProjectSettings.cmake)
 
 #------------------------------------------------------------------------------
-#                              Dependencies
+#                         Dependencies and variables
 #------------------------------------------------------------------------------
 add_library(project_options INTERFACE)
 target_compile_features(project_options INTERFACE cxx_std_17)
@@ -33,6 +33,13 @@ if (${CMAKE_BUILD_TYPE} STREQUAL "Debug")
 else ()
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DRELEASE")
 endif ()
+if (EMSCRIPTEN)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DEMSCRIPTEN")
+endif()
+if (APPLE OR MAC)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DAPPLE")
+    set(CMAKE_MACOSX_RPATH 1)
+endif()
 
 include(ExternalProject)
 
@@ -68,62 +75,19 @@ if (ENABLE_PCH)
 endif ()
 
 #------------------------------------------------------------------------------
-#                           Detect emscripten is used.
+#                              UpdateResources
 #------------------------------------------------------------------------------
-if (EMSCRIPTEN)
-# TODO move this to cmake/platform/emscripten
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DEMSCRIPTEN")
+include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/UpdateResources.cmake)
 
-    # Enabling debug bar.
-    if (${CMAKE_BUILD_TYPE} STREQUAL "Debug")
-        file(READ ${CMAKE_CURRENT_SOURCE_DIR}/resources/stub/index-debug-section.html debug-bar)
-    endif ()
+#------------------------------------------------------------------------------
+#                                   SDL2
+#------------------------------------------------------------------------------
+include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/SDL2.cmake)
+#target_link_libraries(project_dependency INTERFACE imgui_target)
 
-    # Copy the index.html file.
-    configure_file(
-            ${CMAKE_CURRENT_SOURCE_DIR}/resources/stub/index.html
-            ${CMAKE_CURRENT_BINARY_DIR}/index.html
-    )
-    # Copy the style.css file.
-    configure_file(
-            ${CMAKE_CURRENT_SOURCE_DIR}/resources/stub/style.css
-            ${CMAKE_CURRENT_BINARY_DIR}/style.css
-    )
-    # Copy the favicon.
-    configure_file(
-            ${CMAKE_CURRENT_SOURCE_DIR}/resources/stub/favicon.ico
-            ${CMAKE_CURRENT_BINARY_DIR}/favicon.ico
-    )
-
-    # Allow the resource directories to be fetched by the web browser.
-    file(GLOB assets_files
-            "${CMAKE_SOURCE_DIR}/resources/sprites/*"
-            "${CMAKE_SOURCE_DIR}/resources/font/*.ttf"
-            "${CMAKE_SOURCE_DIR}/resources/data/*.json"
-            )
-
-    if (${CMAKE_BUILD_TYPE} STREQUAL "Debug")
-        list(APPEND assets_files "${CMAKE_SOURCE_DIR}/lib/imgui/misc/fonts*.ttf")
-    endif ()
-
-    foreach (file ${assets_files})
-        file(RELATIVE_PATH relative_file ${CMAKE_SOURCE_DIR} ${file})
-        string(APPEND CMAKE_CXX_FLAGS " --preload-file ${file}@/${relative_file}")
-        message(STATUS CMAKE_CXX_FLAGS " --preload-file ${file}@/${relative_file}")
-    endforeach ()
-
-endif()
 if (NOT EMSCRIPTEN)
-
-    file(COPY "${CMAKE_SOURCE_DIR}/resources/sprites/"
-            DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/resources/sprites)
-    file(COPY "${CMAKE_SOURCE_DIR}/resources/data/"
-            DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/resources/data)
-
     # sdl
-    if (APPLE OR MAC)
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DAPPLE")
-        set(CMAKE_MACOSX_RPATH 1)
+    if (APPLE)
         if (NOT EXISTS "${CMAKE_SOURCE_DIR}/lib/macOS/SDL2.framework")
             message("Downloading SDL2 frameworks")
             execute_process(
@@ -235,16 +199,19 @@ add_subdirectory(src)
 
 #------------------------------------------------------------------------------
 #                          Compiler warnings target
+# Set enabled maximum compilation warnings for project_warnings target
 #------------------------------------------------------------------------------
 include(cmake/CompilerWarnings.cmake)
 add_library(project_warnings INTERFACE)
-set_project_warnings(project_warnings) # <- set enabled maximum compile warnings
+set_project_warnings(project_warnings)
 target_link_libraries(project_warnings INTERFACE ${CORE_MODULE_NAME} ${GAME_MODULE_NAME})
 
 #------------------------------------------------------------------------------
 #                               Export target
+# Exported target tgengine included all modules from tgengine/src
 #------------------------------------------------------------------------------
-add_library(${PROJECT_NAME} SHARED $<TARGET_OBJECTS:${CORE_MODULE_NAME}>
+add_library(${PROJECT_NAME} SHARED
+        $<TARGET_OBJECTS:${CORE_MODULE_NAME}>
         $<TARGET_OBJECTS:${GAME_MODULE_NAME}>
         )
 target_include_directories(${PROJECT_NAME} INTERFACE
@@ -255,19 +222,17 @@ target_link_libraries(${PROJECT_NAME} PUBLIC ${CORE_MODULE_NAME} ${GAME_MODULE_N
 #------------------------------------------------------------------------------
 #                               Example targets
 #------------------------------------------------------------------------------
-
+# Example of simple drawing of objects
 add_executable(example_simple_draw src/main.cpp)
-
 set_property(TARGET example_simple_draw PROPERTY CXX_STANDARD 11)
 target_compile_options(example_simple_draw PRIVATE -Wall)
-
 target_link_libraries(example_simple_draw PRIVATE ${PROJECT_NAME})
+update_project_resources(example_simple_draw ${CMAKE_CURRENT_SOURCE_DIR})
 
 #------------------------------------------------------------------------------
 #                               Tests section
 #------------------------------------------------------------------------------
 
-#TODO is lib
 if (NOT EMSCRIPTEN)
     enable_testing()
     add_subdirectory(tests)

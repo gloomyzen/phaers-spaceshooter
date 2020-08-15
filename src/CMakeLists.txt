@@ -67,29 +67,3 @@ set_target_properties(${GAME_MODULE_NAME} PROPERTIES
 #------------------------------------------------------------------------------
 target_link_libraries(${CORE_MODULE_NAME} PRIVATE ${GAME_MODULE_NAME} project_options project_dependency)
 target_link_libraries(${GAME_MODULE_NAME} PRIVATE ${CORE_MODULE_NAME} project_options project_dependency)
-
-#TODO move this in toolchain
-if (EMSCRIPTEN)
-    set_target_properties(main PROPERTIES OUTPUT_NAME "main.js")
-
-    string(APPEND CMAKE_CXX_FLAGS " -s DEMANGLE_SUPPORT=1")
-    string(APPEND CMAKE_CXX_FLAGS " -s DISABLE_EXCEPTION_CATCHING=2")
-    string(APPEND CMAKE_CXX_FLAGS " -s USE_SDL=2")
-    string(APPEND CMAKE_CXX_FLAGS " -s USE_SDL_IMAGE=2")
-    string(APPEND CMAKE_CXX_FLAGS " -s SDL2_IMAGE_FORMATS=[\"png\"]")
-    string(APPEND CMAKE_CXX_FLAGS " -s WASM=1")
-    string(APPEND CMAKE_CXX_FLAGS " -Wall")
-    string(APPEND CMAKE_CXX_FLAGS " -s NO_EXIT_RUNTIME=1")
-
-#    string(APPEND CMAKE_CXX_FLAGS " -s EXPORTED_FUNCTIONS=\"['_main', '_window_resize']\"")
-    string(APPEND CMAKE_CXX_FLAGS " -s LLD_REPORT_UNDEFINED") # For linking debugging
-    string(APPEND CMAKE_CXX_FLAGS " -s EXTRA_EXPORTED_RUNTIME_METHODS=\"['cwrap', 'ccall']\"")
-
-    #TODO add Release and Debug mode with some flags
-#    string(APPEND CMAKE_CXX_FLAGS " --closure 1")
-#    string(APPEND CMAKE_CXX_FLAGS " --js-opts 3")
-#    string(APPEND CMAKE_CXX_FLAGS " --llvm-lto 3")
-#    string(APPEND CMAKE_CXX_FLAGS " --llvm-opts 3")
-#    string(APPEND CMAKE_CXX_FLAGS " -O3")
-
-endif()

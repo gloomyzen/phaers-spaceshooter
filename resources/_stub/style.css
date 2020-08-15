@@ -25,7 +25,7 @@ html, body {
     /*max-height:600px;*/
 }
 
-.warning {
+/*.warning {
     color: #ffcc33;
     position: absolute;
     top: 0;
@@ -44,7 +44,7 @@ html, body {
     overflow: scroll;
     bottom:0;
     left:0;
-}
+}*/
 
 #loading_page {
     position:fixed;
