@@ -1,6 +1,8 @@
 #if defined(IMGUI_ENABLED)
 
 #include "ImGuiManager.h"
+#include "Core/Components/TransformComponent.h"
+#include "Core/Components/SpriteComponent.h"
 
 using namespace TGEngine::core;
 using namespace TGEngine::core::debug;
@@ -51,7 +53,7 @@ void ImGuiManager::processInput() {
     int mouseX, mouseY;
     const auto buttons = SDL_GetMouseState(&mouseX, &mouseY);
     // Setup low-level inputs (e.g. on Win32, GetKeyboardState(), or write to those fields from your Windows message loop handlers, etc.)
-    io.DeltaTime = 1.0f / 60.0f;
+//    io.DeltaTime = 1.0f / 60.0f;
     io.MousePos = ImVec2(static_cast<float>(mouseX), static_cast<float>(mouseY));
     io.MouseDown[0] = buttons & SDL_BUTTON(SDL_BUTTON_LEFT);
     io.MouseDown[1] = buttons & SDL_BUTTON(SDL_BUTTON_RIGHT);
@@ -100,22 +102,26 @@ void ImGuiManager::showNodeEditor(bool* nodeEditorOpened) {
 ImRect ImGuiManager::renderTree(std::vector<Node *> n)
 {
     const ImRect nodeRect = ImRect(ImGui::GetItemRectMin(), ImGui::GetItemRectMax());
-    for (auto node : n) {
+    for (auto &node : n) {
         const bool recurse = ImGui::TreeNode(node->getId().c_str());
 
-        ImGui::NextColumn();
-        ImGui::SetNextItemWidth(-1);
-//        if (i >= 5)
-//            ImGui::InputFloat("##value", &dummy_members[i], 1.0f);
-//        else
-//            ImGui::DragFloat("##value", &dummy_members[i], 0.01f);
-        ImGui::Text("my sailor is rich");
-        ImGui::NextColumn();
-
         if (recurse) {
+            ImGui::NextColumn();
+            ImGui::SetNextItemWidth(-1);
+            auto position = node->getComponent<TransformComponent>().getPosition();
+            auto xPos = position.getX();
+            float tempX = xPos;
+            ImGui::DragFloat("##value", &xPos, 1.f);
+            if (tempX != xPos) {
+                node->getComponent<TransformComponent>().setX(xPos);
+            }
+            std::string image = "Image: " + node->getComponent<SpriteComponent>().getImagePath();
+            ImGui::Text("%s", image.c_str());
+            ImGui::NextColumn();
+
             renderTree(node->getChilds());
             ImGui::TreePop();
-            ImGui::Separator();
+            //ImGui::Separator();
         }
     }
 

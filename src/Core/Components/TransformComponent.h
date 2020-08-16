@@ -81,6 +81,14 @@ namespace TGEngine::core {
             position.setY(_y);
         }
 
+        void setX(float _x) {
+            position.setX(_x);
+        }
+
+        void setY(float _y) {
+            position.setY(_y);
+        }
+
         float getGlobalX() {
             float renderX = getPosition().getX();
             for (auto child : getNode().getChildsList()) {

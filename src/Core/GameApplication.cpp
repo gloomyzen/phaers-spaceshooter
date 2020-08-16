@@ -23,12 +23,23 @@ void GameApplication::Init() {
 }
 
 void GameApplication::ProcessInput() {
-    SDL_PollEvent(&getEvents());
-    if (getEvents().type == SDL_QUIT) { state = stateExit; }
-    else if (getEvents().type == SDL_MOUSEWHEEL)
-    {
+//    SDL_PollEvent(&getEvents());
+//    if (getEvents().type == SDL_QUIT) { state = stateExit; }
+//    else if (getEvents().type == SDL_MOUSEWHEEL)
+//    {
+//#if defined(IMGUI_ENABLED)
+//        GET_IMGUI_MANAGER().setWheel(getEvents().wheel.y);
+//#endif
+//    }
+//#if defined(IMGUI_ENABLED)
+//    GET_IMGUI_MANAGER().processInput();
+//#endif
+    while (SDL_PollEvent(&getEvents())) {
+        if (getEvents().type == SDL_QUIT) { state = stateExit; }
 #if defined(IMGUI_ENABLED)
-        GET_IMGUI_MANAGER().setWheel(getEvents().wheel.y);
+        if (getEvents().type == SDL_MOUSEWHEEL) {
+            GET_IMGUI_MANAGER().setWheel(getEvents().wheel.y);
+        }
 #endif
     }
 #if defined(IMGUI_ENABLED)

@@ -22,6 +22,7 @@ namespace TGEngine::core {
         TransformComponent *transform{};
         SDL_Texture *texture{};
         SDL_Rect srcRect{}, destRect{};
+        std::string imagePath{};
 
         bool mAnimated = false;
         int frames = 0;
@@ -71,6 +72,7 @@ namespace TGEngine::core {
         }
 
         void setTexture(const char *path) {
+            imagePath = path;
             texture = GET_TEXTURE_MANAGER()->LoadTexture(path);
         }
 
@@ -112,6 +114,8 @@ namespace TGEngine::core {
         }
 
         std::map<std::string, sAnimation *> &getAnimations() { return animations; }
+
+        std::string getImagePath() { return imagePath; }
     };
 
 }// namespace TGEngine::core
