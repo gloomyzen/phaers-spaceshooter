@@ -48,8 +48,13 @@ namespace TGEngine::core {
                 for (auto &n : nodes) n->render();
             }
 
+            unsigned int getNextUid() {
+                return ++uid;
+            }
+
         private:
             std::vector<Node*> nodes;
+            unsigned int uid = 0u;
         };
 
     }//nodeManager

@@ -25,8 +25,10 @@ namespace TGEngine::core::debug {
         void setWheel(int _wheel);
 
     private:
+        /// Node editor
         void showNodeEditor(bool* p_open);
         ImRect renderTree(std::vector<Node *> n);
+        ImRect renderPreferences(Node *);
 
         /***
          * Application properties
@@ -47,6 +49,7 @@ namespace TGEngine::core::debug {
          */
         int nodeEditorW = 430;
         int nodeEditorH = 450;
+        unsigned int lastTarget = 0u;
     };
 }
 

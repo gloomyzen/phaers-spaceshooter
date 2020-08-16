@@ -102,31 +102,47 @@ void ImGuiManager::showNodeEditor(bool* nodeEditorOpened) {
 ImRect ImGuiManager::renderTree(std::vector<Node *> n)
 {
     const ImRect nodeRect = ImRect(ImGui::GetItemRectMin(), ImGui::GetItemRectMax());
+//    if (lastTarget == 0u) {
+//        lastTarget = n.front()->getChilds().front()->getUid();
+//    }
     for (auto &node : n) {
+        ImGui::AlignTextToFramePadding();
+        ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen | ImGuiTreeNodeFlags_Bullet;
         const bool recurse = ImGui::TreeNode(node->getId().c_str());
 
-        if (recurse) {
+        if (recurse/* && lastTarget == node->getUid()*/) {
+            ImGui::PushID(node->getUid());
             ImGui::NextColumn();
-            ImGui::SetNextItemWidth(-1);
-            auto position = node->getComponent<TransformComponent>().getPosition();
-            auto xPos = position.getX();
-            float tempX = xPos;
-            ImGui::DragFloat("##value", &xPos, 1.f);
-            if (tempX != xPos) {
-                node->getComponent<TransformComponent>().setX(xPos);
-            }
-            std::string image = "Image: " + node->getComponent<SpriteComponent>().getImagePath();
-            ImGui::Text("%s", image.c_str());
+
+            renderPreferences(node);
+
             ImGui::NextColumn();
 
             renderTree(node->getChilds());
-            ImGui::TreePop();
             //ImGui::Separator();
+            ImGui::PopID();
+            ImGui::TreePop();
         }
     }
 
 
     return nodeRect;
+}
+
+ImRect ImGuiManager::renderPreferences(Node * node) {
+    const ImRect prefRect = ImRect(ImGui::GetItemRectMin(), ImGui::GetItemRectMax());
+    auto position = node->getComponent<TransformComponent>().getPosition();
+    auto xPos = position.getX();
+    float tempX = xPos;
+    ImGui::DragFloat("##value", &xPos, 1.f);
+    if (tempX != xPos) {
+        node->getComponent<TransformComponent>().setX(xPos);
+    }
+
+    std::string image = "Image: " + node->getComponent<SpriteComponent>().getImagePath();
+    ImGui::Text("%s", image.c_str());
+
+    return prefRect;
 }
 
 void ImGuiManager::postRender() {

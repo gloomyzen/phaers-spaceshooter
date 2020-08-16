@@ -48,15 +48,19 @@ namespace TGEngine::core {
         std::vector<Node *> childs{};
         std::vector<Node *> childsList{};
         std::string id{};
+        unsigned int uid;
     public:
 
-        Node() {}
+        Node() {
+            setNextUid();
+        }
 
         Node(std::string nodeId) {
             if (nodeId.empty()) {
                 throw std::runtime_error("The current node has no id set!");
             }
             id = nodeId;
+            setNextUid();
         }
 
         ~Node() {
@@ -92,6 +96,10 @@ namespace TGEngine::core {
                 }
             }
         }
+
+        void setNextUid();
+
+        unsigned int getUid() { return uid; }
 
         template<typename T>
         [[nodiscard]] bool hasComponent() const { return componentBitSet[getComponentTypeID<T>()]; }

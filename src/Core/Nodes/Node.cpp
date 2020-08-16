@@ -1,6 +1,7 @@
 #include "Node.h"
 #include "Core/Components/AllComponentsHeaders.h"
 #include "Core/Nodes/NodeFactory.h"
+#include "Core/Nodes/NodeManager.h"
 
 using namespace TGEngine::core;
 
@@ -80,4 +81,8 @@ void Node::parseProperty(Node *node, const std::string &pathProperties, const st
 
     }
 
+}
+
+void Node::setNextUid() {
+    uid = GET_NODE_MANAGER().getNextUid();
 }
