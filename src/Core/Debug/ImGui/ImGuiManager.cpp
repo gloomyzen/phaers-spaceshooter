@@ -18,6 +18,9 @@ void ImGuiManager::initialize() {
     ImGui::CreateContext();
     auto [width, height, dpi] = GET_APPLICATION().GetWindowResolution();
     ImGuiSDL::Initialize(GET_APPLICATION().getRenderer(), width, height);
+    windowWidth = width;
+    windowHeight = height;
+    windowDpi = dpi;
     ImGuiSDL::SetupImGuiStyle();
 }
 
@@ -33,6 +36,10 @@ void ImGuiManager::changeDimension() {
     ImGuiIO& changeIO = ImGui::GetIO();
     changeIO.DisplaySize.x = static_cast<float>(GET_APPLICATION().getEvents().window.data1);
     changeIO.DisplaySize.y = static_cast<float>(GET_APPLICATION().getEvents().window.data2);
+    auto [width, height, dpi] = GET_APPLICATION().GetWindowResolution();
+    windowWidth = width;
+    windowHeight = height;
+    windowDpi = dpi;
 }
 
 void ImGuiManager::setWheel(int _wheel) {
@@ -51,11 +58,59 @@ void ImGuiManager::processInput() {
     io.MouseWheel = static_cast<float>(wheel);
 }
 
+void ImGuiManager::render() {
+    ImGui::NewFrame();
+
+    static bool nodeEditorOpened = false;
+
+    if (nodeEditorOpened) showNodeEditor(&nodeEditorOpened);
+
+    ImGui::SetNextWindowSize(ImVec2(debugBtnW, debugBtnH));
+    ImGui::SetNextWindowPos(ImVec2(static_cast<float>(windowWidth) / windowDpi - static_cast<float>(debugBtnW) - 50, 50));
+    ImGuiWindowFlags debugWindowFlags = ImGuiWindowFlags_NoTitleBar;
+    debugWindowFlags |= ImGuiWindowFlags_NoResize;
+    ImGui::Begin("Options", nullptr, debugWindowFlags);
+    if (ImGui::Button("Debug"))
+    {
+        nodeEditorOpened = !nodeEditorOpened;
+    }
+    ImGui::End();
+}
+
+void ImGuiManager::showNodeEditor(bool* nodeEditorOpened) {
+    ImGui::SetNextWindowSize(ImVec2(static_cast<float>(nodeEditorW), static_cast<float>(nodeEditorH)), ImGuiCond_FirstUseEver);
+    if (!ImGui::Begin("Property editor", reinterpret_cast<bool *>(nodeEditorOpened)))
+    {
+        ImGui::End();
+        return;
+    }
+
+    ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(2, 2));
+    ImGui::Columns(2);
+    ImGui::Separator();
+
+    renderTree(GET_NODE_MANAGER().getChilds());
+
+    ImGui::Columns(1);
+    ImGui::Separator();
+    ImGui::PopStyleVar();
+    ImGui::End();
+};
+
 ImRect ImGuiManager::renderTree(std::vector<Node *> n)
 {
     const ImRect nodeRect = ImRect(ImGui::GetItemRectMin(), ImGui::GetItemRectMax());
     for (auto node : n) {
         const bool recurse = ImGui::TreeNode(node->getId().c_str());
+
+        ImGui::NextColumn();
+        ImGui::SetNextItemWidth(-1);
+//        if (i >= 5)
+//            ImGui::InputFloat("##value", &dummy_members[i], 1.0f);
+//        else
+//            ImGui::DragFloat("##value", &dummy_members[i], 0.01f);
+        ImGui::Text("my sailor is rich");
+        ImGui::NextColumn();
 
         if (recurse) {
             renderTree(node->getChilds());
@@ -66,19 +121,6 @@ ImRect ImGuiManager::renderTree(std::vector<Node *> n)
 
 
     return nodeRect;
-}
-
-void ImGuiManager::render() {
-    ImGui::NewFrame();
-
-    renderTree(GET_NODE_MANAGER().getChilds());
-
-    ImGui::Begin("Options");
-    if (ImGui::Button("Debug"))
-    {
-
-    }
-    ImGui::End();
 }
 
 void ImGuiManager::postRender() {

@@ -44,6 +44,12 @@ Application::Application()
             LOG_INFO("Window created");
         }
 
+        /***
+         * Set window resizable
+         * TODO move to method setWindowResizable(bool)
+         */
+        SDL_SetWindowResizable(window, static_cast<SDL_bool>(true));
+
         renderer = SDL_CreateRenderer(window, -1, render_flag);
         if (getRenderer() != nullptr) {
             renderDrawColor();

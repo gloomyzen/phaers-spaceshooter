@@ -25,11 +25,28 @@ namespace TGEngine::core::debug {
         void setWheel(int _wheel);
 
     private:
-        void showNodeEditor();
+        void showNodeEditor(bool* p_open);
         ImRect renderTree(std::vector<Node *> n);
 
+        /***
+         * Application properties
+         */
         int wheel = 0;
-        bool nodeEditor = false;
+        int windowWidth;
+        int windowHeight;
+        float windowDpi;
+
+        /***
+         * Debug button properties
+         */
+        int debugBtnW = 55;
+        int debugBtnH = 20;
+
+        /***
+         * Node editor window
+         */
+        int nodeEditorW = 430;
+        int nodeEditorH = 450;
     };
 }
 

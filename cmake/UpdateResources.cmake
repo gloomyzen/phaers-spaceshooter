@@ -70,7 +70,6 @@ function(update_project_resources target_name target_current_source_dir)
         endif()
 
         if(EXISTS ${target_current_source_dir}/resources/${target_name}/data)
-
         file(COPY "${target_current_source_dir}/resources/${target_name}/data/"
                 DESTINATION ${CMAKE_BINARY_DIR}/${target_name}/data)
         endif()
