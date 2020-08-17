@@ -40,9 +40,6 @@ namespace TGEngine::core {
         // window control
         void exit();
 
-        // delta time between frame and time from beginning
-        int getFrameDeltaTime() const;
-
         // application run
         void run();
 
@@ -59,6 +56,14 @@ namespace TGEngine::core {
 
         bool isEmscripten() const;
 
+        float getFrameDelay() const {
+            return frameDelay;
+        }
+
+        float getDeltaTime() {
+            return deltaTime;
+        }
+
     private:
         Application &operator=(const Application &) { return *this; }
 
@@ -70,9 +75,9 @@ namespace TGEngine::core {
 
         // Time:
         const int FPS = 60;
-        const int frameDelay = 1000 / FPS;
+        const float frameDelay = 1000.f / FPS;
         Uint32 frameStart;
-        int deltaTime;
+        float deltaTime;
 
         // Dimensions:
         int width;

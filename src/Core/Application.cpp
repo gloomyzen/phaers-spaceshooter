@@ -85,9 +85,6 @@ SDL_Event &Application::getEvents() { return event; }
 
 void Application::exit() { state = stateExit; }
 
-/// Данные в милисекундах
-int Application::getFrameDeltaTime() const { return deltaTime; }
-
 void Application::run() {
     state = stateRun;
 
@@ -109,8 +106,8 @@ void Application::run() {
         Render();
         PostRender();
         SDL_RenderPresent(getRenderer());
-        deltaTime = static_cast<int>(SDL_GetTicks() - frameStart);
-        if (frameDelay > deltaTime) { SDL_Delay(static_cast<Uint32>(frameDelay - deltaTime)); }
+        deltaTime = SDL_GetTicks() - frameStart;
+        if (frameDelay > deltaTime) { SDL_Delay(frameDelay - deltaTime); }
     };
 
     /***
