@@ -54,7 +54,7 @@ void ImGuiManager::processInput() {
     int mouseX, mouseY;
     const auto buttons = SDL_GetMouseState(&mouseX, &mouseY);
     // Setup low-level inputs (e.g. on Win32, GetKeyboardState(), or write to those fields from your Windows message loop handlers, etc.)
-    io.DeltaTime = GET_APPLICATION().getFrameDelay() / 1000;
+    io.DeltaTime = GET_APPLICATION().getFrameDelay();
     io.MousePos = ImVec2(static_cast<float>(mouseX), static_cast<float>(mouseY));
     io.MouseDown[0] = buttons & SDL_BUTTON(SDL_BUTTON_LEFT);
     io.MouseDown[1] = buttons & SDL_BUTTON(SDL_BUTTON_RIGHT);
@@ -111,16 +111,20 @@ ImRect ImGuiManager::renderTree(std::vector<Node *> n)
     for (auto &node : n) {
         ImGui::AlignTextToFramePadding();
         const std::string name = node->getId() + (node->isActive() ? "" : " #inactive");
-        static ImGuiTreeNodeFlags nodeFlags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth;
-        const bool isSelected = lastTarget == node->getUid();
-        if (isSelected)
+        ImGuiTreeNodeFlags nodeFlags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth;
+        if (lastTarget == node->getUid()) {
             nodeFlags |= ImGuiTreeNodeFlags_Selected;
+        }
+        if (!node->hasChilds()) {
+            nodeFlags |= ImGuiTreeNodeFlags_Leaf;
+        }
         bool nodeOpen = ImGui::TreeNodeEx((void*)(intptr_t)node->getUid(), nodeFlags, "%s", name.c_str());
-
-        if (nodeOpen) {
-            ImGui::PushID(node->getUid());
+        if (ImGui::IsItemClicked()) {
             //id of clicked element
             lastTarget = node->getUid();
+        }
+        if (nodeOpen) {
+            ImGui::PushID(node->getUid());
 
             renderTree(node->getChilds());
             ImGui::PopID();
@@ -137,28 +141,47 @@ ImRect ImGuiManager::renderPreferences(Node * node) {
     if (node == nullptr) {
         return prefRect;
     }
-    LOG_ERROR(node->getId());
+
     /***
      * General
      */
     ImGui::SetNextItemOpen(true, ImGuiCond_Once);
-    if (ImGui::CollapsingHeader("General data"))
+    if (ImGui::CollapsingHeader("General info"))
     {
-        ImGui::Text("%s", node->getId().c_str());
+        ImGui::Text("Node Name(ID) %s", node->getId().c_str());
+        ImGui::Text("Node GUI %u", node->getUid());
         auto &active = node->getActive();
-        ImGui::Checkbox("Is active", &active); ImGui::SameLine(150);
-        ImGui::Separator();
+        ImGui::Checkbox(" Is active", &active); ImGui::SameLine(150);
     }
-    auto position = node->getComponent<TransformComponent>().getPosition();
-    auto xPos = position.getX();
-    float tempX = xPos;
-    ImGui::DragFloat("##value", &xPos, 1.f);
-    if (tempX != xPos) {
-        node->getComponent<TransformComponent>().setX(xPos);
+    ImGui::Separator();
+    ImGui::SetNextItemOpen(true, ImGuiCond_Once);
+    if (ImGui::CollapsingHeader("Transform component"))
+    {
+        auto position = node->getComponent<TransformComponent>().getPosition();
+        auto xPos = position.getX();
+        auto yPos = position.getY();
+        float vecPos[2] = {xPos, yPos};
+        ImGui::DragFloat2("X/Y position", vecPos, 1.f);
+        if (vecPos[0] != xPos) {
+            node->getComponent<TransformComponent>().setX(vecPos[0]);
+        }
+        if (vecPos[1] != yPos) {
+            node->getComponent<TransformComponent>().setY(vecPos[1]);
+        }
+        auto scale = node->getComponent<TransformComponent>().getScale();
+        auto tempScale = scale;
+        ImGui::DragFloat("Scale", &scale, 0.1f);
+        if (tempScale != scale) {
+            node->getComponent<TransformComponent>().setScale(scale);
+        }
     }
-
-    std::string image = "Image: " + node->getComponent<SpriteComponent>().getImagePath();
-    ImGui::Text("%s", image.c_str());
+    ImGui::Separator();
+    ImGui::SetNextItemOpen(true, ImGuiCond_Once);
+    if (ImGui::CollapsingHeader("Sprite component"))
+    {
+        std::string image = "Image: " + node->getComponent<SpriteComponent>().getImagePath();
+        ImGui::Text("%s", image.c_str());
+    }
 
     return prefRect;
 }
