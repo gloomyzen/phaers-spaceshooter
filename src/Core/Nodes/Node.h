@@ -137,6 +137,7 @@ namespace TGEngine::core {
                 LOG_ERROR("Node::addChild Child node has no identifier!");
                 return;
             }
+            //TODO get global positions
 //            std::for_each(this->childsList.begin(), this->childsList.end(), [&node](Node* n) {
 //                node->childsList.emplace_back(n);
 //            });
@@ -175,6 +176,20 @@ namespace TGEngine::core {
                 if (c->getId() == findId) return c;
                 if (c->hasChilds()) {
                     auto find = c->findNode(findId);
+                    if (find != nullptr) {
+                        return find;
+                    }
+                }
+            }
+            return nullptr;
+        }
+
+        Node *findNode(const unsigned int &findUid) {
+            if (getUid() == findUid) return this;
+            for (auto c : childs) {
+                if (c->getUid() == findUid) return c;
+                if (c->hasChilds()) {
+                    auto find = c->findNode(findUid);
                     if (find != nullptr) {
                         return find;
                     }

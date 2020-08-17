@@ -32,6 +32,14 @@ namespace TGEngine::core {
                 return nullptr;
             }
 
+            Node *findNode(unsigned int uid) {
+                for (auto &n : nodes) {
+                    auto res = n->findNode(uid);
+                    if (res != nullptr) return res;
+                }
+                return nullptr;
+            }
+
             std::vector<Node *> &getChilds() {
                 return nodes;
             };
@@ -49,12 +57,12 @@ namespace TGEngine::core {
             }
 
             unsigned int getNextUid() {
-                return ++uid;
+                return ++nextUid;
             }
 
         private:
             std::vector<Node*> nodes;
-            unsigned int uid = 0u;
+            unsigned int nextUid = 0u;
         };
 
     }//nodeManager

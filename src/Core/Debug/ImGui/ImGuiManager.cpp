@@ -3,6 +3,7 @@
 #include "ImGuiManager.h"
 #include "Core/Components/TransformComponent.h"
 #include "Core/Components/SpriteComponent.h"
+#include "Core/Debug/Logger.h"
 
 using namespace TGEngine::core;
 using namespace TGEngine::core::debug;
@@ -92,6 +93,8 @@ void ImGuiManager::showNodeEditor(bool* nodeEditorOpened) {
     ImGui::Separator();
 
     renderTree(GET_NODE_MANAGER().getChilds());
+    ImGui::NextColumn();
+    renderPreferences(GET_NODE_MANAGER().findNode(lastTarget));
 
     ImGui::Columns(1);
     ImGui::Separator();
@@ -102,24 +105,24 @@ void ImGuiManager::showNodeEditor(bool* nodeEditorOpened) {
 ImRect ImGuiManager::renderTree(std::vector<Node *> n)
 {
     const ImRect nodeRect = ImRect(ImGui::GetItemRectMin(), ImGui::GetItemRectMax());
-//    if (lastTarget == 0u) {
-//        lastTarget = n.front()->getChilds().front()->getUid();
-//    }
+    if (lastTarget == 0u) {
+        lastTarget = n.front()->getChilds().front()->getUid();
+    }
     for (auto &node : n) {
         ImGui::AlignTextToFramePadding();
-        ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen | ImGuiTreeNodeFlags_Bullet;
-        const bool recurse = ImGui::TreeNode(node->getId().c_str());
+        const std::string name = node->getId() + (node->isActive() ? "" : " #inactive");
+        static ImGuiTreeNodeFlags nodeFlags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth;
+        const bool isSelected = lastTarget == node->getUid();
+        if (isSelected)
+            nodeFlags |= ImGuiTreeNodeFlags_Selected;
+        bool nodeOpen = ImGui::TreeNodeEx((void*)(intptr_t)node->getUid(), nodeFlags, "%s", name.c_str());
 
-        if (recurse/* && lastTarget == node->getUid()*/) {
+        if (nodeOpen) {
             ImGui::PushID(node->getUid());
-            ImGui::NextColumn();
-
-            renderPreferences(node);
-
-            ImGui::NextColumn();
+            //id of clicked element
+            lastTarget = node->getUid();
 
             renderTree(node->getChilds());
-            //ImGui::Separator();
             ImGui::PopID();
             ImGui::TreePop();
         }
@@ -131,6 +134,21 @@ ImRect ImGuiManager::renderTree(std::vector<Node *> n)
 
 ImRect ImGuiManager::renderPreferences(Node * node) {
     const ImRect prefRect = ImRect(ImGui::GetItemRectMin(), ImGui::GetItemRectMax());
+    if (node == nullptr) {
+        return prefRect;
+    }
+    LOG_ERROR(node->getId());
+    /***
+     * General
+     */
+    ImGui::SetNextItemOpen(true, ImGuiCond_Once);
+    if (ImGui::CollapsingHeader("General data"))
+    {
+        ImGui::Text("%s", node->getId().c_str());
+        auto &active = node->getActive();
+        ImGui::Checkbox("Is active", &active); ImGui::SameLine(150);
+        ImGui::Separator();
+    }
     auto position = node->getComponent<TransformComponent>().getPosition();
     auto xPos = position.getX();
     float tempX = xPos;
