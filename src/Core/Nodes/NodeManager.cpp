@@ -2,11 +2,12 @@
 
 using namespace TGEngine::core;
 
-nodeManager::NodeManager *currentNodeManager = nullptr;
+NodeManagerInstance *currentNodeManager = nullptr;
 
-nodeManager::NodeManager &NodeManagerInstance::getInstance() {
+NodeManagerInstance &NodeManagerInstance::getInstance() {
     if (currentNodeManager == nullptr) {
-        currentNodeManager = new nodeManager::NodeManager();
+        currentNodeManager = new NodeManagerInstance();
+        currentNodeManager->rootNode = new Node("root");
     }
     return *currentNodeManager;
 }

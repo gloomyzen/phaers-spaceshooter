@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <bitset>
 #include <array>
+#include <map>
 #include "Core/Components/Component.h"
 #include "Core/ResourceModule/Loaders/JsonLoader.h"
 #include "Core/Debug/Logger.h"
@@ -46,7 +47,7 @@ namespace TGEngine::core {
         ComponentArray componentArray{};
         ComponentBitSet componentBitSet;
         std::vector<Node *> childs{};
-        std::vector<Node *> childsList{};
+        std::map<unsigned int, Node *> childsList{};
         std::string id{};
         unsigned int uid;
     public:
@@ -128,7 +129,7 @@ namespace TGEngine::core {
             return childs;
         };
 
-        std::vector<Node *> &getChildsList() {
+        std::map<unsigned int, Node *> &getChildsList() {
             return childsList;
         };
 
@@ -138,9 +139,13 @@ namespace TGEngine::core {
                 return;
             }
             //TODO get global positions
-//            std::for_each(this->childsList.begin(), this->childsList.end(), [&node](Node* n) {
+//            std::for_each(this->childsList.begin(), this->childsList.end(), [&node](const unsigned int &i, const Node* n) {
 //                node->childsList.emplace_back(n);
+//                node->childsList.insert({i, n});
 //            });
+//            for (const auto& [i, n] : this->childsList) {
+//                node->childsList.insert({i, n});
+//            }
 //            for(auto c : childsList) {
 //                node->childsList.emplace_back(c);
 //            }
@@ -150,7 +155,7 @@ namespace TGEngine::core {
 //            for(auto c : node->childsList) {
 //                childsList.emplace_back(c);
 //            }
-            node->childsList.emplace_back(this);
+            node->childsList.insert({this->getUid(), this});
             childs.emplace_back(node);
             //node
             //*** node <- current

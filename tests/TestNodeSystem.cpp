@@ -54,11 +54,11 @@ TEST(NodeManager, NodeManagerTest) {
     };
     //Для тесткейса создаем 3 дефольтные ноды в менеджере
     for (auto layer : layers) {
-        GET_NODE_MANAGER().addChild(new Node(layer));
+        GET_NODE()->addChild(new Node(layer));
     }
 
     //берем ноду Ground
-    auto ground = GET_NODE_MANAGER().findNode("Ground");
+    auto ground = GET_NODE()->findNode("Ground");
     EXPECT_EQ(ground->getId(), "Ground");
 
     //Создаем ноду с крепостью
@@ -70,10 +70,10 @@ TEST(NodeManager, NodeManagerTest) {
     //Ищем ноду крепости в ноде Ground
     EXPECT_EQ(ground->findNode("fortress"), fortress);
     //Ищем ноду крепости глобально чеез менеджер
-    EXPECT_EQ(GET_NODE_MANAGER().findNode("fortress"), fortress);
+    EXPECT_EQ(GET_NODE()->findNode("fortress"), fortress);
 
     //Находим ноду Units
-    auto units = GET_NODE_MANAGER().findNode("Units");
+    auto units = GET_NODE()->findNode("Units");
     //Сверяем имя ноды Units
     EXPECT_EQ(units->getId(), "Units");
 
@@ -87,7 +87,7 @@ TEST(NodeManager, NodeManagerTest) {
     //Ищем ноду героя в ноде Units
     EXPECT_EQ(units->findNode("hero"), hero);
     //Ищем ноду героя глбально через менеджер
-    EXPECT_EQ(GET_NODE_MANAGER().findNode("hero"), hero);
+    EXPECT_EQ(GET_NODE()->findNode("hero"), hero);
 }
 
 TEST(NodeTransformComponent, NodeManagerTest) {

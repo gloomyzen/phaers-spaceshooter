@@ -158,9 +158,9 @@ void ImGuiManager::showNodeEditor(bool* nodeEditorOpened) {
     ImGui::Columns(2);
     ImGui::Separator();
 
-    renderTree(GET_NODE_MANAGER().getChilds());
+    renderTree(GET_NODE()->getChilds());
     ImGui::NextColumn();
-    renderPreferences(GET_NODE_MANAGER().findNode(lastTarget));
+    renderPreferences(GET_NODE()->findNode(lastTarget));
 
     ImGui::Columns(1);
     ImGui::Separator();

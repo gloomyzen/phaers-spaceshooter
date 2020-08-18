@@ -12,11 +12,11 @@ GameApplication::GameApplication() : Application() {}
 GameApplication::~GameApplication() {}
 
 void GameApplication::Init() {
-    GET_NODE_MANAGER().init();
+    GET_NODE()->init();
     GET_STATE_MANAGER().registerState(TGEngine::game::eStateType::MAIN_MENU, []() -> bool {
         auto testNode = new Node("testNode");
         testNode->loadProperty("testScene");
-        GET_NODE_MANAGER().addChild(testNode);
+        GET_NODE()->addChild(testNode);
         return true;
     });
     GET_STATE_MANAGER().changeState(TGEngine::game::eStateType::MAIN_MENU);
@@ -37,14 +37,14 @@ void GameApplication::ProcessInput() {
 }
 
 void GameApplication::Update() {
-    GET_NODE_MANAGER().update();
+    GET_NODE()->update();
 #if defined(IMGUI_ENABLED)
     GET_IMGUI_MANAGER().update();
 #endif
 }
 
 void GameApplication::Render() {
-    GET_NODE_MANAGER().render();
+    GET_NODE()->render();
 #if defined(IMGUI_ENABLED)
     GET_IMGUI_MANAGER().render();
 #endif
