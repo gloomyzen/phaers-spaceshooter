@@ -56,13 +56,22 @@ namespace TGEngine::core {
 
         bool isEmscripten() const;
 
-        float getFrameDelay() const {
-            return frameDelay;
-        }
-
         float getDeltaTime() {
             return deltaTime;
         }
+
+        void changeFps(int _fps) {
+            FPS = _fps;
+            frameDelay = 1000.f / FPS;
+        }
+
+        void changeFrameDelay(float _frameDelay) {
+            frameDelay = _frameDelay;
+        }
+
+        int &getFps() { return FPS; }
+
+        float &getFrameDelay() { return frameDelay; }
 
     private:
         Application &operator=(const Application &) { return *this; }
@@ -74,8 +83,8 @@ namespace TGEngine::core {
         void renderDrawColor();
 
         // Time:
-        const int FPS = 60;
-        const float frameDelay = 1000.f / FPS;
+        int FPS = 60;
+        float frameDelay = 1000.f / FPS;
         Uint32 frameStart;
         float deltaTime;
 

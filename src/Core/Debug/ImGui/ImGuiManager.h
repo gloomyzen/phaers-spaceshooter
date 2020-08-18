@@ -30,6 +30,9 @@ namespace TGEngine::core::debug {
         ImRect renderTree(std::vector<Node *> n);
         ImRect renderPreferences(Node *);
 
+        /// Engine info
+        void showEngineInfo(bool* p_open);
+
         /***
          * Application properties
          */
@@ -41,8 +44,8 @@ namespace TGEngine::core::debug {
         /***
          * Debug button properties
          */
-        int debugBtnW = 55;
-        int debugBtnH = 20;
+        int debugBtnW = 60;
+        int debugBtnH = 60;
 
         /***
          * Node editor window
@@ -50,6 +53,12 @@ namespace TGEngine::core::debug {
         int nodeEditorW = 430;
         int nodeEditorH = 450;
         unsigned int lastTarget = 0u;
+
+        /***
+         * Engine info window
+         */
+        int engineInfoW = 430;
+        int engineInfoH = 450;
     };
 }
 

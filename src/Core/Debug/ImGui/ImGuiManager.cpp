@@ -54,7 +54,7 @@ void ImGuiManager::processInput() {
     int mouseX, mouseY;
     const auto buttons = SDL_GetMouseState(&mouseX, &mouseY);
     // Setup low-level inputs (e.g. on Win32, GetKeyboardState(), or write to those fields from your Windows message loop handlers, etc.)
-    io.DeltaTime = GET_APPLICATION().getFrameDelay();
+    io.DeltaTime = GET_APPLICATION().getFrameDelay() / 1000;
     io.MousePos = ImVec2(static_cast<float>(mouseX), static_cast<float>(mouseY));
     io.MouseDown[0] = buttons & SDL_BUTTON(SDL_BUTTON_LEFT);
     io.MouseDown[1] = buttons & SDL_BUTTON(SDL_BUTTON_RIGHT);
@@ -65,20 +65,58 @@ void ImGuiManager::render() {
     ImGui::NewFrame();
 
     static bool nodeEditorOpened = false;
+    static bool engineInfoOpened = false;
 
     if (nodeEditorOpened) showNodeEditor(&nodeEditorOpened);
+    if (engineInfoOpened) showEngineInfo(&engineInfoOpened);
 
     ImGui::SetNextWindowSize(ImVec2(debugBtnW, debugBtnH));
-    ImGui::SetNextWindowPos(ImVec2(static_cast<float>(windowWidth) / windowDpi - static_cast<float>(debugBtnW) - 50, 50));
-    ImGuiWindowFlags debugWindowFlags = ImGuiWindowFlags_NoTitleBar;
-    debugWindowFlags |= ImGuiWindowFlags_NoResize;
-    ImGui::Begin("Options", nullptr, debugWindowFlags);
+    ImGui::SetNextWindowPos(ImVec2(static_cast<float>(windowWidth) / windowDpi - static_cast<float>(debugBtnW) - 50, 50), ImGuiCond_FirstUseEver);
+    ImGuiWindowFlags debugWindowFlags = ImGuiWindowFlags_NoResize;
+    ImGui::Begin("Menu", nullptr, debugWindowFlags);
     if (ImGui::Button("Debug"))
     {
         nodeEditorOpened = !nodeEditorOpened;
     }
+    if (ImGui::Button("Engine"))
+    {
+        engineInfoOpened = !engineInfoOpened;
+    }
     ImGui::End();
 }
+
+void ImGuiManager::showEngineInfo(bool* engineInfoOpened) {
+    ImGui::SetNextWindowSize(ImVec2(static_cast<float>(engineInfoW), static_cast<float>(engineInfoH)), ImGuiCond_FirstUseEver);
+    if (!ImGui::Begin("Engine info", reinterpret_cast<bool *>(engineInfoOpened)))
+    {
+        ImGui::End();
+        return;
+    }
+
+    ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(2, 2));
+    //start
+    ImGui::Text("Engine version %.1f", PROJECT_VERSION);
+
+    ImGui::Text("FPS %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+    ImGui::Separator();
+    auto fps = GET_APPLICATION().getFps();
+    auto tempFps = fps;
+    ImGui::Text("FPS"); ImGui::SameLine();
+    ImGui::InputInt("ms/frame", &fps);
+    if (tempFps != fps) {
+        if (fps > 200) {
+            fps = 200;
+        } else if (fps < 0) {
+            fps = 0;
+        }
+        GET_APPLICATION().changeFps(fps);
+    }
+
+
+    //end
+    ImGui::PopStyleVar();
+    ImGui::End();
+};
 
 void ImGuiManager::showNodeEditor(bool* nodeEditorOpened) {
     ImGui::SetNextWindowSize(ImVec2(static_cast<float>(nodeEditorW), static_cast<float>(nodeEditorH)), ImGuiCond_FirstUseEver);
@@ -148,9 +186,8 @@ ImRect ImGuiManager::renderPreferences(Node * node) {
         ImGui::Text("Node Name(ID) %s", node->getId().c_str());
         ImGui::Text("Node GUI %u", node->getUid());
         auto &active = node->getActive();
-        ImGui::Checkbox(" Is active", &active); ImGui::SameLine(150);
+        ImGui::Checkbox(" Is active", &active);
     }
-    ImGui::Separator();
 
     ImGui::SetNextItemOpen(true, ImGuiCond_Once);
     if (ImGui::CollapsingHeader("Transform component"))
@@ -183,7 +220,6 @@ ImRect ImGuiManager::renderPreferences(Node * node) {
             node->getComponent<TransformComponent>().setScale(scale);
         }
     }
-    ImGui::Separator();
 
     ImGui::SetNextItemOpen(true, ImGuiCond_Once);
     if (ImGui::CollapsingHeader("Sprite component"))
@@ -191,7 +227,6 @@ ImRect ImGuiManager::renderPreferences(Node * node) {
         std::string image = "Image: " + node->getComponent<SpriteComponent>().getImagePath();
         ImGui::Text("%s", image.c_str());
     }
-    ImGui::Separator();
 
     return prefRect;
 }
