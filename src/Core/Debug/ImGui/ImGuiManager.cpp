@@ -142,9 +142,6 @@ ImRect ImGuiManager::renderPreferences(Node * node) {
         return prefRect;
     }
 
-    /***
-     * General
-     */
     ImGui::SetNextItemOpen(true, ImGuiCond_Once);
     if (ImGui::CollapsingHeader("General info"))
     {
@@ -154,9 +151,20 @@ ImRect ImGuiManager::renderPreferences(Node * node) {
         ImGui::Checkbox(" Is active", &active); ImGui::SameLine(150);
     }
     ImGui::Separator();
+
     ImGui::SetNextItemOpen(true, ImGuiCond_Once);
     if (ImGui::CollapsingHeader("Transform component"))
     {
+        auto width = node->getComponent<TransformComponent>().getWidth();
+        auto height = node->getComponent<TransformComponent>().getHeight();
+        int vecWH[2] = {width, height};
+        ImGui::DragInt2("Width/Height", vecWH, 1);
+        if (vecWH[0] != width) {
+            node->getComponent<TransformComponent>().setWidth(vecWH[0]);
+        }
+        if (vecWH[1] != height) {
+            node->getComponent<TransformComponent>().setHeight(vecWH[1]);
+        }
         auto position = node->getComponent<TransformComponent>().getPosition();
         auto xPos = position.getX();
         auto yPos = position.getY();
@@ -176,12 +184,14 @@ ImRect ImGuiManager::renderPreferences(Node * node) {
         }
     }
     ImGui::Separator();
+
     ImGui::SetNextItemOpen(true, ImGuiCond_Once);
     if (ImGui::CollapsingHeader("Sprite component"))
     {
         std::string image = "Image: " + node->getComponent<SpriteComponent>().getImagePath();
         ImGui::Text("%s", image.c_str());
     }
+    ImGui::Separator();
 
     return prefRect;
 }
