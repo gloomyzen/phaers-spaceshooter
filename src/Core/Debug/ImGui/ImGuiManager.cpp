@@ -49,12 +49,36 @@ void ImGuiManager::setWheel(int _wheel) {
     wheel = _wheel;
 }
 
-void ImGuiManager::processInput() {
+void ImGuiManager::processInput(const SDL_Event *event) {
     ImGuiIO& io = ImGui::GetIO();
-    int mouseX, mouseY;
-    const auto buttons = SDL_GetMouseState(&mouseX, &mouseY);
+    switch (event->type) {
+        case SDL_KEYDOWN:
+        case SDL_KEYUP: {
+            int key = event->key.keysym.scancode;
+            IM_ASSERT(key >= 0 && key < IM_ARRAYSIZE(io.KeysDown));
+            io.KeysDown[key] = (event->type == SDL_KEYDOWN);
+            io.KeyShift = ((SDL_GetModState() & KMOD_SHIFT) != 0);
+            io.KeyCtrl = ((SDL_GetModState() & KMOD_CTRL) != 0);
+            io.KeyAlt = ((SDL_GetModState() & KMOD_ALT) != 0);
+#ifdef WIN32
+            io.KeySuper = false;
+#else
+            io.KeySuper = ((SDL_GetModState() & KMOD_GUI) != 0);
+#endif
+            return;
+        }
+            break;
+    }
+}
+
+void ImGuiManager::update() {
+    ImGuiIO& io = ImGui::GetIO();
     // Setup low-level inputs (e.g. on Win32, GetKeyboardState(), or write to those fields from your Windows message loop handlers, etc.)
     io.DeltaTime = GET_APPLICATION().getFrameDelay() / 1000;
+
+    //Update mouse position
+    int mouseX, mouseY;
+    const auto buttons = SDL_GetMouseState(&mouseX, &mouseY);
     io.MousePos = ImVec2(static_cast<float>(mouseX), static_cast<float>(mouseY));
     io.MouseDown[0] = buttons & SDL_BUTTON(SDL_BUTTON_LEFT);
     io.MouseDown[1] = buttons & SDL_BUTTON(SDL_BUTTON_RIGHT);

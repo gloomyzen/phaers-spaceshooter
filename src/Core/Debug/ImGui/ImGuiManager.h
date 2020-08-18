@@ -18,7 +18,8 @@ namespace TGEngine::core::debug {
         void deinitialize();
         void destroyContext();
         void changeDimension();
-        void processInput();
+        void processInput(const SDL_Event *event);
+        void update();
         void render();
         void postRender();
 
@@ -57,8 +58,8 @@ namespace TGEngine::core::debug {
         /***
          * Engine info window
          */
-        int engineInfoW = 430;
-        int engineInfoH = 450;
+        int engineInfoW = 300;
+        int engineInfoH = 250;
     };
 }
 
