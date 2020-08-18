@@ -52,6 +52,11 @@ void ImGuiManager::setWheel(int _wheel) {
 void ImGuiManager::processInput(const SDL_Event *event) {
     ImGuiIO& io = ImGui::GetIO();
     switch (event->type) {
+        case SDL_TEXTINPUT:
+        {
+            io.AddInputCharactersUTF8(event->text.text);
+            return;
+        }
         case SDL_KEYDOWN:
         case SDL_KEYUP: {
             int key = event->key.keysym.scancode;
@@ -67,7 +72,6 @@ void ImGuiManager::processInput(const SDL_Event *event) {
 #endif
             return;
         }
-            break;
     }
 }
 
