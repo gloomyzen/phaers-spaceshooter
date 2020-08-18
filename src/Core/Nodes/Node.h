@@ -47,7 +47,7 @@ namespace TGEngine::core {
         ComponentArray componentArray{};
         ComponentBitSet componentBitSet;
         std::vector<Node *> childs{};
-        std::map<unsigned int, Node *> childsList{};
+        std::map<unsigned int, Node *> parentsList{};
         std::string id{};
         unsigned int uid;
     public:
@@ -129,8 +129,8 @@ namespace TGEngine::core {
             return childs;
         };
 
-        std::map<unsigned int, Node *> &getChildsList() {
-            return childsList;
+        std::map<unsigned int, Node *> &getParentsList() {
+            return parentsList;
         };
 
         void addChild(Node *node) {
@@ -139,13 +139,13 @@ namespace TGEngine::core {
                 return;
             }
             //TODO get global positions
-//            std::for_each(this->childsList.begin(), this->childsList.end(), [&node](const unsigned int &i, const Node* n) {
-//                node->childsList.emplace_back(n);
-//                node->childsList.insert({i, n});
+//            std::for_each(this->parentsList.begin(), this->parentsList.end(), [&node](const unsigned int &i, const Node* n) {
+//                node->parentsList.emplace_back(n);
+//                node->parentsList.insert({n->getU, n});
 //            });
-//            for (const auto& [i, n] : this->childsList) {
-//                node->childsList.insert({i, n});
-//            }
+            for (const auto& [i, n] : this->parentsList) {
+                node->parentsList.insert({i, n});
+            }
 //            for(auto c : childsList) {
 //                node->childsList.emplace_back(c);
 //            }
@@ -155,7 +155,7 @@ namespace TGEngine::core {
 //            for(auto c : node->childsList) {
 //                childsList.emplace_back(c);
 //            }
-            node->childsList.insert({this->getUid(), this});
+            node->parentsList.insert({this->getUid(), this});
             childs.emplace_back(node);
             //node
             //*** node <- current
