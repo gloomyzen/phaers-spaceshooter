@@ -20,7 +20,7 @@ namespace TGEngine::core {
 
 #pragma region ComponentsHelper
     using ComponentID = std::size_t;
-    using Group = std::size_t;
+    using Group = std::size_t; //TODO fix this! currently Grouping not used
 
     inline ComponentID getNewComponentTypeID() {
         static ComponentID lastID = 0u;
@@ -47,7 +47,7 @@ namespace TGEngine::core {
         ComponentArray componentArray{};
         ComponentBitSet componentBitSet;
         std::vector<Node *> childs{};
-        std::map<unsigned int, Node *> parentsList{};
+        std::map<unsigned int, Node *> parents{};
         std::string id{};
         unsigned int uid;
     public:
@@ -129,8 +129,8 @@ namespace TGEngine::core {
             return childs;
         };
 
-        std::map<unsigned int, Node *> &getParentsList() {
-            return parentsList;
+        std::map<unsigned int, Node *> &getParentsMap() {
+            return parents;
         };
 
         void addChild(Node *node) {
@@ -138,28 +138,8 @@ namespace TGEngine::core {
                 LOG_ERROR("Node::addChild Child node has no identifier!");
                 return;
             }
-            //TODO get global positions
-//            std::for_each(this->parentsList.begin(), this->parentsList.end(), [&node](const unsigned int &i, const Node* n) {
-//                node->parentsList.emplace_back(n);
-//                node->parentsList.insert({n->getU, n});
-//            });
-            for (const auto& [i, n] : this->parentsList) {
-                node->parentsList.insert({i, n});
-            }
-//            for(auto c : childsList) {
-//                node->childsList.emplace_back(c);
-//            }
-//            std::for_each(node->childsList.begin(), node->childsList.end(), [&](Node* n) {
-//                childsList.emplace_back(n);
-//            });
-//            for(auto c : node->childsList) {
-//                childsList.emplace_back(c);
-//            }
-            node->parentsList.insert({this->getUid(), this});
+            addParent(this, node);
             childs.emplace_back(node);
-            //node
-            //*** node <- current
-            //*** *** node
         }
 
         bool hasChilds() {
@@ -224,6 +204,13 @@ namespace TGEngine::core {
         void parseData(Node *node, const rapidjson::GenericValue<rapidjson::UTF8<char>>::Array &array);
 
         void parseProperty(Node *node, const std::string &string, const std::string &prefix = "");
+
+        void addParent(Node *parent, Node *child) {
+            for (auto node : child->getChilds()) {
+                node->addParent(parent, node);
+            }
+            child->parents.insert({parent->getUid(), parent});
+        }
 
     };
 

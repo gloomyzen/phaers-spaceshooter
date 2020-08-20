@@ -91,7 +91,7 @@ namespace TGEngine::core {
 
         float getGlobalX() {
             float renderX = getPosition().getX();
-            for (auto child : getNode().getParentsList()) {
+            for (auto child : getNode().getParentsMap()) {
                 if (child.second->hasComponent<TransformComponent>()) {
                     renderX += child.second->getComponent<TransformComponent>().getPosition().getX();
                 }
@@ -101,7 +101,7 @@ namespace TGEngine::core {
 
         float getGlobalY() {
             float renderY = getPosition().getY();
-            for (auto child : getNode().getParentsList()) {
+            for (auto child : getNode().getParentsMap()) {
                 if (child.second->hasComponent<TransformComponent>()) {
                     renderY += child.second->getComponent<TransformComponent>().getPosition().getY();
                 }
