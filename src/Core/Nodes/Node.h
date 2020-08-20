@@ -209,6 +209,11 @@ namespace TGEngine::core {
             for (auto node : child->getChilds()) {
                 node->addParent(parent, node);
             }
+#ifdef DEBUG
+            if (child->parents.find(parent->getUid()) != child->parents.end()) {
+                LOG_ERROR("Node " + std::to_string(parent->getUid()) + " already exist in parent node list!");
+            }
+#endif
             child->parents.insert({parent->getUid(), parent});
         }
 
