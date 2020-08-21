@@ -14,17 +14,11 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y --fix-mi
     && emcc --version
 
 #######################    Install latest CMake    #######################
-RUN mkdir /var/cmake && cd /var/cmake && wget https://github.com/Kitware/CMake/releases/download/v3.17.0/cmake-3.17.0-Linux-x86_64.sh \
-    && mkdir /opt/cmake && sh cmake-3.17.0-Linux-x86_64.sh --prefix=/opt/cmake --skip-license \
-    && ln -s /opt/cmake/bin/cmake /usr/local/bin/cmake && rm cmake-3.17.0-Linux-x86_64.sh && cmake --version
+RUN mkdir /var/cmake && cd /var/cmake && wget https://github.com/Kitware/CMake/releases/download/v3.18.2/cmake-3.18.2-Linux-x86_64.sh \
+    && mkdir /opt/cmake && sh cmake-3.18.2-Linux-x86_64.sh --prefix=/opt/cmake --skip-license \
+    && ln -s /opt/cmake/bin/cmake /usr/local/bin/cmake && rm cmake-3.18.2-Linux-x86_64.sh && cmake --version
 
 #######################   Install nodejs via nvm   #######################
-#RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash \
-#    && export NVM_DIR="$HOME/.nvm" \
-#    && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" \
-#    && [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" \
-#    && nvm install --lts && nvm use --lts
-#RUN cd /var/www && [ -f "package.json" ] && [ ! -d "node_modules" ] && npm install
 
 SHELL ["/bin/bash", "-c", "source /var/emsdk/emsdk_env.sh"]
 SHELL ["/bin/bash", "-c", "chmod +x /usr/local/bin/build_in_container"]
