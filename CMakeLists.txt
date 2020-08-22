@@ -226,8 +226,8 @@ target_link_libraries(${PROJECT_NAME} PUBLIC ${CORE_MODULE_NAME} ${GAME_MODULE_N
 add_executable(example_simple_draw src/main.cpp)
 target_compile_features(example_simple_draw PRIVATE cxx_std_17)
 target_compile_options(example_simple_draw PRIVATE -Wall)
-target_link_libraries(example_simple_draw PRIVATE ${PROJECT_NAME})
 RegisterTarget(example_simple_draw ${CMAKE_CURRENT_SOURCE_DIR} true true)
+target_link_libraries(example_simple_draw PRIVATE ${PROJECT_NAME})
 
 #------------------------------------------------------------------------------
 #                               Tests section
