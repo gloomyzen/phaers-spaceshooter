@@ -2,7 +2,6 @@
 #define TOWERDEFENSE_GAME_SPRITECOMPONENT_H
 
 #include "AllComponentsHeaders.h"
-#include "SDL.h"
 #include "Core/ResourceModule/ResourceManager.h"
 #include <map>
 #include "Core/moduleDefinitions.h"

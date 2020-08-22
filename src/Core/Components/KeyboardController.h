@@ -1,9 +1,8 @@
 #ifndef TOWERDEFENSE_GAME_KEYBOARDCONTROLLER_H
 #define TOWERDEFENSE_GAME_KEYBOARDCONTROLLER_H
 
-#include "../moduleDefinitions.h"
 #include "AllComponentsHeaders.h"
-#include "SDL.h"
+#include "Core/moduleDefinitions.h"
 
 //TODO class incomplete!
 

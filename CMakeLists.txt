@@ -43,6 +43,7 @@ if (APPLE OR MAC)
 endif()
 
 include(ExternalProject)
+include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/UpdateResources.cmake)
 
 #------------------------------------------------------------------------------
 #                           General options.
@@ -50,6 +51,7 @@ include(ExternalProject)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
 
 add_library(project_dependency INTERFACE)
+
 
 # enable cache system
 include(cmake/Cache.cmake)
@@ -76,15 +78,9 @@ if (ENABLE_PCH)
 endif ()
 
 #------------------------------------------------------------------------------
-#                              UpdateResources
-#------------------------------------------------------------------------------
-include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/UpdateResources.cmake)
-
-#------------------------------------------------------------------------------
 #                                   SDL2
 #------------------------------------------------------------------------------
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/SDL2.cmake)
-#target_link_libraries(project_dependency INTERFACE imgui_target)
 
 if (NOT EMSCRIPTEN)
     # sdl
@@ -159,66 +155,70 @@ endif()
 #------------------------------------------------------------------------------
 #                        ImGui, included for debugging only
 #------------------------------------------------------------------------------
-if (NOT FLAG_EXTERNAL_IMGUI)
-    if (NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/lib/imgui/imgui.cpp)
-        message(FATAL_ERROR "ImGui not found, download lib/imgui or use 'git submodules update'.")
-    endif()
-    include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/ImGui.cmake)
-    if(IMGUI_ENABLED)
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DIMGUI_ENABLED")
-        target_link_libraries(project_dependency INTERFACE imgui_target)
-    endif()
-elseif(FLAG_EXTERNAL_IMGUI)
-    # Using external imgui_ext_target
-    if(IMGUI_ENABLED)
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DIMGUI_ENABLED")
-        target_link_libraries(project_dependency INTERFACE imgui_ext_target)
-    endif()
-endif()
+#if (NOT FLAG_EXTERNAL_IMGUI)
+#    if (NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/lib/imgui/imgui.cpp)
+#        message(FATAL_ERROR "ImGui not found, download lib/imgui or use 'git submodules update'.")
+#    endif()
+#    include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/ImGui.cmake)
+#    if(IMGUI_ENABLED)
+##        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DIMGUI_ENABLED")
+#        add_definitions(-DIMGUI_ENABLED) # <- new cast definition
+##        set_emscripten(imgui_target Lib NoSDL)
+#        target_link_libraries(project_dependency INTERFACE imgui_target)
+#    endif()
+#elseif(FLAG_EXTERNAL_IMGUI)
+#    # Using external imgui_ext_target
+#    if(IMGUI_ENABLED)
+##        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DIMGUI_ENABLED")
+#        add_definitions(-DIMGUI_ENABLED) # <- new cast definition
+##        set_emscripten(imgui_ext_target Lib SDL)
+#        target_link_libraries(project_dependency INTERFACE imgui_ext_target)
+#    endif()
+#endif()
 
 #------------------------------------------------------------------------------
 #                               Rapidjson
 #------------------------------------------------------------------------------
-if (NOT FLAG_EXTERNAL_RAPIDJSON)
-    if (NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/lib/rapidjson/include)
-        message(FATAL_ERROR "Rapidjson not found, download lib/rapidjson or use 'git submodules update'.")
-    endif()
-    add_library(rapidjson_target INTERFACE)
-    target_include_directories(rapidjson_target INTERFACE
-            $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib/rapidjson/include>
-            )
-    target_link_libraries(project_dependency INTERFACE rapidjson_target)
-elseif(FLAG_EXTERNAL_RAPIDJSON)
-    # Using external rapidjson_ext_target
-    target_link_libraries(project_dependency INTERFACE rapidjson_target)
-endif()
+#if (NOT FLAG_EXTERNAL_RAPIDJSON)
+#    if (NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/lib/rapidjson/include)
+#        message(FATAL_ERROR "Rapidjson not found, download lib/rapidjson or use 'git submodules update'.")
+#    endif()
+#    add_library(rapidjson_target INTERFACE)
+#    target_include_directories(rapidjson_target INTERFACE
+#            $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib/rapidjson/include>
+#            )
+#    target_link_libraries(project_dependency INTERFACE rapidjson_target)
+#elseif(FLAG_EXTERNAL_RAPIDJSON)
+#    # Using external rapidjson_ext_target
+#    target_link_libraries(project_dependency INTERFACE rapidjson_target)
+#endif()
 
 #------------------------------------------------------------------------------
 #                           Include src with modules
 #------------------------------------------------------------------------------
-add_subdirectory(src)
+#add_subdirectory(src)
 
 #------------------------------------------------------------------------------
 #                          Compiler warnings target
 # Set enabled maximum compilation warnings for project_warnings target
 #------------------------------------------------------------------------------
-include(cmake/CompilerWarnings.cmake)
-add_library(project_warnings INTERFACE)
-set_project_warnings(project_warnings)
-target_link_libraries(project_warnings INTERFACE ${CORE_MODULE_NAME} ${GAME_MODULE_NAME})
+#include(cmake/CompilerWarnings.cmake)
+#add_library(project_warnings INTERFACE)
+#set_project_warnings(project_warnings)
+#target_link_libraries(project_warnings INTERFACE ${CORE_MODULE_NAME} ${GAME_MODULE_NAME})
 
 #------------------------------------------------------------------------------
 #                               Export target
 # Exported target tgengine included all modules from tgengine/src
 #------------------------------------------------------------------------------
-add_library(${PROJECT_NAME} SHARED
-        $<TARGET_OBJECTS:${CORE_MODULE_NAME}>
-        $<TARGET_OBJECTS:${GAME_MODULE_NAME}>
-        )
-target_include_directories(${PROJECT_NAME} INTERFACE
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
-        )
-target_link_libraries(${PROJECT_NAME} PUBLIC ${CORE_MODULE_NAME} ${GAME_MODULE_NAME} project_options project_dependency)
+#add_library(${PROJECT_NAME} SHARED
+#        $<TARGET_OBJECTS:${CORE_MODULE_NAME}>
+#        $<TARGET_OBJECTS:${GAME_MODULE_NAME}>
+#        )
+#target_include_directories(${PROJECT_NAME} INTERFACE
+#        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
+#        )
+#target_link_libraries(${PROJECT_NAME} PUBLIC ${CORE_MODULE_NAME} ${GAME_MODULE_NAME} project_options project_dependency)
 
 #------------------------------------------------------------------------------
 #                               Example targets
@@ -227,9 +227,11 @@ target_link_libraries(${PROJECT_NAME} PUBLIC ${CORE_MODULE_NAME} ${GAME_MODULE_N
 add_executable(example_simple_draw src/main.cpp)
 target_compile_features(example_simple_draw PRIVATE cxx_std_17)
 target_compile_options(example_simple_draw PRIVATE -Wall)
-target_link_libraries(example_simple_draw PRIVATE ${PROJECT_NAME})
-update_project_resources(example_simple_draw ${CMAKE_CURRENT_SOURCE_DIR})
-update_project_target(example_simple_draw)
+#target_link_libraries(example_simple_draw PRIVATE ${PROJECT_NAME})
+#update_project_resources(example_simple_draw ${CMAKE_CURRENT_SOURCE_DIR})
+#update_project_target(example_simple_draw)
+#set_emscripten(example_simple_draw Runtime SDL)
+RegisterTarget(example_simple_draw ${CMAKE_CURRENT_SOURCE_DIR} true true)
 
 #------------------------------------------------------------------------------
 #                               Tests section

@@ -5,16 +5,18 @@
 #define SDL_MAIN_HANDLED //Do not delete this!
 #include <SDL.h>
 #include <SDL_image.h>
-#else
-#include <SDL2/SDL.h>
+#endif //WIN32
+
 #if defined(APPLE) || defined(MACOS)
+#include <SDL2/SDL.h>
 #include <SDL2_image/SDL_image.h>
-#else
-#include <SDL2/SDL_image.h>
-#endif //APPLE || MACOS
-#endif
+#endif //APPLE
+
 #if defined(EMSCRIPTEN)
-#include <emscripten.h>
+#include <emscripten/emscripten.h>
+#include <emscripten/html5.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 #define EMSCRIPTEN_FLAG 0;
 #else
 #define EMSCRIPTEN_FLAG 1;
@@ -30,12 +32,8 @@ const bool debugMode = false;
 #include <functional>
 #include <stdexcept>
 #include <string>
-
-#ifdef EMSCRIPTEN
-#include <emscripten.h>
-#include <emscripten/html5.h>
 #include <cmath>
-#endif
+
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1900)
 #pragma comment(lib, "legacy_stdio_definitions")

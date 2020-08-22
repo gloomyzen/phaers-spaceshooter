@@ -2,7 +2,7 @@
 #define TOWERDEFENSE_GAME_COLLIDERCOMPONENT_H
 
 #include <string>
-#include "SDL.h"
+#include "Core/moduleDefinitions.h"
 #include "AllComponentsHeaders.h"
 #include "../DataTypes/Vector2D.h"
 #include "CollisionDetection.h"
