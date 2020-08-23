@@ -28,13 +28,14 @@ function(RegisterTarget targetName targetCurrentSourceDir isRuntime linkSDL)
         if(${isRuntime} STREQUAL "true")
 #            set_target_properties( ${targetName} PROPERTIES OUTPUT_NAME "main")
             list(APPEND ${targetName}_OPTIONS
+                    "SHELL:-s SIDE_MODULE=1"
                     "SHELL:-s NO_EXIT_RUNTIME=1"
                     "SHELL:-s EXPORT_NAME='main' -s MODULARIZE=1"
                     )
         endif()
         if(${isRuntime} STREQUAL "false")
             list(APPEND ${targetName}_OPTIONS
-                    "SHELL:-s SIDE_MODULE=1"
+                    "SHELL:-s MAIN_MODULE=1"
                     "SHELL:-s EXPORT_ALL=1"
                     )
         endif()

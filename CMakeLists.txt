@@ -16,6 +16,7 @@ project(tgengine
         LANGUAGES CXX
         )
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DPROJECT_VERSION='0.1'")
+message(FATAL_ERROR ${CMAKE_C_COMPILER_VERSION})
 include(cmake/StandardProjectSettings.cmake)
 
 #------------------------------------------------------------------------------
@@ -218,6 +219,7 @@ target_include_directories(${PROJECT_NAME} INTERFACE
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
         )
 target_link_libraries(${PROJECT_NAME} PUBLIC ${CORE_MODULE_NAME} ${GAME_MODULE_NAME} project_options project_dependency)
+RegisterTarget(${PROJECT_NAME} ${CMAKE_CURRENT_SOURCE_DIR} false true)
 
 #------------------------------------------------------------------------------
 #                               Example targets
@@ -226,7 +228,7 @@ target_link_libraries(${PROJECT_NAME} PUBLIC ${CORE_MODULE_NAME} ${GAME_MODULE_N
 add_executable(example_simple_draw src/main.cpp)
 target_compile_features(example_simple_draw PRIVATE cxx_std_17)
 target_compile_options(example_simple_draw PRIVATE -Wall)
-RegisterTarget(example_simple_draw ${CMAKE_CURRENT_SOURCE_DIR} true true)
+RegisterTarget(example_simple_draw ${CMAKE_CURRENT_SOURCE_DIR} true false)
 target_link_libraries(example_simple_draw PRIVATE ${PROJECT_NAME})
 
 #------------------------------------------------------------------------------
