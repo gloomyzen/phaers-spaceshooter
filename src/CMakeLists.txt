@@ -7,7 +7,7 @@ set(GAME_MODULE_NAME GameModule CACHE INTERNAL "")
 #------------------------------------------------------------------------------
 #                          All modules sources
 #------------------------------------------------------------------------------
-add_library(${CORE_MODULE_NAME} STATIC
+set(CORE_MODULE_SOURCES
         Core/moduleDefinitions.h
         #### DEBUG ####
         Core/Debug/Logger.cpp Core/Debug/Logger.h
@@ -37,11 +37,19 @@ add_library(${CORE_MODULE_NAME} STATIC
         Core/ResourceModule/Loaders/JsonLoader.cpp Core/ResourceModule/Loaders/JsonLoader.h
         )
 
-
-add_library(${GAME_MODULE_NAME} STATIC
+set(GAME_MODULE_SOURCES
         #### Game Module ####
         Game/Interface/InterfaceModule.cpp Game/Interface/InterfaceModule.h
-        Game/StateModule/StateManager.cpp Game/StateModule/StateManager.h)
+        Game/StateModule/StateManager.cpp Game/StateModule/StateManager.h
+        )
+
+if (EMSCRIPTEN)
+    set(CORE_MODULE_SOURCES_FILE ${CORE_MODULE_SOURCES} CACHE INTERNAL "CORE_MODULE_SOURCES_FILE")
+    set(GAME_MODULE_SOURCES_FILE ${GAME_MODULE_SOURCES} CACHE INTERNAL "GAME_MODULE_SOURCES_FILE")
+    return()
+endif()
+add_library(${CORE_MODULE_NAME} STATIC ${CORE_MODULE_SOURCES})
+add_library(${GAME_MODULE_NAME} STATIC ${CORE_MODULE_SOURCES})
 
 #------------------------------------------------------------------------------
 #                           Target interfaces

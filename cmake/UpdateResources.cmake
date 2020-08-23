@@ -17,34 +17,37 @@ function(RegisterTarget targetName targetCurrentSourceDir isRuntime linkSDL)
         list(APPEND ${targetName}_OPTIONS
                 -O3 -flto -fno-rtti
                 "SHELL:-s WASM=1"
-                "SHELL:-s BINARYEN_METHOD=native-wasm"
+#                "SHELL:-s BINARYEN_METHOD=native-wasm"
                 "SHELL:-s TOTAL_MEMORY=256MB"
                 "SHELL:-s DEMANGLE_SUPPORT=1"
                 "SHELL:-s DISABLE_EXCEPTION_CATCHING=1"
                 "SHELL:-s USE_PTHREADS=0"
 #                "SHELL:-s ERROR_ON_UNDEFINED_SYMBOLS=0"
-                "SHELL:-s EXTRA_EXPORTED_RUNTIME_METHODS=\"['cwrap', 'ccall']\""
+#                "SHELL:-s EXTRA_EXPORTED_RUNTIME_METHODS=\"['cwrap', 'ccall']\""
                 )
         if(${isRuntime} STREQUAL "true")
 #            set_target_properties( ${targetName} PROPERTIES OUTPUT_NAME "main")
             list(APPEND ${targetName}_OPTIONS
-                    "SHELL:-s SIDE_MODULE=1"
+#                    "SHELL:-s MAIN_MODULE=1"
                     "SHELL:-s NO_EXIT_RUNTIME=1"
-                    "SHELL:-s EXPORT_NAME='main' -s MODULARIZE=1"
+                    "SHELL:-s EXPORT_NAME='main'"
+#                    "SHELL:-s MODULARIZE=1"
                     )
         endif()
-        if(${isRuntime} STREQUAL "false")
-            list(APPEND ${targetName}_OPTIONS
-                    "SHELL:-s MAIN_MODULE=1"
-                    "SHELL:-s EXPORT_ALL=1"
-                    )
-        endif()
+#        if(${isRuntime} STREQUAL "false")
+#            list(APPEND ${targetName}_OPTIONS
+##                    "SHELL:-s MAIN_MODULE=1"
+#                    "SHELL:-s SIDE_MODULE=1"
+#                    "SHELL:-s EXPORT_ALL=1"
+#                    )
+#        endif()
         if(${linkSDL} STREQUAL "true")
             list(APPEND ${targetName}_OPTIONS
                     "SHELL:-s USE_SDL=2"
                     "SHELL:-s USE_SDL_IMAGE=2"
                     "SHELL:-s SDL2_IMAGE_FORMATS=[\"png\"]"
                     "SHELL:-s USE_FREETYPE=1"
+                    #TODO change to legacy webgl emulator
                     "SHELL:-s USE_WEBGL2=1"
                     )
         endif()

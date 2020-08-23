@@ -16,7 +16,6 @@ project(tgengine
         LANGUAGES CXX
         )
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DPROJECT_VERSION='0.1'")
-message(FATAL_ERROR ${CMAKE_C_COMPILER_VERSION})
 include(cmake/StandardProjectSettings.cmake)
 
 #------------------------------------------------------------------------------
@@ -37,6 +36,8 @@ else ()
 endif ()
 if (EMSCRIPTEN)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DEMSCRIPTEN")
+else()
+    set(IS_DESKTOP 1)
 endif()
 if (APPLE OR MAC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DAPPLE")
@@ -196,40 +197,57 @@ endif()
 #                           Include src with modules
 #------------------------------------------------------------------------------
 add_subdirectory(src)
+set(MODULES_SOURCES_LIST "")
+if (NOT IS_DESKTOP)
+    foreach(item ${CORE_MODULE_SOURCES_FILE} ${GAME_MODULE_SOURCES_FILE})
+        list(APPEND MODULES_SOURCES_LIST "${CMAKE_SOURCE_DIR}/src/${item}")
+    endforeach()
+endif()
 
 #------------------------------------------------------------------------------
 #                          Compiler warnings target
 # Set enabled maximum compilation warnings for project_warnings target
 #------------------------------------------------------------------------------
-#TODO test and restore
-#include(cmake/CompilerWarnings.cmake)
-#add_library(project_warnings INTERFACE)
-#set_project_warnings(project_warnings)
-#target_link_libraries(project_warnings INTERFACE ${CORE_MODULE_NAME} ${GAME_MODULE_NAME})
+if (IS_DESKTOP)
+    include(cmake/CompilerWarnings.cmake)
+    add_library(project_warnings INTERFACE)
+    set_project_warnings(project_warnings)
+    target_link_libraries(project_warnings INTERFACE ${CORE_MODULE_NAME} ${GAME_MODULE_NAME})
+endif (IS_DESKTOP)
 
 #------------------------------------------------------------------------------
 #                               Export target
 # Exported target tgengine included all modules from tgengine/src
 #------------------------------------------------------------------------------
+if (IS_DESKTOP)
 add_library(${PROJECT_NAME} STATIC
         $<TARGET_OBJECTS:${CORE_MODULE_NAME}>
         $<TARGET_OBJECTS:${GAME_MODULE_NAME}>
         )
+else()
+    add_library(${PROJECT_NAME} INTERFACE)
+endif()
 target_include_directories(${PROJECT_NAME} INTERFACE
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
         )
-target_link_libraries(${PROJECT_NAME} PUBLIC ${CORE_MODULE_NAME} ${GAME_MODULE_NAME} project_options project_dependency)
-RegisterTarget(${PROJECT_NAME} ${CMAKE_CURRENT_SOURCE_DIR} false true)
+if (IS_DESKTOP)
+    target_link_libraries(${PROJECT_NAME} PRIVATE ${CORE_MODULE_NAME} ${GAME_MODULE_NAME} project_options project_dependency)
+else()
+    target_link_libraries(${PROJECT_NAME} INTERFACE project_options project_dependency)
+endif()
 
 #------------------------------------------------------------------------------
 #                               Example targets
 #------------------------------------------------------------------------------
 # Example of simple drawing of objects
-add_executable(example_simple_draw src/main.cpp)
+add_executable(example_simple_draw src/main.cpp ${MODULES_SOURCES_LIST})
+#if(NOT IS_DESKTOP)
+#    target_sources(example_simple_draw PRIVATE ${CORE_MODULE_SOURCES_FILE} ${GAME_MODULE_SOURCES_FILE})
+#endif(NOT IS_DESKTOP)
 target_compile_features(example_simple_draw PRIVATE cxx_std_17)
 target_compile_options(example_simple_draw PRIVATE -Wall)
-RegisterTarget(example_simple_draw ${CMAKE_CURRENT_SOURCE_DIR} true false)
 target_link_libraries(example_simple_draw PRIVATE ${PROJECT_NAME})
+RegisterTarget(example_simple_draw ${CMAKE_CURRENT_SOURCE_DIR} true true)
 
 #------------------------------------------------------------------------------
 #                               Tests section

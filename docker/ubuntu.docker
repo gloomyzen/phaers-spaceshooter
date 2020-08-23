@@ -6,20 +6,12 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y --fix-mi
     git zip cron curl wget python libxml2-dev build-essential libssl-dev \
     checkinstall libx11-dev libxext-dev zlib1g-dev libpng-dev libjpeg-dev libfreetype6-dev libxml2-dev \
     libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev libsdl2-dev \
-    && cd /var && git clone https://github.com/emscripten-core/emscripten-fastcomp && cd emscripten-fastcomp \
-    && git clone https://github.com/emscripten-core/emscripten-fastcomp-clang tools/clang \
-    && mkdir build && cd build \
-    && cmake .. -DCMAKE_BUILD_TYPE=Release -DLLVM_TARGETS_TO_BUILD="host;JSBackend" -DLLVM_INCLUDE_EXAMPLES=OFF -DLLVM_INCLUDE_TESTS=OFF -DCLANG_INCLUDE_TESTS=OFF \
-    && if [ "$(nproc)" > "4" ]; then NUM_OF_PROC=4; else NUM_OF_PROC=$(nproc); fi \
-    && make -j${NUM_OF_PROC}
-
-#    && cd /var && git clone https://github.com/emscripten-core/emsdk.git emsdk && cd emsdk \
-#    && ./emsdk install latest \
-#    && ./emsdk activate latest \
-#    && source /var/emsdk/emsdk_env.sh \
-#    && echo "source /var/emsdk/emsdk_env.sh" >> /etc/profile \
-#TODO chmage LLVM_ROOT
-#    && emcc --version
+    && cd /var && git clone https://github.com/emscripten-core/emsdk.git emsdk && cd emsdk \
+    && ./emsdk install latest \
+    && ./emsdk activate latest \
+    && source /var/emsdk/emsdk_env.sh \
+    && echo "source /var/emsdk/emsdk_env.sh" >> /etc/profile \
+    && emcc --version
 
 #######################    Install latest CMake    #######################
 RUN mkdir /var/cmake && cd /var/cmake && wget https://github.com/Kitware/CMake/releases/download/v3.18.2/cmake-3.18.2-Linux-x86_64.sh \
