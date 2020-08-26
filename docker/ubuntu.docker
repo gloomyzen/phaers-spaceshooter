@@ -5,7 +5,8 @@ RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y --fix-missing \
     git zip cron curl wget python libxml2-dev build-essential libssl-dev \
     checkinstall libx11-dev libxext-dev zlib1g-dev libpng-dev libjpeg-dev libfreetype6-dev libxml2-dev \
-    libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev libsdl2-dev \
+    libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev \
+    libsdl2-dev libsdl2-2.0-0 libsdl2-image-dev libsdl2-mixer-dev libsdl2-net-dev libsdl2-ttf-dev libsdl2-gfx-dev \
     && cd /var && git clone https://github.com/emscripten-core/emsdk.git emsdk && cd emsdk \
     && ./emsdk install latest \
     && ./emsdk activate latest \

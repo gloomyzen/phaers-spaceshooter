@@ -143,16 +143,26 @@ if (NOT EMSCRIPTEN)
 
     endif()
 
-    find_package(SDL2 REQUIRED)
-    find_package(SDL2_image REQUIRED)
-
-    include_directories(${SDL2_INCLUDE_DIR})
-    include_directories(${SDL2_IMAGE_INCLUDE_DIR})
-    
-
-    target_link_libraries(project_dependency INTERFACE ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES})
+#    find_package(SDL2 REQUIRED)
+#    find_package(SDL2_image REQUIRED)
+#
+#    include_directories(${SDL2_INCLUDE_DIR})
+#    include_directories(${SDL2_IMAGE_INCLUDE_DIR})
+#
+#
+#    target_link_libraries(project_dependency INTERFACE ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES})
 
 endif()
+
+#TODO Need test for desktop version
+find_package(SDL2 REQUIRED)
+find_package(SDL2_image REQUIRED)
+
+include_directories(${SDL2_INCLUDE_DIR})
+include_directories(${SDL2_IMAGE_INCLUDE_DIR})
+
+
+target_link_libraries(project_dependency INTERFACE ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES})
 
 #------------------------------------------------------------------------------
 #                        ImGui, included for debugging only
