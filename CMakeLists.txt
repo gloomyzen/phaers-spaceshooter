@@ -8,6 +8,8 @@
 # 4. SDL2_ttf       FLAG_EXTERNAL_SDL2TTF       //                              TODO <- not working
 # 5. SDL2_mixer     FLAG_EXTERNAL_SDL2MIXER     //                              TODO <- not working
 # 6. SDL2_image     FLAG_EXTERNAL_SDL2IMAGE     //                              TODO <- not working
+# 7. BuildExamples  FLAG_BUILD_EXAMPLES         //                              TODO <- not working
+# 7. BuildTests     FLAG_BUILD_TESTS            //                              TODO <- not working
 #------------------------------------------------------------------------------
 #                       General Projects Settings
 #------------------------------------------------------------------------------
