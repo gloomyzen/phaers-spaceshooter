@@ -15,6 +15,8 @@ cmake_minimum_required(VERSION 3.11)
 project(TGEngine
         LANGUAGES CXX
         )
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DPROJECT_VERSION='0.1'")
+add_definitions(-DPROJECT_VERSION='0.1') # <- new cast definition
 include(cmake/StandardProjectSettings.cmake)
 
 #------------------------------------------------------------------------------
@@ -119,6 +121,44 @@ if (ENABLE_PCH)
     target_precompile_headers(${PROJECT_NAME} PRIVATE <vector> <array> <string> <map> <utility> <memory> <algorithm> <bitset>)
 endif ()
 
+#------------------------------------------------------------------------------
+#                        ImGui, included for debugging only
+#------------------------------------------------------------------------------
+if (NOT FLAG_EXTERNAL_IMGUI)
+    if (NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/lib/imgui/imgui.cpp)
+        message(FATAL_ERROR "ImGui not found, download lib/imgui or use 'git submodules update'.")
+    endif()
+    include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/ImGui.cmake)
+    if(IMGUI_ENABLED)
+#        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DIMGUI_ENABLED") #TODO remove after testing
+        add_definitions(-DIMGUI_ENABLED) # <- new cast definition
+        target_link_libraries(${PROJECT_NAME} PRIVATE imgui_target)
+    endif()
+elseif(FLAG_EXTERNAL_IMGUI)
+    # Using external imgui_ext_target
+    if(IMGUI_ENABLED)
+#        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DIMGUI_ENABLED") #TODO remove after testing
+        add_definitions(-DIMGUI_ENABLED) # <- new cast definition
+        target_link_libraries(${PROJECT_NAME} PRIVATE imgui_ext_target)
+    endif()
+endif()
+
+#------------------------------------------------------------------------------
+#                               Rapidjson
+#------------------------------------------------------------------------------
+if (NOT FLAG_EXTERNAL_RAPIDJSON)
+    if (NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/lib/rapidjson/include)
+        message(FATAL_ERROR "Rapidjson not found, download lib/rapidjson or use 'git submodules update'.")
+    endif()
+    add_library(rapidjson_target INTERFACE)
+    target_include_directories(rapidjson_target INTERFACE
+            $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib/rapidjson/include>
+            )
+    target_link_libraries(${PROJECT_NAME} PRIVATE rapidjson_target)
+elseif(FLAG_EXTERNAL_RAPIDJSON)
+    # Using external rapidjson_ext_target
+    target_link_libraries(${PROJECT_NAME} PRIVATE rapidjson_target)
+endif()
 
 #------------------------------------------------------------------------------
 #                                   SDL2
