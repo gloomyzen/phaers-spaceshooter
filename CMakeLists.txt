@@ -155,53 +155,53 @@ if (NOT EMSCRIPTEN)
 endif()
 
 #TODO Need test for desktop version
-find_package(SDL2 REQUIRED)
-find_package(SDL2_image REQUIRED)
+#find_package(SDL2 REQUIRED)
+#find_package(SDL2_image REQUIRED)
+#
+#include_directories(${SDL2_INCLUDE_DIR})
+#include_directories(${SDL2_IMAGE_INCLUDE_DIR})
 
-include_directories(${SDL2_INCLUDE_DIR})
-include_directories(${SDL2_IMAGE_INCLUDE_DIR})
 
-
-target_link_libraries(project_dependency INTERFACE ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES})
+#target_link_libraries(project_dependency INTERFACE ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES})
 
 #------------------------------------------------------------------------------
 #                        ImGui, included for debugging only
 #------------------------------------------------------------------------------
-if (NOT FLAG_EXTERNAL_IMGUI)
-    if (NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/lib/imgui/imgui.cpp)
-        message(FATAL_ERROR "ImGui not found, download lib/imgui or use 'git submodules update'.")
-    endif()
-    include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/ImGui.cmake)
-    if(IMGUI_ENABLED)
-#        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DIMGUI_ENABLED")
-        add_definitions(-DIMGUI_ENABLED) # <- new cast definition
-        target_link_libraries(project_dependency INTERFACE imgui_target)
-    endif()
-elseif(FLAG_EXTERNAL_IMGUI)
-    # Using external imgui_ext_target
-    if(IMGUI_ENABLED)
-#        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DIMGUI_ENABLED")
-        add_definitions(-DIMGUI_ENABLED) # <- new cast definition
-        target_link_libraries(project_dependency INTERFACE imgui_ext_target)
-    endif()
-endif()
+#if (NOT FLAG_EXTERNAL_IMGUI)
+#    if (NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/lib/imgui/imgui.cpp)
+#        message(FATAL_ERROR "ImGui not found, download lib/imgui or use 'git submodules update'.")
+#    endif()
+#    include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/ImGui.cmake)
+#    if(IMGUI_ENABLED)
+##        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DIMGUI_ENABLED")
+#        add_definitions(-DIMGUI_ENABLED) # <- new cast definition
+#        target_link_libraries(project_dependency INTERFACE imgui_target)
+#    endif()
+#elseif(FLAG_EXTERNAL_IMGUI)
+#    # Using external imgui_ext_target
+#    if(IMGUI_ENABLED)
+##        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DIMGUI_ENABLED")
+#        add_definitions(-DIMGUI_ENABLED) # <- new cast definition
+#        target_link_libraries(project_dependency INTERFACE imgui_ext_target)
+#    endif()
+#endif()
 
 #------------------------------------------------------------------------------
 #                               Rapidjson
 #------------------------------------------------------------------------------
-if (NOT FLAG_EXTERNAL_RAPIDJSON)
-    if (NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/lib/rapidjson/include)
-        message(FATAL_ERROR "Rapidjson not found, download lib/rapidjson or use 'git submodules update'.")
-    endif()
-    add_library(rapidjson_target INTERFACE)
-    target_include_directories(rapidjson_target INTERFACE
-            $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib/rapidjson/include>
-            )
-    target_link_libraries(project_dependency INTERFACE rapidjson_target)
-elseif(FLAG_EXTERNAL_RAPIDJSON)
-    # Using external rapidjson_ext_target
-    target_link_libraries(project_dependency INTERFACE rapidjson_target)
-endif()
+#if (NOT FLAG_EXTERNAL_RAPIDJSON)
+#    if (NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/lib/rapidjson/include)
+#        message(FATAL_ERROR "Rapidjson not found, download lib/rapidjson or use 'git submodules update'.")
+#    endif()
+#    add_library(rapidjson_target INTERFACE)
+#    target_include_directories(rapidjson_target INTERFACE
+#            $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib/rapidjson/include>
+#            )
+#    target_link_libraries(project_dependency INTERFACE rapidjson_target)
+#elseif(FLAG_EXTERNAL_RAPIDJSON)
+#    # Using external rapidjson_ext_target
+#    target_link_libraries(project_dependency INTERFACE rapidjson_target)
+#endif()
 
 #------------------------------------------------------------------------------
 #                           Include src with modules
@@ -218,12 +218,12 @@ endif()
 #                          Compiler warnings target
 # Set enabled maximum compilation warnings for project_warnings target
 #------------------------------------------------------------------------------
-if (IS_DESKTOP)
-    include(cmake/CompilerWarnings.cmake)
-    add_library(project_warnings INTERFACE)
-    set_project_warnings(project_warnings)
-    target_link_libraries(project_warnings INTERFACE ${CORE_MODULE_NAME} ${GAME_MODULE_NAME})
-endif (IS_DESKTOP)
+#if (IS_DESKTOP)
+#    include(cmake/CompilerWarnings.cmake)
+#    add_library(project_warnings INTERFACE)
+#    set_project_warnings(project_warnings)
+#    target_link_libraries(project_warnings INTERFACE ${CORE_MODULE_NAME} ${GAME_MODULE_NAME})
+#endif (IS_DESKTOP)
 
 #------------------------------------------------------------------------------
 #                               Export target

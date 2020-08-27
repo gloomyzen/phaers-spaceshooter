@@ -9,9 +9,6 @@ function(RegisterTarget targetName targetCurrentSourceDir isRuntime linkSDL)
     set(${targetName}_OPTIONS "" CACHE INTERNAL "${targetName}_OPTIONS")
     if (EMSCRIPTEN)
 
-        set(CMAKE_C_COMPILER "emcc")
-        set(CMAKE_CXX_COMPILER "em++")
-
         if (DEBUG)
             list(APPEND ${targetName}_OPTIONS
                     "SHELL:-s LLD_REPORT_UNDEFINED" # For linking debugging
