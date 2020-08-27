@@ -45,9 +45,6 @@ include(ExternalProject)
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/UpdateResources.cmake)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
 
-add_library(project_dependency INTERFACE)
-
-
 # enable cache system
 include(cmake/Cache.cmake)
 
@@ -62,6 +59,56 @@ enable_doxygen()
 # allow for static analysis options
 include(cmake/StaticAnalyzers.cmake)
 
+#------------------------------------------------------------------------------
+#                              General library
+#------------------------------------------------------------------------------
+add_library(${PROJECT_NAME} STATIC
+        src/Core/moduleDefinitions.h
+        #### DEBUG ####
+        src/Core/Debug/Logger.cpp src/Core/Debug/Logger.h
+        src/Core/Debug/ImGui/SDLImplements/imgui_sdl.cpp src/Core/Debug/ImGui/SDLImplements/imgui_sdl.h
+        src/Core/Debug/ImGui/ImGuiManager.cpp src/Core/Debug/ImGui/ImGuiManager.h
+        #### APPLICATION ####
+        src/Core/Application.cpp src/Core/Application.h
+        src/Core/GameApplication.cpp src/Core/GameApplication.h
+        src/Core/DataTypes/Vector2D.cpp src/Core/DataTypes/Vector2D.h
+        #### Components ####
+        src/Core/Components/Component.h
+        src/Core/Components/AllComponentsHeaders.h
+        src/Core/Components/TransformComponent.h
+        src/Core/Components/SpriteComponent.h
+#        src/Core/Components/CameraComponent.h
+#        src/Core/Components/ColliderComponent.h
+#        src/Core/Components/CollisionDetection.h
+#        src/Core/Components/KeyboardController.h
+#        src/Core/Components/TouchController.h
+        #### Nodes ####
+        src/Core/Nodes/Node.h src/Core/Nodes/Node.cpp
+        src/Core/Nodes/NodeManager.h src/Core/Nodes/NodeManager.cpp
+        src/Core/Nodes/NodeFactory.h src/Core/Nodes/NodeFactory.cpp
+        #### Resources managers ####
+        src/Core/ResourceModule/ResourceManager.cpp src/Core/ResourceModule/ResourceManager.h
+        src/Core/ResourceModule/Loaders/TextureManager.cpp src/Core/ResourceModule/Loaders/TextureManager.h
+        src/Core/ResourceModule/Loaders/JsonLoader.cpp src/Core/ResourceModule/Loaders/JsonLoader.h
+
+        #### Game Module ####
+        src/Game/Interface/InterfaceModule.cpp src/Game/Interface/InterfaceModule.h
+        src/Game/StateModule/StateManager.cpp src/Game/StateModule/StateManager.h
+        )
+
+add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
+
+target_include_directories(${PROJECT_NAME}
+        PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
+        )
+
+# Add as many warning as possible:
+target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
+target_compile_options(${PROJECT_NAME} PRIVATE -Wall)
+include(cmake/CompilerWarnings.cmake)
+set_project_warnings(${PROJECT_NAME})
+
 # Very basic PCH example
 option(ENABLE_PCH "Enable Precompiled Headers" OFF)
 if (ENABLE_PCH)
@@ -69,71 +116,106 @@ if (ENABLE_PCH)
     # is a good idea if any #define's change
     #
     # consider breaking this out per project as necessary
-    target_precompile_headers(project_options INTERFACE <vector> <array> <string> <map> <utility> <memory> <algorithm> <bitset>)
+    target_precompile_headers(${PROJECT_NAME} PRIVATE <vector> <array> <string> <map> <utility> <memory> <algorithm> <bitset>)
 endif ()
-
-#------------------------------------------------------------------------------
-#                              General library
-#------------------------------------------------------------------------------
-add_library(${PROJECT_NAME} STATIC
-        Core/moduleDefinitions.h
-        #### DEBUG ####
-        Core/Debug/Logger.cpp Core/Debug/Logger.h
-        Core/Debug/ImGui/SDLImplements/imgui_sdl.cpp Core/Debug/ImGui/SDLImplements/imgui_sdl.h
-        Core/Debug/ImGui/ImGuiManager.cpp Core/Debug/ImGui/ImGuiManager.h
-        #### APPLICATION ####
-        Core/Application.cpp Core/Application.h
-        Core/GameApplication.cpp Core/GameApplication.h
-        Core/DataTypes/Vector2D.cpp Core/DataTypes/Vector2D.h
-        #### Components ####
-        Core/Components/Component.h
-        Core/Components/AllComponentsHeaders.h
-        Core/Components/TransformComponent.h
-        Core/Components/SpriteComponent.h
-#        Core/Components/CameraComponent.h
-#        Core/Components/ColliderComponent.h
-#        Core/Components/CollisionDetection.h
-#        Core/Components/KeyboardController.h
-#        Core/Components/TouchController.h
-        #### Nodes ####
-        Core/Nodes/Node.h Core/Nodes/Node.cpp
-        Core/Nodes/NodeManager.h Core/Nodes/NodeManager.cpp
-        Core/Nodes/NodeFactory.h Core/Nodes/NodeFactory.cpp
-        #### Resources managers ####
-        Core/ResourceModule/ResourceManager.cpp Core/ResourceModule/ResourceManager.h
-        Core/ResourceModule/Loaders/TextureManager.cpp Core/ResourceModule/Loaders/TextureManager.h
-        Core/ResourceModule/Loaders/JsonLoader.cpp Core/ResourceModule/Loaders/JsonLoader.h
-
-        #### Game Module ####
-        Game/Interface/InterfaceModule.cpp Game/Interface/InterfaceModule.h
-        Game/StateModule/StateManager.cpp Game/StateModule/StateManager.h
-        )
-
-add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
-# Add as many warning as possible:
-target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
-target_compile_options(${PROJECT_NAME} PRIVATE -Wall)
-include(cmake/CompilerWarnings.cmake)
-set_project_warnings(${PROJECT_NAME})
 
 
 #------------------------------------------------------------------------------
 #                                   SDL2
 #------------------------------------------------------------------------------
 
-return()
-
 if(EMSCRIPTEN)
-    target_link_libraries(${PROJECT_NAME} PUBLIC "-s USE_GLFW=3")
+    if (DEBUG)
+        target_link_libraries(${PROJECT_NAME} PUBLIC "-s LLD_REPORT_UNDEFINED") # For linking debugging
+    endif ()
+    target_link_libraries(${PROJECT_NAME} PUBLIC "-O3 -flto -fno-rtti")
+    target_link_libraries(${PROJECT_NAME} PUBLIC "-s WASM=1")
+    target_link_libraries(${PROJECT_NAME} PUBLIC "-s BINARYEN_METHOD=native-wasm")
+    target_link_libraries(${PROJECT_NAME} PUBLIC "-s TOTAL_MEMORY=256MB")
+    target_link_libraries(${PROJECT_NAME} PUBLIC "-s DEMANGLE_SUPPORT=1")
+    target_link_libraries(${PROJECT_NAME} PUBLIC "-s DISABLE_EXCEPTION_CATCHING=1")
+    target_link_libraries(${PROJECT_NAME} PUBLIC "-s USE_PTHREADS=0")
+    target_link_libraries(${PROJECT_NAME} PUBLIC "-s USE_SDL=2")
+    target_link_libraries(${PROJECT_NAME} PUBLIC "-s USE_SDL_IMAGE=2")
+    target_link_libraries(${PROJECT_NAME} PUBLIC "-s SDL2_IMAGE_FORMATS=[\"png\", \"jpg\"]")
+    target_link_libraries(${PROJECT_NAME} PUBLIC "-s USE_FREETYPE=1")
+    #TODO change to legacy webgl emulator
     target_link_libraries(${PROJECT_NAME} PUBLIC "-s USE_WEBGL2=1")
+
 else()
-    target_link_libraries(${PROJECT_NAME} PUBLIC glfw)
-    target_link_libraries(${PROJECT_NAME} PUBLIC libglew_static)
-    target_link_libraries(${PROJECT_NAME} PRIVATE OpenAL)
+
+    include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/SDL2.cmake)
+
+    if (APPLE)
+        if (NOT EXISTS "${CMAKE_SOURCE_DIR}/lib/macOS/SDL2.framework")
+            message("Downloading SDL2 frameworks")
+            execute_process(
+                    COMMAND "chmod +x ${CMAKE_SOURCE_DIR}/lib/macOS/install.sh"
+                    WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/lib/macOS")
+            execute_process(
+                    COMMAND "${CMAKE_SOURCE_DIR}/lib/macOS/install.sh"
+                    WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/lib/macOS")
+        endif ()
+        set(SDL_INCLUDE_DIR "")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -F ${CMAKE_SOURCE_DIR}/lib/macOS")
+        #TODO for future static linking
+        #set(CMAKE_EXE_LINKER_FLAGS "-Wl,-F${CMAKE_SOURCE_DIR}/lib/macOS -Wl,-rpath ${CMAKE_SOURCE_DIR}/lib/macOS -framework Cocoa")
+        #set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS}")
+        set(SDL_LIBRARY
+                "-framework SDL2"
+                "-framework SDL2_ttf"
+                "-framework SDL2_mixer"
+                "-framework SDL2_image"
+                )
+        set(SDL_EXPORT_LIBRARIES
+                "${CMAKE_SOURCE_DIR}/lib/macOS/SDL2.framework"
+                "${CMAKE_SOURCE_DIR}/lib/macOS/SDL2_ttf.framework"
+                "${CMAKE_SOURCE_DIR}/lib/macOS/SDL2_mixer.framework"
+                "${CMAKE_SOURCE_DIR}/lib/macOS/SDL2_image.framework"
+                )
+        mark_as_advanced(SDL_INCLUDE_DIR SDL_LIBRARY)
+        target_link_libraries(${PROJECT_NAME} PRIVATE ${SDL_LIBRARY})
+
+        include_directories(${SDL_INCLUDE_DIR})
+
+    endif()
+
+    if(WIN32)
+
+        if(NOT EXISTS "${CMAKE_SOURCE_DIR}/lib/win32/SDL2")
+            message("Downloading SDL2 frameworks")
+            execute_process(
+                    COMMAND "chmod +x ${CMAKE_SOURCE_DIR}/lib/win32/install.sh"
+                    WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/lib/win32")
+            execute_process(
+                    COMMAND "${CMAKE_SOURCE_DIR}/lib/win32/install.sh VC"
+                    WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/lib/win32")
+        endif()
+
+        set(SDL2_LIBRARY "${CMAKE_SOURCE_DIR}/lib/win32/SDL/SDL2/lib/x86/SDL2.lib")
+        set(SDL2MAIN_LIBRARY "${CMAKE_SOURCE_DIR}/lib/win32/SDL/SDL2/lib/x86/SDL2main.lib")
+        set(SDL2_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/lib/win32/SDL/SDL2/include")
+        set(SDL2_IMAGE_LIBRARY "${CMAKE_SOURCE_DIR}/lib/win32/SDL/SDL2_image/lib/x86/SDL2_image.lib")
+        set(SDL2_IMAGE_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/lib/win32/SDL/SDL2_image/include")
+        # for Visual Studio
+#        target_link_libraries(${PROJECT_NAME} PRIVATE ${SDL2MAIN_LIBRARY})
+#        target_link_libraries(${PROJECT_NAME} PRIVATE ${SDL2_LIBRARIES})
+#        target_link_libraries(${PROJECT_NAME} PRIVATE ${SDL2_IMAGE_LIBRARIES})
+
+    endif()
+
+    find_package(SDL2 REQUIRED)
+    find_package(SDL2_image REQUIRED)
+
+    include_directories(${SDL2_INCLUDE_DIR})
+    include_directories(${SDL2_IMAGE_INCLUDE_DIR})
+
+
+    target_link_libraries(${PROJECT_NAME} PRIVATE ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES})
 endif()
 
 
-
+return()
 
 
 
