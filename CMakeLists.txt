@@ -12,19 +12,14 @@
 #                       General Projects Settings
 #------------------------------------------------------------------------------
 cmake_minimum_required(VERSION 3.11)
-project(tgengine
+project(TGEngine
         LANGUAGES CXX
         )
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DPROJECT_VERSION='0.1'")
 include(cmake/StandardProjectSettings.cmake)
 
 #------------------------------------------------------------------------------
 #                         Dependencies and variables
 #------------------------------------------------------------------------------
-add_library(project_options INTERFACE)
-target_compile_features(project_options INTERFACE cxx_std_17)
-target_compile_options(project_options INTERFACE -Wall)
-
 if (NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE ${CMAKE_BUILD_TYPE} Debug)
 endif ()
@@ -36,20 +31,18 @@ else ()
 endif ()
 if (EMSCRIPTEN)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DEMSCRIPTEN")
-else()
-    set(IS_DESKTOP 1)
 endif()
 if (APPLE OR MAC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DAPPLE")
     set(CMAKE_MACOSX_RPATH 1)
 endif()
 
+#------------------------------------------------------------------------------
+#                         CMake modules and options
+#------------------------------------------------------------------------------
+
 include(ExternalProject)
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/UpdateResources.cmake)
-
-#------------------------------------------------------------------------------
-#                           General options.
-#------------------------------------------------------------------------------
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
 
 add_library(project_dependency INTERFACE)
@@ -80,8 +73,73 @@ if (ENABLE_PCH)
 endif ()
 
 #------------------------------------------------------------------------------
+#                              General library
+#------------------------------------------------------------------------------
+add_library(${PROJECT_NAME} STATIC
+        Core/moduleDefinitions.h
+        #### DEBUG ####
+        Core/Debug/Logger.cpp Core/Debug/Logger.h
+        Core/Debug/ImGui/SDLImplements/imgui_sdl.cpp Core/Debug/ImGui/SDLImplements/imgui_sdl.h
+        Core/Debug/ImGui/ImGuiManager.cpp Core/Debug/ImGui/ImGuiManager.h
+        #### APPLICATION ####
+        Core/Application.cpp Core/Application.h
+        Core/GameApplication.cpp Core/GameApplication.h
+        Core/DataTypes/Vector2D.cpp Core/DataTypes/Vector2D.h
+        #### Components ####
+        Core/Components/Component.h
+        Core/Components/AllComponentsHeaders.h
+        Core/Components/TransformComponent.h
+        Core/Components/SpriteComponent.h
+#        Core/Components/CameraComponent.h
+#        Core/Components/ColliderComponent.h
+#        Core/Components/CollisionDetection.h
+#        Core/Components/KeyboardController.h
+#        Core/Components/TouchController.h
+        #### Nodes ####
+        Core/Nodes/Node.h Core/Nodes/Node.cpp
+        Core/Nodes/NodeManager.h Core/Nodes/NodeManager.cpp
+        Core/Nodes/NodeFactory.h Core/Nodes/NodeFactory.cpp
+        #### Resources managers ####
+        Core/ResourceModule/ResourceManager.cpp Core/ResourceModule/ResourceManager.h
+        Core/ResourceModule/Loaders/TextureManager.cpp Core/ResourceModule/Loaders/TextureManager.h
+        Core/ResourceModule/Loaders/JsonLoader.cpp Core/ResourceModule/Loaders/JsonLoader.h
+
+        #### Game Module ####
+        Game/Interface/InterfaceModule.cpp Game/Interface/InterfaceModule.h
+        Game/StateModule/StateManager.cpp Game/StateModule/StateManager.h
+        )
+
+add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
+# Add as many warning as possible:
+target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
+target_compile_options(${PROJECT_NAME} PRIVATE -Wall)
+include(cmake/CompilerWarnings.cmake)
+set_project_warnings(${PROJECT_NAME})
+
+
+#------------------------------------------------------------------------------
 #                                   SDL2
 #------------------------------------------------------------------------------
+
+return()
+
+if(EMSCRIPTEN)
+    target_link_libraries(${PROJECT_NAME} PUBLIC "-s USE_GLFW=3")
+    target_link_libraries(${PROJECT_NAME} PUBLIC "-s USE_WEBGL2=1")
+else()
+    target_link_libraries(${PROJECT_NAME} PUBLIC glfw)
+    target_link_libraries(${PROJECT_NAME} PUBLIC libglew_static)
+    target_link_libraries(${PROJECT_NAME} PRIVATE OpenAL)
+endif()
+
+
+
+
+
+
+
+
+
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/SDL2.cmake)
 
 if (NOT EMSCRIPTEN)
