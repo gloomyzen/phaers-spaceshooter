@@ -100,7 +100,7 @@ add_library(${PROJECT_NAME} STATIC
         src/Game/StateModule/StateManager.cpp src/Game/StateModule/StateManager.h
         )
 
-add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
+#add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 
 target_include_directories(${PROJECT_NAME}
         PUBLIC
@@ -168,7 +168,7 @@ endif()
 
 if(EMSCRIPTEN)
     if (DEBUG)
-        target_link_libraries(${PROJECT_NAME} PUBLIC "-s LLD_REPORT_UNDEFINED") # For linking debugging
+#        target_link_libraries(${PROJECT_NAME} PUBLIC "-s LLD_REPORT_UNDEFINED") # For linking debugging
     endif ()
     target_link_libraries(${PROJECT_NAME} PUBLIC "-O3 -flto -fno-rtti")
     target_link_libraries(${PROJECT_NAME} PUBLIC "-s WASM=1")
@@ -181,8 +181,12 @@ if(EMSCRIPTEN)
     target_link_libraries(${PROJECT_NAME} PUBLIC "-s USE_SDL_IMAGE=2")
     target_link_libraries(${PROJECT_NAME} PUBLIC "-s SDL2_IMAGE_FORMATS=[\"png\", \"jpg\"]")
     target_link_libraries(${PROJECT_NAME} PUBLIC "-s USE_FREETYPE=1")
-    #TODO change to legacy webgl emulator
+#    TODO change to legacy webgl emulator
     target_link_libraries(${PROJECT_NAME} PUBLIC "-s USE_WEBGL2=1")
+
+#    set_property(TARGET ${PROJECT_NAME} APPEND_STRING PROPERTY LINK_FLAGS  " -s USE_WEBGL2=1")
+#    set_property(TARGET ${PROJECT_NAME} APPEND_STRING PROPERTY LINK_FLAGS  " -s USE_SDL=2")
+#    set_property(TARGET ${PROJECT_NAME} APPEND_STRING PROPERTY LINK_FLAGS  " -s USE_SDL_IMAGE=2")
 
 else()
 
