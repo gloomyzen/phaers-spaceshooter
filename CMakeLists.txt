@@ -18,7 +18,7 @@ project(TGEngine
         LANGUAGES CXX
         )
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DPROJECT_VERSION='0.1'")
-add_definitions(-DPROJECT_VERSION='0.1') # <- new cast definition
+add_definitions(-DPROJECT_VERSION="0.1") # <- new cast definition
 include(cmake/StandardProjectSettings.cmake)
 
 #------------------------------------------------------------------------------
@@ -168,25 +168,25 @@ endif()
 
 if(EMSCRIPTEN)
     if (DEBUG)
-#        target_link_libraries(${PROJECT_NAME} PUBLIC "-s LLD_REPORT_UNDEFINED") # For linking debugging
+        target_compile_options(${PROJECT_NAME} PUBLIC "SHELL:-s LLD_REPORT_UNDEFINED") # For linking debugging
+        target_compile_options(${PROJECT_NAME} PUBLIC "SHELL:-O0") # For minimal linking time
     endif ()
-    target_link_libraries(${PROJECT_NAME} PUBLIC "-O3 -flto -fno-rtti")
-    target_link_libraries(${PROJECT_NAME} PUBLIC "-s WASM=1")
-    target_link_libraries(${PROJECT_NAME} PUBLIC "-s BINARYEN_METHOD=native-wasm")
-    target_link_libraries(${PROJECT_NAME} PUBLIC "-s TOTAL_MEMORY=256MB")
-    target_link_libraries(${PROJECT_NAME} PUBLIC "-s DEMANGLE_SUPPORT=1")
-    target_link_libraries(${PROJECT_NAME} PUBLIC "-s DISABLE_EXCEPTION_CATCHING=1")
-    target_link_libraries(${PROJECT_NAME} PUBLIC "-s USE_PTHREADS=0")
-    target_link_libraries(${PROJECT_NAME} PUBLIC "-s USE_SDL=2")
-    target_link_libraries(${PROJECT_NAME} PUBLIC "-s USE_SDL_IMAGE=2")
-    target_link_libraries(${PROJECT_NAME} PUBLIC "-s SDL2_IMAGE_FORMATS=[\"png\", \"jpg\"]")
-    target_link_libraries(${PROJECT_NAME} PUBLIC "-s USE_FREETYPE=1")
-#    TODO change to legacy webgl emulator
-    target_link_libraries(${PROJECT_NAME} PUBLIC "-s USE_WEBGL2=1")
 
-#    set_property(TARGET ${PROJECT_NAME} APPEND_STRING PROPERTY LINK_FLAGS  " -s USE_WEBGL2=1")
-#    set_property(TARGET ${PROJECT_NAME} APPEND_STRING PROPERTY LINK_FLAGS  " -s USE_SDL=2")
-#    set_property(TARGET ${PROJECT_NAME} APPEND_STRING PROPERTY LINK_FLAGS  " -s USE_SDL_IMAGE=2")
+    if (RELEASE)
+        target_compile_options(${PROJECT_NAME} PUBLIC "SHELL:-O3 -flto -fno-rtti")
+    endif ()
+    target_compile_options(${PROJECT_NAME} PUBLIC "SHELL:-s WASM=1")
+    target_compile_options(${PROJECT_NAME} PUBLIC "SHELL:-s BINARYEN_METHOD=native-wasm")
+    target_compile_options(${PROJECT_NAME} PUBLIC "SHELL:-s TOTAL_MEMORY=256MB")
+    target_compile_options(${PROJECT_NAME} PUBLIC "SHELL:-s DEMANGLE_SUPPORT=1")
+    target_compile_options(${PROJECT_NAME} PUBLIC "SHELL:-s DISABLE_EXCEPTION_CATCHING=1")
+    target_compile_options(${PROJECT_NAME} PUBLIC "SHELL:-s USE_PTHREADS=0")
+    target_compile_options(${PROJECT_NAME} PUBLIC "SHELL:-s USE_SDL=2")
+    target_compile_options(${PROJECT_NAME} PUBLIC "SHELL:-s USE_SDL_IMAGE=2")
+    target_compile_options(${PROJECT_NAME} PUBLIC "SHELL:-s SDL2_IMAGE_FORMATS=[\"png\"]")
+    target_compile_options(${PROJECT_NAME} PUBLIC "SHELL:-s USE_FREETYPE=1")
+#    TODO change to legacy webgl emulator
+    target_compile_options(${PROJECT_NAME} PUBLIC "SHELL:-s USE_WEBGL2=1")
 
 else()
 

@@ -123,7 +123,11 @@ void ImGuiManager::showEngineInfo(bool* engineInfoOpened) {
 
     ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(2, 2));
     //start
-    ImGui::Text("Engine version %.1f", PROJECT_VERSION);
+#ifdef PROJECT_VERSION
+    ImGui::Text("Engine version: %s", "PROJECT_VERSION");
+#else
+	ImGui::Text("Engine version: %s", "Not defined");
+#endif
 
     ImGui::Text("FPS %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
     ImGui::Separator();
