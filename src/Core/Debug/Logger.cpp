@@ -14,7 +14,7 @@ const size_t maxLogMessages = 32;
 
 void Logger::info(const std::string &message) {
 #ifdef DEBUG
-#ifdef WIN32
+#if defined(WIN32) or defined(EMSCRIPTEN)
     std::cout << getType(eLogTypes::INFO) << message << std::endl;
 #else// WIN32
     std::cout << "\033[1;32m" + getType(eLogTypes::INFO) + "\033[0m" << "\033[0;32m" << message << "\033[0m" << std::endl;
@@ -25,7 +25,7 @@ void Logger::info(const std::string &message) {
 
 void Logger::warning(const std::string &message) {
 #ifdef DEBUG
-#ifdef WIN32
+#if defined(WIN32) or defined(EMSCRIPTEN)
     std::cout << getType(eLogTypes::WARNING) << message << std::endl;
 #else// WIN32
     std::cout << "\033[1;33m" + getType(eLogTypes::WARNING) + "\033[0m" << "\033[0;33m" << message << "\033[0m" << std::endl;
@@ -36,7 +36,7 @@ void Logger::warning(const std::string &message) {
 
 void Logger::error(const std::string &message) {
 #ifdef DEBUG
-#ifdef WIN32
+#if defined(WIN32) or defined(EMSCRIPTEN)
     std::cout << getType(eLogTypes::ERROR) << message << std::endl;
 #else// WIN32
     std::cout << "\033[1;31m" + getType(eLogTypes::ERROR) + "\033[0m" << "\033[0;31m" << message << "\033[0m" << std::endl;

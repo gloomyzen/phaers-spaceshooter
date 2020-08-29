@@ -17,9 +17,9 @@
 #include <emscripten/html5.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#define EMSCRIPTEN_FLAG 0;
-#else
 #define EMSCRIPTEN_FLAG 1;
+#else
+#define EMSCRIPTEN_FLAG 0;
 #endif //EMSCRIPTEN
 
 #if defined(DEBUG)

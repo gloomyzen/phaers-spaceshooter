@@ -26,9 +26,6 @@ Application::Application()
     const int fullscreen_flag = 0; // for fullscreen SDL_WINDOW_FULLSCREEN
     const Uint32 render_flag = SDL_RENDERER_ACCELERATED;
 
-    auto emsTemp = EMSCRIPTEN_FLAG;
-    emscripten = emsTemp == 0;
-
 #ifdef WIN32
     SDL_SetMainReady();
 #endif
@@ -102,6 +99,7 @@ void Application::run() {
         Update();
         // render
         // ------
+		renderDrawColor();
         SDL_RenderClear(getRenderer());
         Render();
         PostRender();
@@ -184,4 +182,8 @@ void Application::detectWindowDimensionChange() {
   return std::make_tuple(width, height, 1);
 }
 
-bool Application::isEmscripten() const { return false; }
+bool Application::isEmscripten() {
+	auto emsTemp = EMSCRIPTEN_FLAG;
+	emscripten = emsTemp == 1;
+	return emscripten;
+}

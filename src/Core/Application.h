@@ -54,7 +54,7 @@ namespace TGEngine::core {
 
         [[maybe_unused]] std::tuple<int, int, float> GetWindowResolution();
 
-        bool isEmscripten() const;
+        bool isEmscripten();
 
         float getDeltaTime() {
             return deltaTime;
