@@ -34,7 +34,7 @@ TEST_F(NodeTest, NodeConstructorTest) {
 
     auto testNode = new Node("testNode2");
     node->addChild(testNode);
-    EXPECT_EQ(node->getChilds().size(), 1);
+    EXPECT_EQ(node->getChilds().size(), static_cast<size_t>(1));
 
     auto findTest = node->findNode("testNode2");
     EXPECT_EQ(findTest, testNode);
@@ -134,7 +134,7 @@ TEST(NodeSpriteComponen, NodeManagerTest) {
     EXPECT_FALSE(spriteNode.isAnimated());
     //TODO try get animation
     EXPECT_EQ(spriteNode.getAnimation("testAnim"), nullptr);
-    EXPECT_EQ(spriteNode.getAnimations().size(), 0);
+    EXPECT_EQ(spriteNode.getAnimations().size(), static_cast<size_t>(0));
     //set animation
     auto animStructRun = new sAnimation();
     animStructRun->index = 0;
@@ -142,13 +142,13 @@ TEST(NodeSpriteComponen, NodeManagerTest) {
     animStructRun->speed = 150;
     spriteNode.addAnimation("idle", 0, 8, 150);
     EXPECT_TRUE(spriteNode.hasAnimation("idle"));
-    EXPECT_EQ(spriteNode.getAnimations().size(), 1);
+    EXPECT_EQ(spriteNode.getAnimations().size(), static_cast<size_t>(1));
     EXPECT_EQ(animStructRun->index, 0);
     EXPECT_EQ(animStructRun->frames, 8);
     EXPECT_EQ(animStructRun->speed, 150);
     spriteNode.addAnimation("run", animStructRun);
     EXPECT_TRUE(spriteNode.hasAnimation("run"));
-    EXPECT_EQ(spriteNode.getAnimations().size(), 2);
+    EXPECT_EQ(spriteNode.getAnimations().size(), static_cast<size_t>(2));
 }
 
 TEST(NodeLoadProperty, NodeManagerTest) {

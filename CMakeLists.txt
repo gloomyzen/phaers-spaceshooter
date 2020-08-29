@@ -149,10 +149,10 @@ if (NOT FLAG_EXTERNAL_RAPIDJSON)
     target_include_directories(rapidjson_target INTERFACE
             $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib/rapidjson/include>
             )
-    target_link_libraries(${PROJECT_NAME} PRIVATE rapidjson_target)
+    target_link_libraries(${PROJECT_NAME} PUBLIC rapidjson_target)
 elseif(FLAG_EXTERNAL_RAPIDJSON)
     # Using external rapidjson_ext_target
-    target_link_libraries(${PROJECT_NAME} PRIVATE rapidjson_target)
+    target_link_libraries(${PROJECT_NAME} PUBLIC rapidjson_target)
 endif()
 
 #------------------------------------------------------------------------------

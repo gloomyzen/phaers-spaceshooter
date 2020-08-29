@@ -52,12 +52,10 @@
         postRun: [],
         canvas: canvas,
         onRuntimeInitialized: function() {
-            // window.canvasResize = Module.cwrap('window_resize', 'undefined', ['int', 'int']);
+            window.setTimeout(onResize, 0);
             setTimeout(function () {
                 document.querySelector("#loading_page").remove();
-            },200);
-            // window.setTimeout(onResize, 0);
-            // window.setTimeout(onResize, 100);
+            },500);
         },
         print: function (log) {
             console.log('log', log);
