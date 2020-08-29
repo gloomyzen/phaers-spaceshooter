@@ -23,4 +23,4 @@ add_deps_to_test(TestVector2D ${CORE_MODULE_NAME} ${GAME_MODULE_NAME})
 #################### Node System ####################
 init_test(TestNodeSystem ./TestNodeSystem.cpp)
 add_deps_to_test(TestNodeSystem ${CORE_MODULE_NAME} ${GAME_MODULE_NAME})
-update_project_resources(TestNodeSystem "${CMAKE_CURRENT_SOURCE_DIR}/..")
+RegisterTarget(TestNodeSystem "${CMAKE_CURRENT_SOURCE_DIR}/.." false)

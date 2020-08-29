@@ -62,7 +62,7 @@ namespace TGEngine::core {
 
         void changeFps(int _fps) {
             FPS = _fps;
-            frameDelay = 1000.f / FPS;
+            frameDelay = 1000.f / static_cast<float>(FPS);
         }
 
         void changeFrameDelay(float _frameDelay) {
@@ -84,7 +84,7 @@ namespace TGEngine::core {
 
         // Time:
         int FPS = 60;
-        float frameDelay = 1000.f / FPS;
+        float frameDelay = 1000.f / static_cast<float>(FPS);
         Uint32 frameStart;
         float deltaTime;
 

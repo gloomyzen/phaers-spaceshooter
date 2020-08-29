@@ -95,7 +95,7 @@ add_library(${PROJECT_NAME} STATIC
         src/Game/StateModule/StateManager.cpp src/Game/StateModule/StateManager.h
         )
 
-#add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
+add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 
 target_include_directories(${PROJECT_NAME}
         PUBLIC
@@ -121,22 +121,22 @@ endif ()
 #------------------------------------------------------------------------------
 #                        ImGui, included for debugging only
 #------------------------------------------------------------------------------
-if (NOT FLAG_EXTERNAL_IMGUI)
-    if (NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/lib/imgui/imgui.cpp)
-        message(FATAL_ERROR "ImGui not found, download lib/imgui or use 'git submodules update'.")
-    endif()
-    include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/ImGui.cmake)
-    if(IMGUI_ENABLED)
-        add_definitions(-DIMGUI_ENABLED) # <- new cast definition
-        target_link_libraries(${PROJECT_NAME} PRIVATE imgui_target)
-    endif()
-elseif(FLAG_EXTERNAL_IMGUI)
-    # Using external imgui_ext_target
-    if(IMGUI_ENABLED)
-        add_definitions(-DIMGUI_ENABLED) # <- new cast definition
-        target_link_libraries(${PROJECT_NAME} PRIVATE imgui_ext_target)
-    endif()
-endif()
+#if (NOT FLAG_EXTERNAL_IMGUI)
+#    if (NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/lib/imgui/imgui.cpp)
+#        message(FATAL_ERROR "ImGui not found, download lib/imgui or use 'git submodules update'.")
+#    endif()
+#    include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/ImGui.cmake)
+#    if(IMGUI_ENABLED)
+#        add_definitions(-DIMGUI_ENABLED) # <- new cast definition
+#        target_link_libraries(${PROJECT_NAME} PRIVATE imgui_target)
+#    endif()
+#elseif(FLAG_EXTERNAL_IMGUI)
+#    # Using external imgui_ext_target
+#    if(IMGUI_ENABLED)
+#        add_definitions(-DIMGUI_ENABLED) # <- new cast definition
+#        target_link_libraries(${PROJECT_NAME} PRIVATE imgui_ext_target)
+#    endif()
+#endif()
 
 #------------------------------------------------------------------------------
 #                               Rapidjson
@@ -160,26 +160,35 @@ endif()
 #------------------------------------------------------------------------------
 
 if(EMSCRIPTEN)
-    if (DEBUG)
-        target_compile_options(${PROJECT_NAME} PUBLIC "SHELL:-s LLD_REPORT_UNDEFINED") # For linking debugging
-        target_compile_options(${PROJECT_NAME} PUBLIC "SHELL:-O0") # For minimal linking time
+    if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+#        target_compile_options(${PROJECT_NAME} PUBLIC "SHELL:-s LLD_REPORT_UNDEFINED=1") # For linking debugging
+#        target_compile_options(${PROJECT_NAME} PUBLIC "SHELL:-O0") # For minimal linking time
     endif ()
 
-    if (RELEASE)
-        target_compile_options(${PROJECT_NAME} PUBLIC "SHELL:-O3 -flto -fno-rtti")
+    if (CMAKE_BUILD_TYPE STREQUAL "Release")
+#        target_compile_options(${PROJECT_NAME} PUBLIC "SHELL:-O3 -flto -fno-rtti")
     endif ()
-    target_compile_options(${PROJECT_NAME} PUBLIC "SHELL:-s WASM=1")
-    target_compile_options(${PROJECT_NAME} PUBLIC "SHELL:-s BINARYEN_METHOD=native-wasm")
-    target_compile_options(${PROJECT_NAME} PUBLIC "SHELL:-s TOTAL_MEMORY=256MB")
-    target_compile_options(${PROJECT_NAME} PUBLIC "SHELL:-s DEMANGLE_SUPPORT=1")
-    target_compile_options(${PROJECT_NAME} PUBLIC "SHELL:-s DISABLE_EXCEPTION_CATCHING=1")
-    target_compile_options(${PROJECT_NAME} PUBLIC "SHELL:-s USE_PTHREADS=0")
-    target_compile_options(${PROJECT_NAME} PUBLIC "SHELL:-s USE_SDL=2")
-    target_compile_options(${PROJECT_NAME} PUBLIC "SHELL:-s USE_SDL_IMAGE=2")
-    target_compile_options(${PROJECT_NAME} PUBLIC "SHELL:-s SDL2_IMAGE_FORMATS=[\"png\"]")
-    target_compile_options(${PROJECT_NAME} PUBLIC "SHELL:-s USE_FREETYPE=1")
-#    TODO change to legacy webgl emulator
-    target_compile_options(${PROJECT_NAME} PUBLIC "SHELL:-s USE_WEBGL2=1")
+#    target_compile_options(${PROJECT_NAME} PUBLIC "SHELL:-s USE_PTHREADS=0")
+#    target_compile_options(${PROJECT_NAME} PUBLIC "SHELL:-s USE_SDL=2")
+#    target_compile_options(${PROJECT_NAME} PUBLIC "SHELL:-s USE_SDL_IMAGE=2")
+#    target_compile_options(${PROJECT_NAME} PUBLIC "SHELL:-s SDL2_IMAGE_FORMATS=[\"png\"]")
+#    target_compile_options(${PROJECT_NAME} PUBLIC "SHELL:-s USE_FREETYPE=1")
+    set_target_properties(${PROJECT_NAME} PROPERTIES SUFFIX "_emscripten.bc")
+#    set_property(TARGET ${PROJECT_NAME} APPEND_STRING PROPERTY LINK_FLAGS
+#            " -s LLD_REPORT_UNDEFINED=1"
+#            " -s USE_PTHREADS=0"
+#            " -s USE_SDL=2"
+#            " -s USE_SDL_IMAGE=2"
+#            " -s SDL2_IMAGE_FORMATS=[\"png\"]"
+#            " -s USE_FREETYPE=1"
+#            )
+#    set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "--pre-js ${CMAKE_SOURCE_DIR}/build/html/prejs.js -lidbfs.js")
+    set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "-s WASM=1 -s USE_SDL=2 -s USE_SDL_IMAGE=2 -s TOTAL_MEMORY=67108864 ")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -s USE_SDL=2 -s USE_SDL_IMAGE=2")
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+        set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -s ASSERTIONS=1 -s LLD_REPORT_UNDEFINED=1")
+    endif()
 
 else()
 
@@ -269,25 +278,27 @@ if (BUILD_EXAMPLES STREQUAL "true")
 endif ()
 # TODO move to examples file
 # Example of simple drawing of objects
-#add_executable(example_simple_draw src/main.cpp)
-#target_compile_features(example_simple_draw PRIVATE cxx_std_17)
-#target_compile_options(example_simple_draw PRIVATE -Wall)
-#target_link_libraries(example_simple_draw PRIVATE ${PROJECT_NAME})
-#RegisterTarget(example_simple_draw ${CMAKE_CURRENT_SOURCE_DIR} true true)
+add_executable(example_simple_draw src/main.cpp)
+target_compile_features(example_simple_draw PRIVATE cxx_std_17)
+target_compile_options(example_simple_draw PRIVATE -Wall)
+target_link_libraries(example_simple_draw PRIVATE ${PROJECT_NAME})
+RegisterTarget(example_simple_draw ${CMAKE_CURRENT_SOURCE_DIR} true true)
 
 #------------------------------------------------------------------------------
 #                               Tests section
 #------------------------------------------------------------------------------
 if (NOT FLAG_BUILD_TESTS)
-    set(BUILD_TESTS "true")
+    if (NOT EMSCRIPTEN)
+        set(BUILD_TESTS "true")
+    endif ()
 elseif(FLAG_BUILD_TESTS STREQUAL "1")
     set(BUILD_TESTS "true")
 else()
     if (NOT EMSCRIPTEN)
-        set(BUILD_TESTS "false")
+        set(BUILD_TESTS "true")
     endif ()
 endif ()
 if (BUILD_TESTS STREQUAL "true")
-#    enable_testing()
-#    add_subdirectory(tests)
+    enable_testing()
+    add_subdirectory(tests)
 endif ()

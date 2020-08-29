@@ -8,8 +8,8 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y --fix-mi
     libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev \
     libsdl2-dev libsdl2-2.0-0 libsdl2-image-dev libsdl2-mixer-dev libsdl2-net-dev libsdl2-ttf-dev libsdl2-gfx-dev \
     && cd /var && git clone https://github.com/emscripten-core/emsdk.git emsdk && cd emsdk \
-    && ./emsdk install latest \
-    && ./emsdk activate latest \
+    && ./emsdk install 2.0.1 \
+    && ./emsdk activate 2.0.1 \
     && source /var/emsdk/emsdk_env.sh \
     && echo "source /var/emsdk/emsdk_env.sh" >> /etc/profile \
     && emcc --version
