@@ -48,10 +48,12 @@ Application::Application()
         SDL_SetWindowResizable(window, static_cast<SDL_bool>(true));
 
         renderer = SDL_CreateRenderer(window, -1, render_flag);
-        if (getRenderer() != nullptr) {
+        if (renderer != nullptr) {
             renderDrawColor();
             SDL_RenderClear(getRenderer());
             LOG_INFO("Renderer created");
+        } else {
+			LOG_ERROR("Application::Application Renderer couldn't created!");
         }
 
         state = State::stateReady;

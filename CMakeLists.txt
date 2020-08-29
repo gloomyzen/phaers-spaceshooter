@@ -121,22 +121,22 @@ endif ()
 #------------------------------------------------------------------------------
 #                        ImGui, included for debugging only
 #------------------------------------------------------------------------------
-#if (NOT FLAG_EXTERNAL_IMGUI)
-#    if (NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/lib/imgui/imgui.cpp)
-#        message(FATAL_ERROR "ImGui not found, download lib/imgui or use 'git submodules update'.")
-#    endif()
-#    include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/ImGui.cmake)
-#    if(IMGUI_ENABLED)
-#        add_definitions(-DIMGUI_ENABLED) # <- new cast definition
-#        target_link_libraries(${PROJECT_NAME} PRIVATE imgui_target)
-#    endif()
-#elseif(FLAG_EXTERNAL_IMGUI)
-#    # Using external imgui_ext_target
-#    if(IMGUI_ENABLED)
-#        add_definitions(-DIMGUI_ENABLED) # <- new cast definition
-#        target_link_libraries(${PROJECT_NAME} PRIVATE imgui_ext_target)
-#    endif()
-#endif()
+if (NOT FLAG_EXTERNAL_IMGUI)
+    if (NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/lib/imgui/imgui.cpp)
+        message(FATAL_ERROR "ImGui not found, download lib/imgui or use 'git submodules update'.")
+    endif()
+    include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/ImGui.cmake)
+    if(IMGUI_ENABLED)
+        add_definitions(-DIMGUI_ENABLED) # <- new cast definition
+        target_link_libraries(${PROJECT_NAME} PRIVATE imgui_target)
+    endif()
+elseif(FLAG_EXTERNAL_IMGUI)
+    # Using external imgui_ext_target
+    if(IMGUI_ENABLED)
+        add_definitions(-DIMGUI_ENABLED) # <- new cast definition
+        target_link_libraries(${PROJECT_NAME} PRIVATE imgui_ext_target)
+    endif()
+endif()
 
 #------------------------------------------------------------------------------
 #                               Rapidjson
@@ -160,31 +160,12 @@ endif()
 #------------------------------------------------------------------------------
 
 if(EMSCRIPTEN)
-    if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-#        target_compile_options(${PROJECT_NAME} PUBLIC "SHELL:-s LLD_REPORT_UNDEFINED=1") # For linking debugging
-#        target_compile_options(${PROJECT_NAME} PUBLIC "SHELL:-O0") # For minimal linking time
-    endif ()
 
-    if (CMAKE_BUILD_TYPE STREQUAL "Release")
-#        target_compile_options(${PROJECT_NAME} PUBLIC "SHELL:-O3 -flto -fno-rtti")
-    endif ()
-#    target_compile_options(${PROJECT_NAME} PUBLIC "SHELL:-s USE_PTHREADS=0")
-#    target_compile_options(${PROJECT_NAME} PUBLIC "SHELL:-s USE_SDL=2")
-#    target_compile_options(${PROJECT_NAME} PUBLIC "SHELL:-s USE_SDL_IMAGE=2")
-#    target_compile_options(${PROJECT_NAME} PUBLIC "SHELL:-s SDL2_IMAGE_FORMATS=[\"png\"]")
-#    target_compile_options(${PROJECT_NAME} PUBLIC "SHELL:-s USE_FREETYPE=1")
+    #TODO add debug and release flags
     set_target_properties(${PROJECT_NAME} PROPERTIES SUFFIX "_emscripten.bc")
-#    set_property(TARGET ${PROJECT_NAME} APPEND_STRING PROPERTY LINK_FLAGS
-#            " -s LLD_REPORT_UNDEFINED=1"
-#            " -s USE_PTHREADS=0"
-#            " -s USE_SDL=2"
-#            " -s USE_SDL_IMAGE=2"
-#            " -s SDL2_IMAGE_FORMATS=[\"png\"]"
-#            " -s USE_FREETYPE=1"
-#            )
-#    set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "--pre-js ${CMAKE_SOURCE_DIR}/build/html/prejs.js -lidbfs.js")
-    set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "-s WASM=1 -s USE_SDL=2 -s USE_SDL_IMAGE=2 -s TOTAL_MEMORY=67108864 ")
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -s USE_SDL=2 -s USE_SDL_IMAGE=2")
+
+    set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "-s WASM=1 -s USE_SDL=2 -s USE_SDL_IMAGE=2 -s EXTRA_EXPORTED_RUNTIME_METHODS=\"['cwrap', 'ccall']\" ")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -s USE_SDL=2 -s USE_SDL_IMAGE=2 -s EXTRA_EXPORTED_RUNTIME_METHODS=\"['cwrap', 'ccall']\" ")
 
     if(CMAKE_BUILD_TYPE STREQUAL "Debug")
         set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -s ASSERTIONS=1 -s LLD_REPORT_UNDEFINED=1")
