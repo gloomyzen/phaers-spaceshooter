@@ -7,21 +7,21 @@ function(RegisterTarget targetName targetCurrentSourceDir isRuntime)
     ### Set variable
     list(APPEND EXECUTABLE_TARGETS_LIST ${targetName})
     set(${targetName}_OPTIONS "")
-#    set(${targetName}_RESOURCE "" CACHE INTERNAL "${targetName}_RESOURCE")
     if (EMSCRIPTEN)
 
         if(CMAKE_BUILD_TYPE STREQUAL "Debug")
             string(APPEND ${targetName}_OPTIONS
+                    " -s ASSERTIONS=1"
                     " -s LLD_REPORT_UNDEFINED" # For linking debugging
                     )
         endif ()
         # TODO change 'USE_WEBGL2=1' to legacy webgl emulator
         string(APPEND ${targetName}_OPTIONS
-#                " -s ALLOW_MEMORY_GROWTH=1"
-#                " -s TOTAL_MEMORY=67108864"
-#                " -s DEMANGLE_SUPPORT=1"
+                " -s ALLOW_MEMORY_GROWTH=1"
+                " -s TOTAL_MEMORY=67108864"
+                " -s DEMANGLE_SUPPORT=1"
                 " -s DISABLE_EXCEPTION_CATCHING=2"
-                " -s EXPORT_NAME='main'"
+#                " -s EXPORT_NAME='main'"
 #                " -s MODULARIZE=1"
 
                 " -s USE_SDL=2"
@@ -29,8 +29,6 @@ function(RegisterTarget targetName targetCurrentSourceDir isRuntime)
                 " -s SDL2_IMAGE_FORMATS=[\"png\"]"
                 " -s USE_FREETYPE=1"
                 " -s USE_WEBGL2=1"
-#                " -s WEBGL2_BACKWARDS_COMPATIBILITY_EMULATION=1"
-#                " -s OFFSCREENCANVAS_SUPPORT=1"
                 " -s WASM=1"
                 )
 
@@ -52,12 +50,11 @@ function(RegisterTarget targetName targetCurrentSourceDir isRuntime)
 
         RegisterResources(${targetName} ${targetCurrentSourceDir})
 
-#        set_target_properties(${targetName} PROPERTIES LINK_FLAGS "${${targetName}_OPTIONS} ") #TODO  <- old version
         set_property(TARGET ${targetName} APPEND PROPERTY LINK_FLAGS "${${targetName}_OPTIONS} ${${targetName}_RESOURCES} ")
-        set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -s USE_SDL=2 -s USE_SDL_IMAGE=2 -s USE_FREETYPE=1 -s USE_WEBGL2=1 -s EXTRA_EXPORTED_RUNTIME_METHODS=\"['cwrap', 'ccall']\" ")
+        set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -s USE_SDL=2 -s USE_SDL_IMAGE=2 -s USE_FREETYPE=1 -s USE_WEBGL2=1 ")
 
         if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-#            set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -s ASSERTIONS=1 -s LLD_REPORT_UNDEFINED=1")
+            set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -s ASSERTIONS=1 -s LLD_REPORT_UNDEFINED=1")
         endif()
 
     endif (EMSCRIPTEN)
@@ -118,7 +115,6 @@ function(RegisterResources targetName targetCurrentSourceDir)
     if (EMSCRIPTEN)
         set(${targetName}_DATA "" PARENT_SCOPE)
         string(APPEND ${targetName}_DATA
-                " --closure 1"
                 " --use-preload-plugins"
                 )
         foreach (file ${assets_files})

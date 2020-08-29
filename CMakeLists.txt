@@ -164,8 +164,8 @@ if(EMSCRIPTEN)
     #TODO add debug and release flags
     set_target_properties(${PROJECT_NAME} PROPERTIES SUFFIX "_emscripten.bc")
 
-    set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "-s WASM=1 -s USE_SDL=2 -s USE_SDL_IMAGE=2 -s EXTRA_EXPORTED_RUNTIME_METHODS=\"['cwrap', 'ccall']\" ")
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -s USE_SDL=2 -s USE_SDL_IMAGE=2 -s EXTRA_EXPORTED_RUNTIME_METHODS=\"['cwrap', 'ccall']\" ")
+    set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "-s WASM=1 -s USE_SDL=2 -s USE_SDL_IMAGE=2 ")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -s USE_SDL=2 -s USE_SDL_IMAGE=2 ")
 
     if(CMAKE_BUILD_TYPE STREQUAL "Debug")
         set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -s ASSERTIONS=1 -s LLD_REPORT_UNDEFINED=1")
