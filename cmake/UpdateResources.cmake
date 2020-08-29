@@ -132,6 +132,23 @@ endfunction(RegisterResources)
 
 function(RegisterMainPage)
 if (EMSCRIPTEN)
-    #TODO generate main page
+    # Enabling analytics.
+    if (RELEASE)
+        file(READ ${CMAKE_BINARY_DIR}/resources/_stub/index-analytics-section.html analytics)
+    endif ()
+
+    # Copy the project index.html file.
+    configure_file(
+            ${CMAKE_SOURCE_DIR}/resources/_stub/index.html
+            ${CMAKE_BINARY_DIR}/index.html
+    )
+    configure_file(
+            ${CMAKE_SOURCE_DIR}/resources/_stub/favicon.ico
+            ${CMAKE_BINARY_DIR}/favicon.ico
+    )
+    configure_file(
+            ${CMAKE_SOURCE_DIR}/resources/_stub/style.css
+            ${CMAKE_BINARY_DIR}/style.css
+    )
 endif (EMSCRIPTEN)
 endfunction(RegisterMainPage)
