@@ -26,12 +26,9 @@ function(RegisterTarget targetName targetCurrentSourceDir isRuntime linkSDL)
 #                "SHELL:-s EXTRA_EXPORTED_RUNTIME_METHODS=\"['cwrap', 'ccall']\""
                 )
         if(${isRuntime} STREQUAL "true")
-#            set_target_properties( ${targetName} PROPERTIES OUTPUT_NAME "main")
+            set_target_properties( ${targetName} PROPERTIES OUTPUT_NAME "main")
             list(APPEND ${targetName}_OPTIONS
-#                    "SHELL:-s MAIN_MODULE=1"
                     "SHELL:-s NO_EXIT_RUNTIME=1"
-                    "SHELL:-s EXPORT_NAME='main'"
-#                    "SHELL:-s MODULARIZE=1"
                     )
         endif()
 #        if(${isRuntime} STREQUAL "false")

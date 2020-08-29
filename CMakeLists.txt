@@ -2,14 +2,10 @@
 # External dependencies and external project flags:
 #------------------------------------------------------------------------------
 # ID NAME           FLAG FOR EXTERNAL USE       TARGET NAME FOR EXTERNAL PACKAGE
-# 1. ImGui          FLAG_EXTERNAL_IMGUI         imgui_ext_target                TODO <- ready
-# 2. RapidJson      FLAG_EXTERNAL_RAPIDJSON     rapidjson_ext_target            TODO <- ready
-# 3. SDL2           FLAG_EXTERNAL_SDL2          //                              TODO <- not working
-# 4. SDL2_ttf       FLAG_EXTERNAL_SDL2TTF       //                              TODO <- not working
-# 5. SDL2_mixer     FLAG_EXTERNAL_SDL2MIXER     //                              TODO <- not working
-# 6. SDL2_image     FLAG_EXTERNAL_SDL2IMAGE     //                              TODO <- not working
-# 7. BuildExamples  FLAG_BUILD_EXAMPLES         //                              TODO <- not working
-# 7. BuildTests     FLAG_BUILD_TESTS            //                              TODO <- not working
+# 1. ImGui          FLAG_EXTERNAL_IMGUI         imgui_ext_target
+# 2. RapidJson      FLAG_EXTERNAL_RAPIDJSON     rapidjson_ext_target
+# 3. BuildExamples  FLAG_BUILD_EXAMPLES         @ flag for build examples
+# 4. BuildTests     FLAG_BUILD_TESTS            @ flag for build tests
 #------------------------------------------------------------------------------
 #                       General Projects Settings
 #------------------------------------------------------------------------------
@@ -17,8 +13,7 @@ cmake_minimum_required(VERSION 3.11)
 project(TGEngine
         LANGUAGES CXX
         )
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DPROJECT_VERSION='0.1'")
-add_definitions(-DPROJECT_VERSION="0.1") # <- new cast definition
+add_definitions(-DPROJECT_VERSION="0.1")
 include(cmake/StandardProjectSettings.cmake)
 
 #------------------------------------------------------------------------------
@@ -29,15 +24,15 @@ if (NOT CMAKE_BUILD_TYPE)
 endif ()
 
 if (${CMAKE_BUILD_TYPE} STREQUAL "Debug")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DDEBUG")
+    add_definitions(-DDEBUG=1)
 else ()
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DRELEASE")
+    add_definitions(-DRELEASE=1)
 endif ()
 if (EMSCRIPTEN)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DEMSCRIPTEN")
+    add_definitions(-DEMSCRIPTEN=1)
 endif()
 if (APPLE OR MAC)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DAPPLE")
+    add_definitions(-DAPPLE=1)
     set(CMAKE_MACOSX_RPATH 1)
 endif()
 
@@ -132,14 +127,12 @@ if (NOT FLAG_EXTERNAL_IMGUI)
     endif()
     include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/ImGui.cmake)
     if(IMGUI_ENABLED)
-#        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DIMGUI_ENABLED") #TODO remove after testing
         add_definitions(-DIMGUI_ENABLED) # <- new cast definition
         target_link_libraries(${PROJECT_NAME} PRIVATE imgui_target)
     endif()
 elseif(FLAG_EXTERNAL_IMGUI)
     # Using external imgui_ext_target
     if(IMGUI_ENABLED)
-#        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DIMGUI_ENABLED") #TODO remove after testing
         add_definitions(-DIMGUI_ENABLED) # <- new cast definition
         target_link_libraries(${PROJECT_NAME} PRIVATE imgui_ext_target)
     endif()
@@ -243,7 +236,7 @@ else()
         set(SDL2_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/lib/win32/SDL/SDL2/include")
         set(SDL2_IMAGE_LIBRARY "${CMAKE_SOURCE_DIR}/lib/win32/SDL/SDL2_image/lib/x86/SDL2_image.lib")
         set(SDL2_IMAGE_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/lib/win32/SDL/SDL2_image/include")
-        # for Visual Studio
+        # TODO need test with Visual Studio
 #        target_link_libraries(${PROJECT_NAME} PRIVATE ${SDL2MAIN_LIBRARY})
 #        target_link_libraries(${PROJECT_NAME} PRIVATE ${SDL2_LIBRARIES})
 #        target_link_libraries(${PROJECT_NAME} PRIVATE ${SDL2_IMAGE_LIBRARIES})
@@ -261,195 +254,40 @@ else()
 endif()
 
 
-return()
-
-
-
-
-
-
-include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/SDL2.cmake)
-
-if (NOT EMSCRIPTEN)
-    # sdl
-    if (APPLE)
-        if (NOT EXISTS "${CMAKE_SOURCE_DIR}/lib/macOS/SDL2.framework")
-            message("Downloading SDL2 frameworks")
-            execute_process(
-                    COMMAND "chmod +x ${CMAKE_SOURCE_DIR}/lib/macOS/install.sh"
-                    WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/lib/macOS")
-            execute_process(
-                    COMMAND "${CMAKE_SOURCE_DIR}/lib/macOS/install.sh"
-                    WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/lib/macOS")
-        endif ()
-        set(SDL_INCLUDE_DIR "")
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -F ${CMAKE_SOURCE_DIR}/lib/macOS")
-        #TODO for future static linking
-        #set(CMAKE_EXE_LINKER_FLAGS "-Wl,-F${CMAKE_SOURCE_DIR}/lib/macOS -Wl,-rpath ${CMAKE_SOURCE_DIR}/lib/macOS -framework Cocoa")
-        #set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS}")
-        set(SDL_LIBRARY
-                "-framework SDL2"
-                "-framework SDL2_ttf"
-                "-framework SDL2_mixer"
-                "-framework SDL2_image"
-                )
-        set(SDL_EXPORT_LIBRARIES
-                "${CMAKE_SOURCE_DIR}/lib/macOS/SDL2.framework"
-                "${CMAKE_SOURCE_DIR}/lib/macOS/SDL2_ttf.framework"
-                "${CMAKE_SOURCE_DIR}/lib/macOS/SDL2_mixer.framework"
-                "${CMAKE_SOURCE_DIR}/lib/macOS/SDL2_image.framework"
-                )
-        mark_as_advanced(SDL_INCLUDE_DIR SDL_LIBRARY)
-        target_link_libraries(project_dependency INTERFACE ${SDL_LIBRARY})
-
-        include_directories(${SDL_INCLUDE_DIR})
-
-    endif()
-    if(WIN32)
-
-        if(NOT EXISTS "${CMAKE_SOURCE_DIR}/lib/win32/SDL2")
-            message("Downloading SDL2 frameworks")
-            execute_process(
-                    COMMAND "chmod +x ${CMAKE_SOURCE_DIR}/lib/win32/install.sh"
-                    WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/lib/win32")
-            execute_process(
-                    COMMAND "${CMAKE_SOURCE_DIR}/lib/win32/install.sh VC"
-                    WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/lib/win32")
-        endif()
-
-        set(SDL2_LIBRARY "${CMAKE_SOURCE_DIR}/lib/win32/SDL/SDL2/lib/x86/SDL2.lib")
-        set(SDL2MAIN_LIBRARY "${CMAKE_SOURCE_DIR}/lib/win32/SDL/SDL2/lib/x86/SDL2main.lib")
-        set(SDL2_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/lib/win32/SDL/SDL2/include")
-        set(SDL2_IMAGE_LIBRARY "${CMAKE_SOURCE_DIR}/lib/win32/SDL/SDL2_image/lib/x86/SDL2_image.lib")
-        set(SDL2_IMAGE_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/lib/win32/SDL/SDL2_image/include")
-        # for Visual Studio
-#        target_link_libraries(project_dependency INTERFACE ${SDL2MAIN_LIBRARY})
-#        target_link_libraries(project_dependency INTERFACE ${SDL2_LIBRARIES})
-#        target_link_libraries(project_dependency INTERFACE ${SDL2_IMAGE_LIBRARIES})
-
-    endif()
-
-#    find_package(SDL2 REQUIRED)
-#    find_package(SDL2_image REQUIRED)
-#
-#    include_directories(${SDL2_INCLUDE_DIR})
-#    include_directories(${SDL2_IMAGE_INCLUDE_DIR})
-#
-#
-#    target_link_libraries(project_dependency INTERFACE ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES})
-
-endif()
-
-#TODO Need test for desktop version
-#find_package(SDL2 REQUIRED)
-#find_package(SDL2_image REQUIRED)
-#
-#include_directories(${SDL2_INCLUDE_DIR})
-#include_directories(${SDL2_IMAGE_INCLUDE_DIR})
-
-
-#target_link_libraries(project_dependency INTERFACE ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES})
-
-#------------------------------------------------------------------------------
-#                        ImGui, included for debugging only
-#------------------------------------------------------------------------------
-#if (NOT FLAG_EXTERNAL_IMGUI)
-#    if (NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/lib/imgui/imgui.cpp)
-#        message(FATAL_ERROR "ImGui not found, download lib/imgui or use 'git submodules update'.")
-#    endif()
-#    include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/ImGui.cmake)
-#    if(IMGUI_ENABLED)
-##        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DIMGUI_ENABLED")
-#        add_definitions(-DIMGUI_ENABLED) # <- new cast definition
-#        target_link_libraries(project_dependency INTERFACE imgui_target)
-#    endif()
-#elseif(FLAG_EXTERNAL_IMGUI)
-#    # Using external imgui_ext_target
-#    if(IMGUI_ENABLED)
-##        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DIMGUI_ENABLED")
-#        add_definitions(-DIMGUI_ENABLED) # <- new cast definition
-#        target_link_libraries(project_dependency INTERFACE imgui_ext_target)
-#    endif()
-#endif()
-
-#------------------------------------------------------------------------------
-#                               Rapidjson
-#------------------------------------------------------------------------------
-#if (NOT FLAG_EXTERNAL_RAPIDJSON)
-#    if (NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/lib/rapidjson/include)
-#        message(FATAL_ERROR "Rapidjson not found, download lib/rapidjson or use 'git submodules update'.")
-#    endif()
-#    add_library(rapidjson_target INTERFACE)
-#    target_include_directories(rapidjson_target INTERFACE
-#            $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib/rapidjson/include>
-#            )
-#    target_link_libraries(project_dependency INTERFACE rapidjson_target)
-#elseif(FLAG_EXTERNAL_RAPIDJSON)
-#    # Using external rapidjson_ext_target
-#    target_link_libraries(project_dependency INTERFACE rapidjson_target)
-#endif()
-
-#------------------------------------------------------------------------------
-#                           Include src with modules
-#------------------------------------------------------------------------------
-add_subdirectory(src)
-set(MODULES_SOURCES_LIST "")
-if (NOT IS_DESKTOP)
-    foreach(item ${CORE_MODULE_SOURCES_FILE} ${GAME_MODULE_SOURCES_FILE})
-        list(APPEND MODULES_SOURCES_LIST "${CMAKE_SOURCE_DIR}/src/${item}")
-    endforeach()
-endif()
-
-#------------------------------------------------------------------------------
-#                          Compiler warnings target
-# Set enabled maximum compilation warnings for project_warnings target
-#------------------------------------------------------------------------------
-#if (IS_DESKTOP)
-#    include(cmake/CompilerWarnings.cmake)
-#    add_library(project_warnings INTERFACE)
-#    set_project_warnings(project_warnings)
-#    target_link_libraries(project_warnings INTERFACE ${CORE_MODULE_NAME} ${GAME_MODULE_NAME})
-#endif (IS_DESKTOP)
-
-#------------------------------------------------------------------------------
-#                               Export target
-# Exported target tgengine included all modules from tgengine/src
-#------------------------------------------------------------------------------
-if (IS_DESKTOP)
-add_library(${PROJECT_NAME} STATIC
-        $<TARGET_OBJECTS:${CORE_MODULE_NAME}>
-        $<TARGET_OBJECTS:${GAME_MODULE_NAME}>
-        )
-else()
-    add_library(${PROJECT_NAME} INTERFACE)
-endif()
-target_include_directories(${PROJECT_NAME} INTERFACE
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
-        )
-if (IS_DESKTOP)
-    target_link_libraries(${PROJECT_NAME} PRIVATE ${CORE_MODULE_NAME} ${GAME_MODULE_NAME} project_options project_dependency)
-else()
-    target_link_libraries(${PROJECT_NAME} INTERFACE project_options project_dependency)
-endif()
-
 #------------------------------------------------------------------------------
 #                               Example targets
 #------------------------------------------------------------------------------
+if (NOT FLAG_BUILD_EXAMPLES)
+    set(BUILD_EXAMPLES "true")
+elseif(FLAG_BUILD_EXAMPLES STREQUAL "1")
+    set(BUILD_EXAMPLES "true")
+else()
+    set(BUILD_EXAMPLES "false")
+endif ()
+if (BUILD_EXAMPLES STREQUAL "true")
+#    add_subdirectory(games)
+endif ()
+# TODO move to examples file
 # Example of simple drawing of objects
-add_executable(example_simple_draw src/main.cpp ${MODULES_SOURCES_LIST})
-#if(NOT IS_DESKTOP)
-#    target_sources(example_simple_draw PRIVATE ${CORE_MODULE_SOURCES_FILE} ${GAME_MODULE_SOURCES_FILE})
-#endif(NOT IS_DESKTOP)
-target_compile_features(example_simple_draw PRIVATE cxx_std_17)
-target_compile_options(example_simple_draw PRIVATE -Wall)
-target_link_libraries(example_simple_draw PRIVATE ${PROJECT_NAME})
-RegisterTarget(example_simple_draw ${CMAKE_CURRENT_SOURCE_DIR} true true)
+#add_executable(example_simple_draw src/main.cpp)
+#target_compile_features(example_simple_draw PRIVATE cxx_std_17)
+#target_compile_options(example_simple_draw PRIVATE -Wall)
+#target_link_libraries(example_simple_draw PRIVATE ${PROJECT_NAME})
+#RegisterTarget(example_simple_draw ${CMAKE_CURRENT_SOURCE_DIR} true true)
 
 #------------------------------------------------------------------------------
 #                               Tests section
 #------------------------------------------------------------------------------
-
-if (NOT EMSCRIPTEN)
-    enable_testing()
-    add_subdirectory(tests)
+if (NOT FLAG_BUILD_TESTS)
+    set(BUILD_TESTS "true")
+elseif(FLAG_BUILD_TESTS STREQUAL "1")
+    set(BUILD_TESTS "true")
+else()
+    if (NOT EMSCRIPTEN)
+        set(BUILD_TESTS "false")
+    endif ()
+endif ()
+if (BUILD_TESTS STREQUAL "true")
+#    enable_testing()
+#    add_subdirectory(tests)
 endif ()
