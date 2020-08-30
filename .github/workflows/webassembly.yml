@@ -71,6 +71,7 @@ jobs:
       - name: First set up. ☕️
         shell: bash
         run: |
+          source $HOME/bin/emsdk/emsdk_env.sh
           emcc -v > CACHE_KEY.txt
           echo $MANUAL_CACHING >> CACHE_KEY.txt
           if [ "$AUTO_CACHING" == "1" ]; then
