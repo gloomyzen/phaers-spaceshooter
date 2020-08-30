@@ -58,7 +58,9 @@ jobs:
           echo 'source "$HOME/bin/emsdk/emsdk_env.sh"' >> $HOME/.bash_profile
 
       - name: Verify Emscripten. 🔥
-        run: emcc -v
+        run: |
+          source $HOME/bin/emsdk/emsdk_env.sh
+          emcc -v
 
       - name: Clone. 🛎️
         uses: actions/checkout@v1
@@ -105,6 +107,7 @@ jobs:
       - name: Build wasm. 🔧
         shell: bash
         run: |
+          source $HOME/bin/emsdk/emsdk_env.sh
           mkdir build && cd build \
           && emcmake cmake -DCMAKE_BUILD_TYPE=Debug .. && make -j$(nproc)
 
