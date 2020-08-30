@@ -1,0 +1,52 @@
+{
+  "testNode": {
+    "TransformComponent": {
+      "position": [ 200, 200 ],
+      "size": [ 128, 128 ],
+      "scale": 1
+    },
+    "SpriteComponent": {
+      "image": "testTiles/tile_2.png"
+    }
+  },
+  "testNode1": {
+    "TransformComponent": {
+      "position": [ 128, 128 ],
+      "size": [ 128, 128 ],
+      "scale": 1
+    },
+    "SpriteComponent": {
+      "image": "testTiles/tile_3.png"
+    }
+  },
+  "testNode11": {
+    "TransformComponent": {
+      "position": [ 128, 128 ],
+      "size": [ 128, 128 ],
+      "scale": 1
+    },
+    "SpriteComponent": {
+      "image": "testTiles/tile_3.png"
+    }
+  },
+  "testNode2": {
+    "TransformComponent": {
+      "position": [ 128, -128 ],
+      "size": [ 128, 128 ],
+      "scale": 1
+    },
+    "SpriteComponent": {
+      "image": "testTiles/tile_4.png"
+    }
+  },
+  "testNode21": {
+    "TransformComponent": {
+      "position": [ 128, -128 ],
+      "size": [ 128, 128 ],
+      "scale": 1
+    },
+    "SpriteComponent": {
+      "image": "testTiles/tile_4.png"
+    }
+  }
+}

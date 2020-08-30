@@ -1,0 +1,92 @@
+[
+{
+  "directory": "/home/runner/work/tgengine/tgengine/build",
+  "command": "/home/runner/bin/emsdk/upstream/emscripten/em++ -DDEBUG=1 -DEMSCRIPTEN=1 -DIMGUI_ENABLED -DPROJECT_VERSION=\\\"0.1\\\" @CMakeFiles/example_simple_draw.dir/includes_CXX.rsp  -s USE_SDL=2 -s USE_SDL_IMAGE=2  -s ASSERTIONS=1 -s LLD_REPORT_UNDEFINED=1 -g -Wall -std=gnu++17 -o CMakeFiles/example_simple_draw.dir/src/main.cpp.o -c /home/runner/work/tgengine/tgengine/src/main.cpp",
+  "file": "/home/runner/work/tgengine/tgengine/src/main.cpp"
+},
+{
+  "directory": "/home/runner/work/tgengine/tgengine/build",
+  "command": "/home/runner/bin/emsdk/upstream/emscripten/em++ -DDEBUG=1 -DEMSCRIPTEN=1 -DIMGUI_ENABLED -DPROJECT_VERSION=\\\"0.1\\\" @CMakeFiles/TGEngine.dir/includes_CXX.rsp  -s USE_SDL=2 -s USE_SDL_IMAGE=2  -s ASSERTIONS=1 -s LLD_REPORT_UNDEFINED=1 -g -Wall -std=gnu++17 -o CMakeFiles/TGEngine.dir/src/Core/Debug/Logger.cpp.o -c /home/runner/work/tgengine/tgengine/src/Core/Debug/Logger.cpp",
+  "file": "/home/runner/work/tgengine/tgengine/src/Core/Debug/Logger.cpp"
+},
+{
+  "directory": "/home/runner/work/tgengine/tgengine/build",
+  "command": "/home/runner/bin/emsdk/upstream/emscripten/em++ -DDEBUG=1 -DEMSCRIPTEN=1 -DIMGUI_ENABLED -DPROJECT_VERSION=\\\"0.1\\\" @CMakeFiles/TGEngine.dir/includes_CXX.rsp  -s USE_SDL=2 -s USE_SDL_IMAGE=2  -s ASSERTIONS=1 -s LLD_REPORT_UNDEFINED=1 -g -Wall -std=gnu++17 -o CMakeFiles/TGEngine.dir/src/Core/Debug/ImGui/SDLImplements/imgui_sdl.cpp.o -c /home/runner/work/tgengine/tgengine/src/Core/Debug/ImGui/SDLImplements/imgui_sdl.cpp",
+  "file": "/home/runner/work/tgengine/tgengine/src/Core/Debug/ImGui/SDLImplements/imgui_sdl.cpp"
+},
+{
+  "directory": "/home/runner/work/tgengine/tgengine/build",
+  "command": "/home/runner/bin/emsdk/upstream/emscripten/em++ -DDEBUG=1 -DEMSCRIPTEN=1 -DIMGUI_ENABLED -DPROJECT_VERSION=\\\"0.1\\\" @CMakeFiles/TGEngine.dir/includes_CXX.rsp  -s USE_SDL=2 -s USE_SDL_IMAGE=2  -s ASSERTIONS=1 -s LLD_REPORT_UNDEFINED=1 -g -Wall -std=gnu++17 -o CMakeFiles/TGEngine.dir/src/Core/Debug/ImGui/ImGuiManager.cpp.o -c /home/runner/work/tgengine/tgengine/src/Core/Debug/ImGui/ImGuiManager.cpp",
+  "file": "/home/runner/work/tgengine/tgengine/src/Core/Debug/ImGui/ImGuiManager.cpp"
+},
+{
+  "directory": "/home/runner/work/tgengine/tgengine/build",
+  "command": "/home/runner/bin/emsdk/upstream/emscripten/em++ -DDEBUG=1 -DEMSCRIPTEN=1 -DIMGUI_ENABLED -DPROJECT_VERSION=\\\"0.1\\\" @CMakeFiles/TGEngine.dir/includes_CXX.rsp  -s USE_SDL=2 -s USE_SDL_IMAGE=2  -s ASSERTIONS=1 -s LLD_REPORT_UNDEFINED=1 -g -Wall -std=gnu++17 -o CMakeFiles/TGEngine.dir/src/Core/Application.cpp.o -c /home/runner/work/tgengine/tgengine/src/Core/Application.cpp",
+  "file": "/home/runner/work/tgengine/tgengine/src/Core/Application.cpp"
+},
+{
+  "directory": "/home/runner/work/tgengine/tgengine/build",
+  "command": "/home/runner/bin/emsdk/upstream/emscripten/em++ -DDEBUG=1 -DEMSCRIPTEN=1 -DIMGUI_ENABLED -DPROJECT_VERSION=\\\"0.1\\\" @CMakeFiles/TGEngine.dir/includes_CXX.rsp  -s USE_SDL=2 -s USE_SDL_IMAGE=2  -s ASSERTIONS=1 -s LLD_REPORT_UNDEFINED=1 -g -Wall -std=gnu++17 -o CMakeFiles/TGEngine.dir/src/Core/GameApplication.cpp.o -c /home/runner/work/tgengine/tgengine/src/Core/GameApplication.cpp",
+  "file": "/home/runner/work/tgengine/tgengine/src/Core/GameApplication.cpp"
+},
+{
+  "directory": "/home/runner/work/tgengine/tgengine/build",
+  "command": "/home/runner/bin/emsdk/upstream/emscripten/em++ -DDEBUG=1 -DEMSCRIPTEN=1 -DIMGUI_ENABLED -DPROJECT_VERSION=\\\"0.1\\\" @CMakeFiles/TGEngine.dir/includes_CXX.rsp  -s USE_SDL=2 -s USE_SDL_IMAGE=2  -s ASSERTIONS=1 -s LLD_REPORT_UNDEFINED=1 -g -Wall -std=gnu++17 -o CMakeFiles/TGEngine.dir/src/Core/DataTypes/Vector2D.cpp.o -c /home/runner/work/tgengine/tgengine/src/Core/DataTypes/Vector2D.cpp",
+  "file": "/home/runner/work/tgengine/tgengine/src/Core/DataTypes/Vector2D.cpp"
+},
+{
+  "directory": "/home/runner/work/tgengine/tgengine/build",
+  "command": "/home/runner/bin/emsdk/upstream/emscripten/em++ -DDEBUG=1 -DEMSCRIPTEN=1 -DIMGUI_ENABLED -DPROJECT_VERSION=\\\"0.1\\\" @CMakeFiles/TGEngine.dir/includes_CXX.rsp  -s USE_SDL=2 -s USE_SDL_IMAGE=2  -s ASSERTIONS=1 -s LLD_REPORT_UNDEFINED=1 -g -Wall -std=gnu++17 -o CMakeFiles/TGEngine.dir/src/Core/Nodes/Node.cpp.o -c /home/runner/work/tgengine/tgengine/src/Core/Nodes/Node.cpp",
+  "file": "/home/runner/work/tgengine/tgengine/src/Core/Nodes/Node.cpp"
+},
+{
+  "directory": "/home/runner/work/tgengine/tgengine/build",
+  "command": "/home/runner/bin/emsdk/upstream/emscripten/em++ -DDEBUG=1 -DEMSCRIPTEN=1 -DIMGUI_ENABLED -DPROJECT_VERSION=\\\"0.1\\\" @CMakeFiles/TGEngine.dir/includes_CXX.rsp  -s USE_SDL=2 -s USE_SDL_IMAGE=2  -s ASSERTIONS=1 -s LLD_REPORT_UNDEFINED=1 -g -Wall -std=gnu++17 -o CMakeFiles/TGEngine.dir/src/Core/Nodes/NodeManager.cpp.o -c /home/runner/work/tgengine/tgengine/src/Core/Nodes/NodeManager.cpp",
+  "file": "/home/runner/work/tgengine/tgengine/src/Core/Nodes/NodeManager.cpp"
+},
+{
+  "directory": "/home/runner/work/tgengine/tgengine/build",
+  "command": "/home/runner/bin/emsdk/upstream/emscripten/em++ -DDEBUG=1 -DEMSCRIPTEN=1 -DIMGUI_ENABLED -DPROJECT_VERSION=\\\"0.1\\\" @CMakeFiles/TGEngine.dir/includes_CXX.rsp  -s USE_SDL=2 -s USE_SDL_IMAGE=2  -s ASSERTIONS=1 -s LLD_REPORT_UNDEFINED=1 -g -Wall -std=gnu++17 -o CMakeFiles/TGEngine.dir/src/Core/Nodes/NodeFactory.cpp.o -c /home/runner/work/tgengine/tgengine/src/Core/Nodes/NodeFactory.cpp",
+  "file": "/home/runner/work/tgengine/tgengine/src/Core/Nodes/NodeFactory.cpp"
+},
+{
+  "directory": "/home/runner/work/tgengine/tgengine/build",
+  "command": "/home/runner/bin/emsdk/upstream/emscripten/em++ -DDEBUG=1 -DEMSCRIPTEN=1 -DIMGUI_ENABLED -DPROJECT_VERSION=\\\"0.1\\\" @CMakeFiles/TGEngine.dir/includes_CXX.rsp  -s USE_SDL=2 -s USE_SDL_IMAGE=2  -s ASSERTIONS=1 -s LLD_REPORT_UNDEFINED=1 -g -Wall -std=gnu++17 -o CMakeFiles/TGEngine.dir/src/Core/ResourceModule/ResourceManager.cpp.o -c /home/runner/work/tgengine/tgengine/src/Core/ResourceModule/ResourceManager.cpp",
+  "file": "/home/runner/work/tgengine/tgengine/src/Core/ResourceModule/ResourceManager.cpp"
+},
+{
+  "directory": "/home/runner/work/tgengine/tgengine/build",
+  "command": "/home/runner/bin/emsdk/upstream/emscripten/em++ -DDEBUG=1 -DEMSCRIPTEN=1 -DIMGUI_ENABLED -DPROJECT_VERSION=\\\"0.1\\\" @CMakeFiles/TGEngine.dir/includes_CXX.rsp  -s USE_SDL=2 -s USE_SDL_IMAGE=2  -s ASSERTIONS=1 -s LLD_REPORT_UNDEFINED=1 -g -Wall -std=gnu++17 -o CMakeFiles/TGEngine.dir/src/Core/ResourceModule/Loaders/TextureManager.cpp.o -c /home/runner/work/tgengine/tgengine/src/Core/ResourceModule/Loaders/TextureManager.cpp",
+  "file": "/home/runner/work/tgengine/tgengine/src/Core/ResourceModule/Loaders/TextureManager.cpp"
+},
+{
+  "directory": "/home/runner/work/tgengine/tgengine/build",
+  "command": "/home/runner/bin/emsdk/upstream/emscripten/em++ -DDEBUG=1 -DEMSCRIPTEN=1 -DIMGUI_ENABLED -DPROJECT_VERSION=\\\"0.1\\\" @CMakeFiles/TGEngine.dir/includes_CXX.rsp  -s USE_SDL=2 -s USE_SDL_IMAGE=2  -s ASSERTIONS=1 -s LLD_REPORT_UNDEFINED=1 -g -Wall -std=gnu++17 -o CMakeFiles/TGEngine.dir/src/Core/ResourceModule/Loaders/JsonLoader.cpp.o -c /home/runner/work/tgengine/tgengine/src/Core/ResourceModule/Loaders/JsonLoader.cpp",
+  "file": "/home/runner/work/tgengine/tgengine/src/Core/ResourceModule/Loaders/JsonLoader.cpp"
+},
+{
+  "directory": "/home/runner/work/tgengine/tgengine/build",
+  "command": "/home/runner/bin/emsdk/upstream/emscripten/em++ -DDEBUG=1 -DEMSCRIPTEN=1 -DIMGUI_ENABLED -DPROJECT_VERSION=\\\"0.1\\\" @CMakeFiles/TGEngine.dir/includes_CXX.rsp  -s USE_SDL=2 -s USE_SDL_IMAGE=2  -s ASSERTIONS=1 -s LLD_REPORT_UNDEFINED=1 -g -Wall -std=gnu++17 -o CMakeFiles/TGEngine.dir/src/Game/Interface/InterfaceModule.cpp.o -c /home/runner/work/tgengine/tgengine/src/Game/Interface/InterfaceModule.cpp",
+  "file": "/home/runner/work/tgengine/tgengine/src/Game/Interface/InterfaceModule.cpp"
+},
+{
+  "directory": "/home/runner/work/tgengine/tgengine/build",
+  "command": "/home/runner/bin/emsdk/upstream/emscripten/em++ -DDEBUG=1 -DEMSCRIPTEN=1 -DIMGUI_ENABLED -DPROJECT_VERSION=\\\"0.1\\\" @CMakeFiles/TGEngine.dir/includes_CXX.rsp  -s USE_SDL=2 -s USE_SDL_IMAGE=2  -s ASSERTIONS=1 -s LLD_REPORT_UNDEFINED=1 -g -Wall -std=gnu++17 -o CMakeFiles/TGEngine.dir/src/Game/StateModule/StateManager.cpp.o -c /home/runner/work/tgengine/tgengine/src/Game/StateModule/StateManager.cpp",
+  "file": "/home/runner/work/tgengine/tgengine/src/Game/StateModule/StateManager.cpp"
+},
+{
+  "directory": "/home/runner/work/tgengine/tgengine/build",
+  "command": "/home/runner/bin/emsdk/upstream/emscripten/em++ -DDEBUG=1 -DEMSCRIPTEN=1 -DIMGUI_ENABLED -DPROJECT_VERSION=\\\"0.1\\\"   -s USE_SDL=2 -s USE_SDL_IMAGE=2  -s ASSERTIONS=1 -s LLD_REPORT_UNDEFINED=1 -g -o CMakeFiles/imgui_target.dir/lib/imgui/imgui.cpp.o -c /home/runner/work/tgengine/tgengine/lib/imgui/imgui.cpp",
+  "file": "/home/runner/work/tgengine/tgengine/lib/imgui/imgui.cpp"
+},
+{
+  "directory": "/home/runner/work/tgengine/tgengine/build",
+  "command": "/home/runner/bin/emsdk/upstream/emscripten/em++ -DDEBUG=1 -DEMSCRIPTEN=1 -DIMGUI_ENABLED -DPROJECT_VERSION=\\\"0.1\\\"   -s USE_SDL=2 -s USE_SDL_IMAGE=2  -s ASSERTIONS=1 -s LLD_REPORT_UNDEFINED=1 -g -o CMakeFiles/imgui_target.dir/lib/imgui/imgui_draw.cpp.o -c /home/runner/work/tgengine/tgengine/lib/imgui/imgui_draw.cpp",
+  "file": "/home/runner/work/tgengine/tgengine/lib/imgui/imgui_draw.cpp"
+},
+{
+  "directory": "/home/runner/work/tgengine/tgengine/build",
+  "command": "/home/runner/bin/emsdk/upstream/emscripten/em++ -DDEBUG=1 -DEMSCRIPTEN=1 -DIMGUI_ENABLED -DPROJECT_VERSION=\\\"0.1\\\"   -s USE_SDL=2 -s USE_SDL_IMAGE=2  -s ASSERTIONS=1 -s LLD_REPORT_UNDEFINED=1 -g -o CMakeFiles/imgui_target.dir/lib/imgui/imgui_widgets.cpp.o -c /home/runner/work/tgengine/tgengine/lib/imgui/imgui_widgets.cpp",
+  "file": "/home/runner/work/tgengine/tgengine/lib/imgui/imgui_widgets.cpp"
+}
+]

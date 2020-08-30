@@ -1,0 +1,2 @@
+/home/runner/bin/emsdk/upstream/emscripten/emar qc libimgui_target.a CMakeFiles/imgui_target.dir/lib/imgui/imgui.cpp.o CMakeFiles/imgui_target.dir/lib/imgui/imgui_draw.cpp.o CMakeFiles/imgui_target.dir/lib/imgui/imgui_widgets.cpp.o
+/home/runner/bin/emsdk/upstream/emscripten/emranlib libimgui_target.a
