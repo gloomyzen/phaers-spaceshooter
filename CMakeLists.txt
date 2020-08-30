@@ -162,7 +162,7 @@ endif()
 #------------------------------------------------------------------------------
 #                                   SDL2
 #------------------------------------------------------------------------------
-
+message(FATAL_ERROR EMSCRIPTEN - ${EMSCRIPTEN})
 if(EMSCRIPTEN)
 
     #TODO add debug and release flags
