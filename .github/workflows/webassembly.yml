@@ -30,10 +30,7 @@ jobs:
       AUTO_CACHING: "1"
 
     steps:
-      - uses: mymindstorm/setup-emsdk@v6
-
-      - name: Verify Emscripten
-        run: emcc -v
+#      - uses: mymindstorm/setup-emsdk@v6
 
       - name: Get repository name.
         run: echo ::set-env name=REPO_NAME::${GITHUB_REPOSITORY##*/}
@@ -48,6 +45,19 @@ jobs:
           checkinstall libx11-dev libxext-dev zlib1g-dev libpng-dev libjpeg-dev libfreetype6-dev libxml2-dev \
           libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev \
           libsdl2-devlibsdl2-2.0-0 libsdl2-image-dev libsdl2-mixer-dev libsdl2-net-dev libsdl2-ttf-dev libsdl2-gfx-dev
+
+
+      - name: Install Emscripten. 🧩
+        shell: bash
+        run: |
+          cd /var && git clone https://github.com/emscripten-core/emsdk.git emsdk && cd emsdk \
+          ./emsdk install 2.0.1 \
+          ./emsdk activate 2.0.1 \
+          source /var/emsdk/emsdk_env.sh \
+          echo 'source "/var/emsdk/emsdk_env.sh"' >> $HOME/.bash_profile
+
+      - name: Verify Emscripten. 🔥
+        run: emcc -v
 
       - name: Clone. 🛎️
         uses: actions/checkout@v1
