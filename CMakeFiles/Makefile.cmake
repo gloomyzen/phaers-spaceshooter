@@ -59,6 +59,8 @@ set(CMAKE_MAKEFILE_PRODUCTS
   "CMakeFiles/3.18.2/CMakeSystem.cmake"
   "CMakeFiles/3.18.2/CMakeCXXCompiler.cmake"
   "example_simple_draw/index.html"
+  "example_simple_draw/favicon.ico"
+  "example_simple_draw/style.css"
   "index.html"
   "favicon.ico"
   "style.css"
