@@ -25,7 +25,7 @@ jobs:
 
     env:
       GIT: "https://github.com"
-      CMAKE_VER: "3.17.0"
+      CMAKE_VER: "3.18.2"
       MANUAL_CACHING: "6"
       AUTO_CACHING: "1"
 
@@ -110,7 +110,7 @@ jobs:
         run: |
           source $HOME/bin/emsdk/emsdk_env.sh
           mkdir build && cd build
-          CC=emcc CXX=em++ emcmake cmake -DCMAKE_BUILD_TYPE=Debug .. && make -j$(nproc)
+          emcmake cmake -DCMAKE_BUILD_TYPE=Debug .. && make -j$(nproc)
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@releases/v3
