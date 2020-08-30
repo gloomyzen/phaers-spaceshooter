@@ -24,3 +24,13 @@ add_deps_to_test(TestVector2D ${PROJECT_NAME})
 init_test(TestNodeSystem ./TestNodeSystem.cpp)
 add_deps_to_test(TestNodeSystem ${PROJECT_NAME})
 RegisterTarget(TestNodeSystem "${CMAKE_CURRENT_SOURCE_DIR}/.." false)
+add_custom_command(
+        TARGET TestNodeSystem POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_BINARY_DIR}/TestNodeSystem/data
+        ${CMAKE_BINARY_DIR}/tests/data)
+add_custom_command(
+        TARGET TestNodeSystem POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+        ${CMAKE_BINARY_DIR}/TestNodeSystem/TestNodeSystem
+        ${CMAKE_BINARY_DIR}/tests)

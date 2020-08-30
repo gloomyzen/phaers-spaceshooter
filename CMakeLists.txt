@@ -267,7 +267,7 @@ add_executable(example_simple_draw src/main.cpp)
 target_compile_features(example_simple_draw PRIVATE cxx_std_17)
 target_compile_options(example_simple_draw PRIVATE -Wall)
 target_link_libraries(example_simple_draw PRIVATE ${PROJECT_NAME})
-RegisterTarget(example_simple_draw ${CMAKE_CURRENT_SOURCE_DIR} true true)
+RegisterTarget(example_simple_draw ${CMAKE_CURRENT_SOURCE_DIR} true)
 
 ### Create main page
 RegisterMainPage()
