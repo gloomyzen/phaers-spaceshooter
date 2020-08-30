@@ -44,9 +44,10 @@ jobs:
           sudo apt-get update -y
           sudo apt-get dist-upgrade -y
           sudo apt-get install -y --fix-missing \
-          git zip cron curl wget python llvm libxml2-dev build-essential libssl-dev software-properties-common \
+          git zip cron curl wget python build-essential libssl-dev software-properties-common \
           checkinstall libx11-dev libxext-dev zlib1g-dev libpng-dev libjpeg-dev libfreetype6-dev libxml2-dev \
-          libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev libsdl2-2.0-0
+          libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev \
+          libsdl2-devlibsdl2-2.0-0 libsdl2-image-dev libsdl2-mixer-dev libsdl2-net-dev libsdl2-ttf-dev libsdl2-gfx-dev
 
       - name: Clone. 🛎️
         uses: actions/checkout@v1
@@ -79,22 +80,22 @@ jobs:
           rm $file
           cmake --version
 
-      - name: Get resources.
-        shell: bash
-        env:
-          ASSETS_USER: ${{ secrets.ASSETS_USER }}
-          ASSETS_PASSWORD: ${{ secrets.ASSETS_PASSWORD }}
-          ASSETS_HOST: ${{ secrets.ASSETS_HOST }}
-        run: |
-          cd resources/sprites \
-          && wget --http-user="$ASSETS_USER" --http-passwd="$ASSETS_PASSWORD" --no-check-certificate "$ASSETS_HOST" \
-          && tar -xvf assets.tar.gz
+#      - name: Get resources.
+#        shell: bash
+#        env:
+#          ASSETS_USER: ${{ secrets.ASSETS_USER }}
+#          ASSETS_PASSWORD: ${{ secrets.ASSETS_PASSWORD }}
+#          ASSETS_HOST: ${{ secrets.ASSETS_HOST }}
+#        run: |
+#          cd resources/sprites \
+#          && wget --http-user="$ASSETS_USER" --http-passwd="$ASSETS_PASSWORD" --no-check-certificate "$ASSETS_HOST" \
+#          && tar -xvf assets.tar.gz
 
       - name: Build wasm. 🔧
         shell: bash
         run: |
           mkdir build && cd build \
-          && cmake -DBUILD_TYPE=webassembly -DCMAKE_BUILD_TYPE=Release .. && make -j$(nproc)
+          && emcmake cmake -DCMAKE_BUILD_TYPE=Debug .. && make -j$(nproc)
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@releases/v3

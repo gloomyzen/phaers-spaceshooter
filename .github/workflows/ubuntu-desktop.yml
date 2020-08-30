@@ -76,16 +76,16 @@ jobs:
           rm $file
           cmake --version
 
-      - name: Get resources.
-        shell: bash
-        env:
-          ASSETS_USER: ${{ secrets.ASSETS_USER }}
-          ASSETS_PASSWORD: ${{ secrets.ASSETS_PASSWORD }}
-          ASSETS_HOST: ${{ secrets.ASSETS_HOST }}
-        run: |
-          cd resources/sprites \
-          && wget --http-user="$ASSETS_USER" --http-passwd="$ASSETS_PASSWORD" --no-check-certificate "$ASSETS_HOST" \
-          && tar -xvf assets.tar.gz
+#      - name: Get resources.
+#        shell: bash
+#        env:
+#          ASSETS_USER: ${{ secrets.ASSETS_USER }}
+#          ASSETS_PASSWORD: ${{ secrets.ASSETS_PASSWORD }}
+#          ASSETS_HOST: ${{ secrets.ASSETS_HOST }}
+#        run: |
+#          cd resources/sprites \
+#          && wget --http-user="$ASSETS_USER" --http-passwd="$ASSETS_PASSWORD" --no-check-certificate "$ASSETS_HOST" \
+#          && tar -xvf assets.tar.gz
 
       - name: Build. 🔧
         shell: bash
