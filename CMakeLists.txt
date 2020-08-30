@@ -31,9 +31,6 @@ endif ()
 if (EMSCRIPTEN)
     add_definitions(-DEMSCRIPTEN=1)
 endif()
-if (__linux__)
-    add_definitions(-DLINUX=1)
-endif()
 if (APPLE OR MAC)
     add_definitions(-DAPPLE=1)
     set(CMAKE_MACOSX_RPATH 1)
@@ -104,12 +101,16 @@ target_include_directories(${PROJECT_NAME}
         PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
         )
+target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
+target_compile_options(${PROJECT_NAME} PUBLIC -Wall)
 
 # Add as many warning as possible:
-target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
-target_compile_options(${PROJECT_NAME} PRIVATE -Wall)
+add_library(project_warning INTERFACE)
+target_compile_features(project_warning INTERFACE cxx_std_17)
+target_compile_options(project_warning INTERFACE -Wall)
 include(cmake/CompilerWarnings.cmake)
-set_project_warnings(${PROJECT_NAME})
+set_project_warnings(project_warning)
+target_link_libraries(project_warning INTERFACE ${PROJECT_NAME})
 
 # Very basic PCH example
 option(ENABLE_PCH "Enable Precompiled Headers" OFF)

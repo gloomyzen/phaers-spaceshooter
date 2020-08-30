@@ -23,13 +23,11 @@
 #define EMSCRIPTEN_FLAG 1;
 
 //end EMSCRIPTEN
-#elif defined(LINUX)
+#else
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
-#else
-#error "Current platform not supported"
 #endif
 
 // Set Emscripten flag

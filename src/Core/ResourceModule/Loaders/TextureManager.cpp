@@ -29,7 +29,7 @@ SDL_Texture *TextureManager::LoadTexture(const char *filePath) {
     }
 
     if (!hasLoadedTexture(fullPath)) {
-        texturesMap.insert(std::pair(fullPath, texture));
+        texturesMap.insert({fullPath, texture});
     }
 
     return texture;
