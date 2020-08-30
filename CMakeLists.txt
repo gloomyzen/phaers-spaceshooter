@@ -162,7 +162,6 @@ endif()
 #------------------------------------------------------------------------------
 #                                   SDL2
 #------------------------------------------------------------------------------
-message(FATAL_ERROR EMSCRIPTEN - ${EMSCRIPTEN})
 if(EMSCRIPTEN)
 
     #TODO add debug and release flags
@@ -170,9 +169,11 @@ if(EMSCRIPTEN)
 
     set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "-s WASM=1 -s USE_SDL=2 -s USE_SDL_IMAGE=2 ")
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -s USE_SDL=2 -s USE_SDL_IMAGE=2 ")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s USE_SDL=2 -s USE_SDL_IMAGE=2 ")
 
     if(CMAKE_BUILD_TYPE STREQUAL "Debug")
         set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -s ASSERTIONS=1 -s LLD_REPORT_UNDEFINED=1")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s ASSERTIONS=1 -s LLD_REPORT_UNDEFINED=1")
     endif()
 
 else()
