@@ -109,8 +109,8 @@ jobs:
         shell: bash
         run: |
           source $HOME/bin/emsdk/emsdk_env.sh
-          mkdir build && cd build \
-          && emcmake cmake -DCMAKE_BUILD_TYPE=Debug .. && make -j$(nproc)
+          mkdir build && cd build
+          emcmake cmake -DCMAKE_BUILD_TYPE=Debug .. && make -j$(nproc)
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@releases/v3
