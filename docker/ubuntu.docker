@@ -3,28 +3,23 @@ FROM ubuntu:18.04
 ####################### Install utilities and emsdk #######################
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y --fix-missing \
-    git zip cron curl wget python llvm libxml2-dev build-essential libssl-dev \
+    git zip cron curl wget python libxml2-dev build-essential libssl-dev \
     checkinstall libx11-dev libxext-dev zlib1g-dev libpng-dev libjpeg-dev libfreetype6-dev libxml2-dev \
-    libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev libsdl2-dev \
+    libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev \
+    libsdl2-dev libsdl2-2.0-0 libsdl2-image-dev libsdl2-mixer-dev libsdl2-net-dev libsdl2-ttf-dev libsdl2-gfx-dev \
     && cd /var && git clone https://github.com/emscripten-core/emsdk.git emsdk && cd emsdk \
-    && ./emsdk install latest \
-    && ./emsdk activate latest \
+    && ./emsdk install 2.0.1 \
+    && ./emsdk activate 2.0.1 \
     && source /var/emsdk/emsdk_env.sh \
     && echo "source /var/emsdk/emsdk_env.sh" >> /etc/profile \
     && emcc --version
 
 #######################    Install latest CMake    #######################
-RUN mkdir /var/cmake && cd /var/cmake && wget https://github.com/Kitware/CMake/releases/download/v3.17.0/cmake-3.17.0-Linux-x86_64.sh \
-    && mkdir /opt/cmake && sh cmake-3.17.0-Linux-x86_64.sh --prefix=/opt/cmake --skip-license \
-    && ln -s /opt/cmake/bin/cmake /usr/local/bin/cmake && rm cmake-3.17.0-Linux-x86_64.sh && cmake --version
+RUN mkdir /var/cmake && cd /var/cmake && wget https://github.com/Kitware/CMake/releases/download/v3.18.2/cmake-3.18.2-Linux-x86_64.sh \
+    && mkdir /opt/cmake && sh cmake-3.18.2-Linux-x86_64.sh --prefix=/opt/cmake --skip-license \
+    && ln -s /opt/cmake/bin/cmake /usr/local/bin/cmake && rm cmake-3.18.2-Linux-x86_64.sh && cmake --version
 
 #######################   Install nodejs via nvm   #######################
-#RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash \
-#    && export NVM_DIR="$HOME/.nvm" \
-#    && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" \
-#    && [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" \
-#    && nvm install --lts && nvm use --lts
-#RUN cd /var/www && [ -f "package.json" ] && [ ! -d "node_modules" ] && npm install
 
 SHELL ["/bin/bash", "-c", "source /var/emsdk/emsdk_env.sh"]
 SHELL ["/bin/bash", "-c", "chmod +x /usr/local/bin/build_in_container"]

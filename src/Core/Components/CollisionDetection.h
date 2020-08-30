@@ -1,7 +1,7 @@
 #ifndef TOWERDEFENSE_GAME_COLLISIONDETECTION_H
 #define TOWERDEFENSE_GAME_COLLISIONDETECTION_H
 
-#include "SDL.h"
+#include "Core/moduleDefinitions.h"
 
 //TODO class incomplete!
 

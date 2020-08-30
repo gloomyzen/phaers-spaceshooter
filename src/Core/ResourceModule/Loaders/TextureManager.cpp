@@ -4,6 +4,10 @@
 
 using namespace TGEngine::core;
 
+const std::string spriteFolder = "sprites/";
+
+std::map<std::string, SDL_Texture*> texturesMap{};
+
 TextureManager::TextureManager() {}
 
 TextureManager::~TextureManager() {
@@ -11,10 +15,9 @@ TextureManager::~TextureManager() {
 }
 
 SDL_Texture *TextureManager::LoadTexture(const char *filePath) {
-    std::string fullPath = "resources/sprites/";
-    fullPath += filePath;
-    if (hasLoadedTexture(fullPath.c_str())) {
-        return texturesMap[fullPath.c_str()];
+    std::string fullPath = spriteFolder + filePath;
+    if (hasLoadedTexture(fullPath)) {
+        return texturesMap[fullPath];
     }
     SDL_Surface *tempSurface = IMG_Load(fullPath.c_str());
     SDL_Texture *texture = SDL_CreateTextureFromSurface(GET_APPLICATION().getRenderer(), tempSurface);
@@ -24,7 +27,10 @@ SDL_Texture *TextureManager::LoadTexture(const char *filePath) {
     if (texture == nullptr) {
         LOG_ERROR("ResourceManager::LoadTexture Texture '" + fullPath + "' not loaded!");
     }
-    texturesMap.insert(std::pair(fullPath.c_str(), texture));
+
+    if (!hasLoadedTexture(fullPath)) {
+        texturesMap.insert(std::pair(fullPath, texture));
+    }
 
     return texture;
 }
@@ -37,7 +43,7 @@ void TextureManager::DrawFlip(SDL_Texture *tex, SDL_Rect src, SDL_Rect dest, dou
     SDL_RenderCopyEx(GET_APPLICATION().getRenderer(), tex, &src, &dest, angle, nullptr, flip);
 }
 
-bool TextureManager::hasLoadedTexture(const char *filePath) {
+bool TextureManager::hasLoadedTexture(std::string filePath) {
     return texturesMap.find(filePath) != texturesMap.end();
 }
 

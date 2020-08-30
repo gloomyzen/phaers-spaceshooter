@@ -1,9 +1,8 @@
 #ifndef TOWERDEFENSE_GAME_CAMERACOMPONENT_H
 #define TOWERDEFENSE_GAME_CAMERACOMPONENT_H
 
-#include "../moduleDefinitions.h"
+#include "Core/moduleDefinitions.h"
 #include "AllComponentsHeaders.h"
-#include "SDL.h"
 
 namespace TGEngine::core {
 

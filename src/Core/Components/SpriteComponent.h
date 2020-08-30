@@ -2,7 +2,6 @@
 #define TOWERDEFENSE_GAME_SPRITECOMPONENT_H
 
 #include "AllComponentsHeaders.h"
-#include "SDL.h"
 #include "Core/ResourceModule/ResourceManager.h"
 #include <map>
 #include "Core/moduleDefinitions.h"
@@ -22,6 +21,7 @@ namespace TGEngine::core {
         TransformComponent *transform{};
         SDL_Texture *texture{};
         SDL_Rect srcRect{}, destRect{};
+        std::string imagePath{};
 
         bool mAnimated = false;
         int frames = 0;
@@ -71,6 +71,7 @@ namespace TGEngine::core {
         }
 
         void setTexture(const char *path) {
+            imagePath = path;
             texture = GET_TEXTURE_MANAGER()->LoadTexture(path);
         }
 
@@ -112,6 +113,8 @@ namespace TGEngine::core {
         }
 
         std::map<std::string, sAnimation *> &getAnimations() { return animations; }
+
+        std::string getImagePath() { return imagePath; }
     };
 
 }// namespace TGEngine::core

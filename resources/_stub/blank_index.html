@@ -3,11 +3,11 @@
 <head>
     <meta charset="utf-8">
     <title>Title</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
-    <link rel="icon" type="image/png" sizes="64x64" href="favicon.ico">
-    <link rel="shortcut icon" type="image/png" sizes="64x64" href="favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/style.css">
+    <link rel="icon" type="image/png" sizes="64x64" href="/favicon.ico">
+    <link rel="shortcut icon" type="image/png" sizes="64x64" href="/favicon.ico">
     <meta name="viewport" content="width=device-width, user-scalable=no">
-    @debug-bar@
+    @analytics@
 </head>
 <body>
 
@@ -40,13 +40,6 @@
 
     window.canvasResize = function (i,e) {};
 
-    window.debug = document.querySelector('meta[name="debug"]') ? document.querySelector('meta[name="debug"]').content : false;
-    if (window.debug) {
-        var debugDiv = document.createElement('div');
-        debugDiv.classList.add('debug');
-        document.querySelector('body').appendChild(debugDiv);
-    }
-
     function onResize() {
         canvas.width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
         canvas.height = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
@@ -54,39 +47,26 @@
     }
     window.addEventListener("resize", onResize, true);
 
-    window.printLog = function(error) {
-        if (!window.debug) return;
-        var errorText = document.createTextNode(error);
-        var errorRow = document.createElement('div');
-        errorRow.classList.add('debug_row');
-        errorRow.appendChild(errorText);
-        debugDiv.appendChild(errorRow);
-    };
-
     window.Module = {
         preRun: [],
         postRun: [],
         canvas: canvas,
         onRuntimeInitialized: function() {
-            // window.canvasResize = Module.cwrap('window_resize', 'undefined', ['int', 'int']);
+            window.setTimeout(onResize, 0);
             setTimeout(function () {
                 document.querySelector("#loading_page").remove();
-            },200);
-            // window.setTimeout(onResize, 0);
-            // window.setTimeout(onResize, 100);
+            },500);
         },
         print: function (log) {
-            window.printLog(log);
             console.log('log', log);
         },
         printErr: function (error) {
-            window.printLog(error);
             console.log('error', error);
         },
     };
 
 </script>
 
-<script async src="src/main.js"></script>
+<script async src="@targetDir@main.js"></script>
 </body>
 </html>

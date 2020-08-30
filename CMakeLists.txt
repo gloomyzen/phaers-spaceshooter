@@ -1,38 +1,48 @@
 #------------------------------------------------------------------------------
+# External dependencies and external project flags:
+#------------------------------------------------------------------------------
+# ID NAME           FLAG FOR EXTERNAL USE       TARGET NAME FOR EXTERNAL PACKAGE
+# 1. ImGui          FLAG_EXTERNAL_IMGUI         imgui_ext_target
+# 2. RapidJson      FLAG_EXTERNAL_RAPIDJSON     rapidjson_ext_target
+# 3. BuildExamples  FLAG_BUILD_EXAMPLES         @ flag for build examples
+# 4. BuildTests     FLAG_BUILD_TESTS            @ flag for build tests
+#------------------------------------------------------------------------------
 #                       General Projects Settings
 #------------------------------------------------------------------------------
 cmake_minimum_required(VERSION 3.11)
-project(towerdefense-game
+project(TGEngine
         LANGUAGES CXX
         )
+add_definitions(-DPROJECT_VERSION="0.1")
 include(cmake/StandardProjectSettings.cmake)
 
 #------------------------------------------------------------------------------
-#                              Dependencies
+#                         Dependencies and variables
 #------------------------------------------------------------------------------
-add_library(project_options INTERFACE)
-target_compile_features(project_options INTERFACE cxx_std_17)
-
-
-
 if (NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE ${CMAKE_BUILD_TYPE} Debug)
 endif ()
 
 if (${CMAKE_BUILD_TYPE} STREQUAL "Debug")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DDEBUG")
+    add_definitions(-DDEBUG=1)
 else ()
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DRELEASE")
+    add_definitions(-DRELEASE=1)
 endif ()
+if (EMSCRIPTEN)
+    add_definitions(-DEMSCRIPTEN=1)
+endif()
+if (APPLE OR MAC)
+    add_definitions(-DAPPLE=1)
+    set(CMAKE_MACOSX_RPATH 1)
+endif()
+
+#------------------------------------------------------------------------------
+#                         CMake modules and options
+#------------------------------------------------------------------------------
 
 include(ExternalProject)
-
-#------------------------------------------------------------------------------
-#                           General dependencies.
-#------------------------------------------------------------------------------
+include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/UpdateResources.cmake)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
-
-add_library(project_dependency INTERFACE)
 
 # enable cache system
 include(cmake/Cache.cmake)
@@ -48,6 +58,56 @@ enable_doxygen()
 # allow for static analysis options
 include(cmake/StaticAnalyzers.cmake)
 
+#------------------------------------------------------------------------------
+#                              General library
+#------------------------------------------------------------------------------
+add_library(${PROJECT_NAME} STATIC
+        src/Core/moduleDefinitions.h
+        #### DEBUG ####
+        src/Core/Debug/Logger.cpp src/Core/Debug/Logger.h
+        src/Core/Debug/ImGui/SDLImplements/imgui_sdl.cpp src/Core/Debug/ImGui/SDLImplements/imgui_sdl.h
+        src/Core/Debug/ImGui/ImGuiManager.cpp src/Core/Debug/ImGui/ImGuiManager.h
+        #### APPLICATION ####
+        src/Core/Application.cpp src/Core/Application.h
+        src/Core/GameApplication.cpp src/Core/GameApplication.h
+        src/Core/DataTypes/Vector2D.cpp src/Core/DataTypes/Vector2D.h
+        #### Components ####
+        src/Core/Components/Component.h
+        src/Core/Components/AllComponentsHeaders.h
+        src/Core/Components/TransformComponent.h
+        src/Core/Components/SpriteComponent.h
+#        src/Core/Components/CameraComponent.h
+#        src/Core/Components/ColliderComponent.h
+#        src/Core/Components/CollisionDetection.h
+#        src/Core/Components/KeyboardController.h
+#        src/Core/Components/TouchController.h
+        #### Nodes ####
+        src/Core/Nodes/Node.h src/Core/Nodes/Node.cpp
+        src/Core/Nodes/NodeManager.h src/Core/Nodes/NodeManager.cpp
+        src/Core/Nodes/NodeFactory.h src/Core/Nodes/NodeFactory.cpp
+        #### Resources managers ####
+        src/Core/ResourceModule/ResourceManager.cpp src/Core/ResourceModule/ResourceManager.h
+        src/Core/ResourceModule/Loaders/TextureManager.cpp src/Core/ResourceModule/Loaders/TextureManager.h
+        src/Core/ResourceModule/Loaders/JsonLoader.cpp src/Core/ResourceModule/Loaders/JsonLoader.h
+
+        #### Game Module ####
+        src/Game/Interface/InterfaceModule.cpp src/Game/Interface/InterfaceModule.h
+        src/Game/StateModule/StateManager.cpp src/Game/StateModule/StateManager.h
+        )
+
+add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
+
+target_include_directories(${PROJECT_NAME}
+        PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
+        )
+
+# Add as many warning as possible:
+target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
+target_compile_options(${PROJECT_NAME} PRIVATE -Wall)
+include(cmake/CompilerWarnings.cmake)
+set_project_warnings(${PROJECT_NAME})
+
 # Very basic PCH example
 option(ENABLE_PCH "Enable Precompiled Headers" OFF)
 if (ENABLE_PCH)
@@ -55,66 +115,67 @@ if (ENABLE_PCH)
     # is a good idea if any #define's change
     #
     # consider breaking this out per project as necessary
-    target_precompile_headers(project_options INTERFACE <vector> <array> <string> <map> <utility> <memory> <algorithm> <bitset>)
+    target_precompile_headers(${PROJECT_NAME} PRIVATE <vector> <array> <string> <map> <utility> <memory> <algorithm> <bitset>)
 endif ()
 
 #------------------------------------------------------------------------------
-#                           Detect emscripten is used.
-# TODO: move this in toolchain
+#                        ImGui, included for debugging only
 #------------------------------------------------------------------------------
-if (EMSCRIPTEN)
-# TODO move this to cmake/platform/emscripten
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DEMSCRIPTEN")
+if (NOT FLAG_EXTERNAL_IMGUI)
+    if (NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/lib/imgui/imgui.cpp)
+        message(FATAL_ERROR "ImGui not found, download lib/imgui or use 'git submodules update'.")
+    endif()
+    include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/ImGui.cmake)
+    if(IMGUI_ENABLED)
+        add_definitions(-DIMGUI_ENABLED) # <- new cast definition
+        target_link_libraries(${PROJECT_NAME} PRIVATE imgui_target)
+    endif()
+elseif(FLAG_EXTERNAL_IMGUI)
+    # Using external imgui_ext_target
+    if(IMGUI_ENABLED)
+        add_definitions(-DIMGUI_ENABLED) # <- new cast definition
+        target_link_libraries(${PROJECT_NAME} PRIVATE imgui_ext_target)
+    endif()
+endif()
 
-    # Enabling debug bar.
-    if (${CMAKE_BUILD_TYPE} STREQUAL "Debug")
-        file(READ ${CMAKE_CURRENT_SOURCE_DIR}/resources/stub/index-debug-section.html debug-bar)
-    endif ()
-
-    # Copy the index.html file.
-    configure_file(
-            ${CMAKE_CURRENT_SOURCE_DIR}/resources/stub/index.html
-            ${CMAKE_CURRENT_BINARY_DIR}/index.html
-    )
-    # Copy the style.css file.
-    configure_file(
-            ${CMAKE_CURRENT_SOURCE_DIR}/resources/stub/style.css
-            ${CMAKE_CURRENT_BINARY_DIR}/style.css
-    )
-    # Copy the favicon.
-    configure_file(
-            ${CMAKE_CURRENT_SOURCE_DIR}/resources/stub/favicon.ico
-            ${CMAKE_CURRENT_BINARY_DIR}/favicon.ico
-    )
-
-    # Allow the resource directories to be fetched by the web browser.
-    file(GLOB assets_files
-            "${CMAKE_SOURCE_DIR}/resources/sprites/*"
-            "${CMAKE_SOURCE_DIR}/resources/font/*.ttf"
-            "${CMAKE_SOURCE_DIR}/resources/data/*.json"
+#------------------------------------------------------------------------------
+#                               Rapidjson
+#------------------------------------------------------------------------------
+if (NOT FLAG_EXTERNAL_RAPIDJSON)
+    if (NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/lib/rapidjson/include)
+        message(FATAL_ERROR "Rapidjson not found, download lib/rapidjson or use 'git submodules update'.")
+    endif()
+    add_library(rapidjson_target INTERFACE)
+    target_include_directories(rapidjson_target INTERFACE
+            $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib/rapidjson/include>
             )
+    target_link_libraries(${PROJECT_NAME} PUBLIC rapidjson_target)
+elseif(FLAG_EXTERNAL_RAPIDJSON)
+    # Using external rapidjson_ext_target
+    target_link_libraries(${PROJECT_NAME} PUBLIC rapidjson_target)
+endif()
 
-    if (${CMAKE_BUILD_TYPE} STREQUAL "Debug")
-        list(APPEND assets_files "${CMAKE_SOURCE_DIR}/lib/imgui/misc/fonts*.ttf")
-    endif ()
+#------------------------------------------------------------------------------
+#                                   SDL2
+#------------------------------------------------------------------------------
 
-    foreach (file ${assets_files})
-        file(RELATIVE_PATH relative_file ${CMAKE_SOURCE_DIR} ${file})
-        string(APPEND CMAKE_CXX_FLAGS " --preload-file ${file}@/${relative_file}")
-        message(STATUS CMAKE_CXX_FLAGS " --preload-file ${file}@/${relative_file}")
-    endforeach ()
+if(EMSCRIPTEN)
 
-else () # Not Web
+    #TODO add debug and release flags
+    set_target_properties(${PROJECT_NAME} PROPERTIES SUFFIX "_emscripten.bc")
 
-    file(COPY "${CMAKE_SOURCE_DIR}/resources/sprites/"
-            DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/resources/sprites)
-    file(COPY "${CMAKE_SOURCE_DIR}/resources/data/"
-            DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/resources/data)
+    set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "-s WASM=1 -s USE_SDL=2 -s USE_SDL_IMAGE=2 ")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -s USE_SDL=2 -s USE_SDL_IMAGE=2 ")
 
-    # sdl
-    if (APPLE OR MAC)
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DAPPLE")
-        set(CMAKE_MACOSX_RPATH 1)
+    if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+        set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -s ASSERTIONS=1 -s LLD_REPORT_UNDEFINED=1")
+    endif()
+
+else()
+
+    include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/SDL2.cmake)
+
+    if (APPLE)
         if (NOT EXISTS "${CMAKE_SOURCE_DIR}/lib/macOS/SDL2.framework")
             message("Downloading SDL2 frameworks")
             execute_process(
@@ -142,11 +203,12 @@ else () # Not Web
                 "${CMAKE_SOURCE_DIR}/lib/macOS/SDL2_image.framework"
                 )
         mark_as_advanced(SDL_INCLUDE_DIR SDL_LIBRARY)
-        target_link_libraries(project_dependency INTERFACE ${SDL_LIBRARY})
+        target_link_libraries(${PROJECT_NAME} PRIVATE ${SDL_LIBRARY})
 
         include_directories(${SDL_INCLUDE_DIR})
 
     endif()
+
     if(WIN32)
 
         if(NOT EXISTS "${CMAKE_SOURCE_DIR}/lib/win32/SDL2")
@@ -164,10 +226,10 @@ else () # Not Web
         set(SDL2_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/lib/win32/SDL/SDL2/include")
         set(SDL2_IMAGE_LIBRARY "${CMAKE_SOURCE_DIR}/lib/win32/SDL/SDL2_image/lib/x86/SDL2_image.lib")
         set(SDL2_IMAGE_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/lib/win32/SDL/SDL2_image/include")
-        # for Visual Studio
-#        target_link_libraries(project_dependency INTERFACE ${SDL2MAIN_LIBRARY})
-#        target_link_libraries(project_dependency INTERFACE ${SDL2_LIBRARIES})
-#        target_link_libraries(project_dependency INTERFACE ${SDL2_IMAGE_LIBRARIES})
+        # TODO need test with Visual Studio
+#        target_link_libraries(${PROJECT_NAME} PRIVATE ${SDL2MAIN_LIBRARY})
+#        target_link_libraries(${PROJECT_NAME} PRIVATE ${SDL2_LIBRARIES})
+#        target_link_libraries(${PROJECT_NAME} PRIVATE ${SDL2_IMAGE_LIBRARIES})
 
     endif()
 
@@ -176,51 +238,51 @@ else () # Not Web
 
     include_directories(${SDL2_INCLUDE_DIR})
     include_directories(${SDL2_IMAGE_INCLUDE_DIR})
-    
 
-    target_link_libraries(project_dependency INTERFACE ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES})
 
+    target_link_libraries(${PROJECT_NAME} PRIVATE ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES})
 endif()
 
-#------------------------------------------------------------------------------
-#                               Rapidjson
-#------------------------------------------------------------------------------
-include_directories(
-        ${CMAKE_CURRENT_SOURCE_DIR}/lib/rapidjson/include
-)
-
-include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/ImGui.cmake)
-if(IMGUI_ENABLED)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DIMGUI_ENABLED")
-    target_link_libraries(imgui_target PUBLIC project_dependency)
-    target_link_libraries(project_dependency INTERFACE imgui_target)
-endif()
 
 #------------------------------------------------------------------------------
-#                         Include src with modules
+#                               Example targets
 #------------------------------------------------------------------------------
-add_subdirectory(src)
+if (NOT FLAG_BUILD_EXAMPLES)
+    set(BUILD_EXAMPLES "true")
+elseif(FLAG_BUILD_EXAMPLES STREQUAL "1")
+    set(BUILD_EXAMPLES "true")
+else()
+    set(BUILD_EXAMPLES "false")
+endif ()
+if (BUILD_EXAMPLES STREQUAL "true")
+#    add_subdirectory(games)
+endif ()
+# TODO move to examples file
+# Example of simple drawing of objects
+add_executable(example_simple_draw src/main.cpp)
+target_compile_features(example_simple_draw PRIVATE cxx_std_17)
+target_compile_options(example_simple_draw PRIVATE -Wall)
+target_link_libraries(example_simple_draw PRIVATE ${PROJECT_NAME})
+RegisterTarget(example_simple_draw ${CMAKE_CURRENT_SOURCE_DIR} true true)
 
-#------------------------------------------------------------------------------
-#                               Main Target
-#------------------------------------------------------------------------------
-add_executable(main src/main.cpp)
-
-set_property(TARGET main PROPERTY CXX_STANDARD 11)
-
-# standard compiler warnings
-include(cmake/CompilerWarnings.cmake)
-add_library(project_warnings INTERFACE)
-set_project_warnings(project_warnings)
-target_link_libraries(project_warnings INTERFACE ${CORE_MODULE_NAME} ${GAME_MODULE_NAME})
-
-target_link_libraries(main PRIVATE ${CORE_MODULE_NAME} ${GAME_MODULE_NAME} project_options project_dependency)
+### Create main page
+RegisterMainPage()
 
 #------------------------------------------------------------------------------
 #                               Tests section
 #------------------------------------------------------------------------------
-
-if (NOT EMSCRIPTEN)
+if (NOT FLAG_BUILD_TESTS)
+    if (NOT EMSCRIPTEN)
+        set(BUILD_TESTS "true")
+    endif ()
+elseif(FLAG_BUILD_TESTS STREQUAL "1")
+    set(BUILD_TESTS "true")
+else()
+    if (NOT EMSCRIPTEN)
+        set(BUILD_TESTS "true")
+    endif ()
+endif ()
+if (BUILD_TESTS STREQUAL "true")
     enable_testing()
     add_subdirectory(tests)
 endif ()

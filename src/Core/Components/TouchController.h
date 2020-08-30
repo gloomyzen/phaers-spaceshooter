@@ -1,9 +1,8 @@
 #ifndef TOWERDEFENSE_GAME_TOUCHCONTROLLER_H
 #define TOWERDEFENSE_GAME_TOUCHCONTROLLER_H
 
-#include "../moduleDefinitions.h"
+#include "Core/moduleDefinitions.h"
 #include "AllComponentsHeaders.h"
-#include "SDL.h"
 
 //TODO class incomplete!
 namespace TGEngine::core {

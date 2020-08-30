@@ -34,7 +34,7 @@ TEST_F(NodeTest, NodeConstructorTest) {
 
     auto testNode = new Node("testNode2");
     node->addChild(testNode);
-    EXPECT_EQ(node->getChilds().size(), 1);
+    EXPECT_EQ(node->getChilds().size(), static_cast<size_t>(1));
 
     auto findTest = node->findNode("testNode2");
     EXPECT_EQ(findTest, testNode);
@@ -54,11 +54,11 @@ TEST(NodeManager, NodeManagerTest) {
     };
     //Для тесткейса создаем 3 дефольтные ноды в менеджере
     for (auto layer : layers) {
-        GET_NODE_MANAGER().addChild(new Node(layer));
+        GET_NODE()->addChild(new Node(layer));
     }
 
     //берем ноду Ground
-    auto ground = GET_NODE_MANAGER().findNode("Ground");
+    auto ground = GET_NODE()->findNode("Ground");
     EXPECT_EQ(ground->getId(), "Ground");
 
     //Создаем ноду с крепостью
@@ -70,10 +70,10 @@ TEST(NodeManager, NodeManagerTest) {
     //Ищем ноду крепости в ноде Ground
     EXPECT_EQ(ground->findNode("fortress"), fortress);
     //Ищем ноду крепости глобально чеез менеджер
-    EXPECT_EQ(GET_NODE_MANAGER().findNode("fortress"), fortress);
+    EXPECT_EQ(GET_NODE()->findNode("fortress"), fortress);
 
     //Находим ноду Units
-    auto units = GET_NODE_MANAGER().findNode("Units");
+    auto units = GET_NODE()->findNode("Units");
     //Сверяем имя ноды Units
     EXPECT_EQ(units->getId(), "Units");
 
@@ -87,7 +87,7 @@ TEST(NodeManager, NodeManagerTest) {
     //Ищем ноду героя в ноде Units
     EXPECT_EQ(units->findNode("hero"), hero);
     //Ищем ноду героя глбально через менеджер
-    EXPECT_EQ(GET_NODE_MANAGER().findNode("hero"), hero);
+    EXPECT_EQ(GET_NODE()->findNode("hero"), hero);
 }
 
 TEST(NodeTransformComponent, NodeManagerTest) {
@@ -134,7 +134,7 @@ TEST(NodeSpriteComponen, NodeManagerTest) {
     EXPECT_FALSE(spriteNode.isAnimated());
     //TODO try get animation
     EXPECT_EQ(spriteNode.getAnimation("testAnim"), nullptr);
-    EXPECT_EQ(spriteNode.getAnimations().size(), 0);
+    EXPECT_EQ(spriteNode.getAnimations().size(), static_cast<size_t>(0));
     //set animation
     auto animStructRun = new sAnimation();
     animStructRun->index = 0;
@@ -142,20 +142,20 @@ TEST(NodeSpriteComponen, NodeManagerTest) {
     animStructRun->speed = 150;
     spriteNode.addAnimation("idle", 0, 8, 150);
     EXPECT_TRUE(spriteNode.hasAnimation("idle"));
-    EXPECT_EQ(spriteNode.getAnimations().size(), 1);
+    EXPECT_EQ(spriteNode.getAnimations().size(), static_cast<size_t>(1));
     EXPECT_EQ(animStructRun->index, 0);
     EXPECT_EQ(animStructRun->frames, 8);
     EXPECT_EQ(animStructRun->speed, 150);
     spriteNode.addAnimation("run", animStructRun);
     EXPECT_TRUE(spriteNode.hasAnimation("run"));
-    EXPECT_EQ(spriteNode.getAnimations().size(), 2);
+    EXPECT_EQ(spriteNode.getAnimations().size(), static_cast<size_t>(2));
 }
 
 TEST(NodeLoadProperty, NodeManagerTest) {
     // Simple node
     auto node = new Node();
     node->setId("simpleNode");
-    node->loadProperty("gtest", "../");
+    node->loadProperty("gtest");
     EXPECT_FALSE(node->hasChilds());
     EXPECT_TRUE(node->findNode("mainMenuBG") == nullptr);
     EXPECT_TRUE(node->hasComponent<TransformComponent>());
@@ -164,7 +164,7 @@ TEST(NodeLoadProperty, NodeManagerTest) {
     // Node with childs
     auto nodeNext = new Node();
     nodeNext->setId("nodeWithChilds");
-    nodeNext->loadProperty("gtest", "../");
+    nodeNext->loadProperty("gtest");
     EXPECT_TRUE(nodeNext->hasChilds());
     EXPECT_TRUE(nodeNext->findNode("mainMenuBG") == nullptr);
     EXPECT_FALSE(nodeNext->hasNode("mainMenuBG"));
@@ -188,7 +188,7 @@ TEST(NodeNodeFactory, NodeManagerTest) {
     EXPECT_FALSE(node->hasComponent<TransformComponent>());
     EXPECT_FALSE(node->hasComponent<SpriteComponent>());
 
-    node->loadProperty("gtest", "../");
+    node->loadProperty("gtest");
     EXPECT_TRUE(node->hasComponent<TransformComponent>());
     EXPECT_TRUE(node->hasComponent<SpriteComponent>());
 

@@ -1,6 +1,8 @@
 #include "Application.h"
 #include "Debug/Logger.h"
+#if defined(IMGUI_ENABLED)
 #include "Debug/ImGui/ImGuiManager.h"
+#endif
 
 using namespace TGEngine::core;
 
@@ -24,9 +26,6 @@ Application::Application()
     const int fullscreen_flag = 0; // for fullscreen SDL_WINDOW_FULLSCREEN
     const Uint32 render_flag = SDL_RENDERER_ACCELERATED;
 
-    auto emsTemp = EMSCRIPTEN_FLAG;
-    emscripten = emsTemp == 0;
-
 #ifdef WIN32
     SDL_SetMainReady();
 #endif
@@ -42,11 +41,19 @@ Application::Application()
             LOG_INFO("Window created");
         }
 
+        /***
+         * Set window resizable
+         * TODO move to method setWindowResizable(bool)
+         */
+        SDL_SetWindowResizable(window, static_cast<SDL_bool>(true));
+
         renderer = SDL_CreateRenderer(window, -1, render_flag);
-        if (getRenderer() != nullptr) {
+        if (renderer != nullptr) {
             renderDrawColor();
             SDL_RenderClear(getRenderer());
             LOG_INFO("Renderer created");
+        } else {
+			LOG_ERROR("Application::Application Renderer couldn't created!");
         }
 
         state = State::stateReady;
@@ -58,7 +65,7 @@ Application::Application()
         SDL_RenderSetScale(getRenderer(), _dpi, _dpi);
 
 #if defined(IMGUI_ENABLED)
-        GET_IMGUI_MANAGER().Initialize();
+        GET_IMGUI_MANAGER().initialize();
 #endif
 
     } else {
@@ -77,9 +84,6 @@ SDL_Event &Application::getEvents() { return event; }
 
 void Application::exit() { state = stateExit; }
 
-/// Данные в милисекундах
-int Application::getFrameDeltaTime() const { return deltaTime; }
-
 void Application::run() {
     state = stateRun;
 
@@ -97,12 +101,13 @@ void Application::run() {
         Update();
         // render
         // ------
+		renderDrawColor();
         SDL_RenderClear(getRenderer());
         Render();
         PostRender();
         SDL_RenderPresent(getRenderer());
-        deltaTime = static_cast<int>(SDL_GetTicks() - frameStart);
-        if (frameDelay > deltaTime) { SDL_Delay(static_cast<Uint32>(frameDelay - deltaTime)); }
+        deltaTime = SDL_GetTicks() - frameStart;
+        if (frameDelay > deltaTime) { SDL_Delay(frameDelay - deltaTime); }
     };
 
     /***
@@ -118,14 +123,14 @@ void Application::run() {
     }
 
 #if defined(IMGUI_ENABLED)
-    GET_IMGUI_MANAGER().Deinitialize();
+    GET_IMGUI_MANAGER().deinitialize();
 #endif
 
     SDL_DestroyRenderer(getRenderer());
     SDL_DestroyWindow(window);
 
 #if defined(IMGUI_ENABLED)
-    GET_IMGUI_MANAGER().DestroyContext();
+    GET_IMGUI_MANAGER().destroyContext();
 #endif
 
     IMG_Quit();
@@ -151,7 +156,7 @@ void Application::detectWindowDimensionChange() {
         SDL_RenderSetScale(renderer, dpi, dpi);
 
 #if defined(IMGUI_ENABLED)
-        GET_IMGUI_MANAGER().ChangeDimension();
+        GET_IMGUI_MANAGER().changeDimension();
 #endif
 
     }
@@ -179,4 +184,8 @@ void Application::detectWindowDimensionChange() {
   return std::make_tuple(width, height, 1);
 }
 
-bool Application::isEmscripten() const { return false; }
+bool Application::isEmscripten() {
+	auto emsTemp = EMSCRIPTEN_FLAG;
+	emscripten = emsTemp == 1;
+	return emscripten;
+}

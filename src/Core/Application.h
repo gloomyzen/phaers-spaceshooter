@@ -40,9 +40,6 @@ namespace TGEngine::core {
         // window control
         void exit();
 
-        // delta time between frame and time from beginning
-        int getFrameDeltaTime() const;
-
         // application run
         void run();
 
@@ -57,7 +54,24 @@ namespace TGEngine::core {
 
         [[maybe_unused]] std::tuple<int, int, float> GetWindowResolution();
 
-        bool isEmscripten() const;
+        bool isEmscripten();
+
+        float getDeltaTime() {
+            return deltaTime;
+        }
+
+        void changeFps(int _fps) {
+            FPS = _fps;
+            frameDelay = 1000.f / static_cast<float>(FPS);
+        }
+
+        void changeFrameDelay(float _frameDelay) {
+            frameDelay = _frameDelay;
+        }
+
+        int &getFps() { return FPS; }
+
+        float &getFrameDelay() { return frameDelay; }
 
     private:
         Application &operator=(const Application &) { return *this; }
@@ -69,10 +83,10 @@ namespace TGEngine::core {
         void renderDrawColor();
 
         // Time:
-        const int FPS = 60;
-        const int frameDelay = 1000 / FPS;
+        int FPS = 60;
+        float frameDelay = 1000.f / static_cast<float>(FPS);
         Uint32 frameStart;
-        int deltaTime;
+        float deltaTime;
 
         // Dimensions:
         int width;

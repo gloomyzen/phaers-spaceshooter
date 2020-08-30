@@ -1,4 +1,4 @@
-#include "Core/GameApplication.h"
+#include <Core/GameApplication.h>
 
 using namespace TGEngine::core;
 

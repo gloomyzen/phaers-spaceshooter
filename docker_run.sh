@@ -56,7 +56,7 @@ own_commands() {
 }
 
 help_legend() {
-    pc "green" "Usage: $0 {--build|--run|--down|--own|--test|--remove|--help} CMD\n"
+    pc "green" "Usage: $0 {--build|--run|--down|--wasm-build|--own|--test|--remove|--help} CMD\n"
 }
 
 general_help() {
@@ -79,8 +79,12 @@ general_help() {
             pc "green" "$0 --down container-name "
             pc "none" "для остановки одного контейнера\n"
         ;;
+        --wasm-build|wasm-build|wasm)
+            pc "green" "$0 --wasm-build "
+            pc "none" "Скомпилировать wasm версию\n"
+        ;;
         --own|-o|own|o)
-            pc "green" "$0 --own container-name cmd"
+            pc "green" "$0 --own container-name cmd "
             pc "none" "выполнить произвольную команду в контейнере\n"
         ;;
         --remove|remove)
@@ -96,6 +100,7 @@ general_help() {
             $0 --help build
             $0 --help run
             $0 --help down
+            $0 --help wasm
             $0 --help own
             $0 --help remove
             help_legend
@@ -129,13 +134,13 @@ case "$1" in
         own_commands $2 $3 $4 $5 $6 $7 $8
         ;;
     --wasm-build)
-        eval ${DOCKERCORE} exec -it ubuntu build_in_container # cd /var/www && rm -rf public && mkdir public && cd public && source /etc/profile && cmake -DBUILD_TYPE=webassembly .. && make -j$(nproc)
+        eval ${DOCKERCORE} exec -it ubuntu build_in_container
         ;;
     --remove)
         eval ${DOCKERCORE} system prune -a
         ;;
     --test|-t)
-        eval ${DOCKERCMD} exec php-cli php vendor/bin/phpunit
+#         eval ${DOCKERCMD} exec php-cli php vendor/bin/phpunit
         ;;
     --help|-h)
         general_help $2 $3

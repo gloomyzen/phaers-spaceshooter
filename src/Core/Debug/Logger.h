@@ -4,6 +4,7 @@
 #include <string>
 #include <iostream>
 #include <vector>
+#include <string>
 
 #define GET_LOGGER() TGEngine::core::LoggerInstance::getInstance()
 #define LOG_INFO(W) GET_LOGGER().info(W)
@@ -38,6 +39,14 @@ namespace TGEngine::core {
         void error(const std::string &message);
 
     private:
+        /**
+         * Получение префикса типа события
+         * @return std::string
+         */
+        std::string getType(const eLogTypes&);
+
+        void addLogMessage(sLogMessage *);
+
         std::vector<sLogMessage *> log{};
     };
 

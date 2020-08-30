@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <bitset>
 #include <array>
+#include <map>
 #include "Core/Components/Component.h"
 #include "Core/ResourceModule/Loaders/JsonLoader.h"
 #include "Core/Debug/Logger.h"
@@ -19,7 +20,7 @@ namespace TGEngine::core {
 
 #pragma region ComponentsHelper
     using ComponentID = std::size_t;
-    using Group = std::size_t;
+    using Group = std::size_t; //TODO fix this! currently Grouping not used
 
     inline ComponentID getNewComponentTypeID() {
         static ComponentID lastID = 0u;
@@ -46,17 +47,21 @@ namespace TGEngine::core {
         ComponentArray componentArray{};
         ComponentBitSet componentBitSet;
         std::vector<Node *> childs{};
-        std::vector<Node *> childsList{};
+        std::map<unsigned int, Node *> parents{};
         std::string id{};
+        unsigned int uid;
     public:
 
-        Node() {}
+        Node() {
+            setNextUid();
+        }
 
         Node(std::string nodeId) {
             if (nodeId.empty()) {
                 throw std::runtime_error("The current node has no id set!");
             }
             id = nodeId;
+            setNextUid();
         }
 
         ~Node() {
@@ -93,6 +98,10 @@ namespace TGEngine::core {
             }
         }
 
+        void setNextUid();
+
+        unsigned int getUid() { return uid; }
+
         template<typename T>
         [[nodiscard]] bool hasComponent() const { return componentBitSet[getComponentTypeID<T>()]; }
 
@@ -120,8 +129,8 @@ namespace TGEngine::core {
             return childs;
         };
 
-        std::vector<Node *> &getChildsList() {
-            return childsList;
+        std::map<unsigned int, Node *> &getParentsMap() {
+            return parents;
         };
 
         void addChild(Node *node) {
@@ -129,23 +138,8 @@ namespace TGEngine::core {
                 LOG_ERROR("Node::addChild Child node has no identifier!");
                 return;
             }
-//            std::for_each(this->childsList.begin(), this->childsList.end(), [&node](Node* n) {
-//                node->childsList.emplace_back(n);
-//            });
-//            for(auto c : childsList) {
-//                node->childsList.emplace_back(c);
-//            }
-//            std::for_each(node->childsList.begin(), node->childsList.end(), [&](Node* n) {
-//                childsList.emplace_back(n);
-//            });
-//            for(auto c : node->childsList) {
-//                childsList.emplace_back(c);
-//            }
-            node->childsList.emplace_back(this);
+            addParent(this, node);
             childs.emplace_back(node);
-            //node
-            //*** node <- current
-            //*** *** node
         }
 
         bool hasChilds() {
@@ -175,6 +169,20 @@ namespace TGEngine::core {
             return nullptr;
         }
 
+        Node *findNode(const unsigned int &findUid) {
+            if (getUid() == findUid) return this;
+            for (auto c : childs) {
+                if (c->getUid() == findUid) return c;
+                if (c->hasChilds()) {
+                    auto find = c->findNode(findUid);
+                    if (find != nullptr) {
+                        return find;
+                    }
+                }
+            }
+            return nullptr;
+        }
+
         bool hasNode(const std::string &findId) {
             if (getId() == findId) return true;
             bool currentLevel = false;
@@ -196,6 +204,18 @@ namespace TGEngine::core {
         void parseData(Node *node, const rapidjson::GenericValue<rapidjson::UTF8<char>>::Array &array);
 
         void parseProperty(Node *node, const std::string &string, const std::string &prefix = "");
+
+        void addParent(Node *parent, Node *child) {
+            for (auto node : child->getChilds()) {
+                node->addParent(parent, node);
+            }
+#ifdef DEBUG
+            if (child->parents.find(parent->getUid()) != child->parents.end()) {
+                LOG_ERROR("Node " + std::to_string(parent->getUid()) + " already exist in parent node list!");
+            }
+#endif
+            child->parents.insert({parent->getUid(), parent});
+        }
 
     };
 
