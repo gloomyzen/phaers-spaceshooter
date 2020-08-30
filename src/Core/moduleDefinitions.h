@@ -2,25 +2,40 @@
 #define TOWERDEFENSE_GAME_MODULEDEFINITIONS_H
 
 #ifdef WIN32
+
 #define SDL_MAIN_HANDLED //Do not delete this!
 #include <SDL.h>
 #include <SDL_image.h>
-#endif //WIN32
 
-#if defined(APPLE) || defined(MACOS)
+//end WIN32
+#elif defined(APPLE) || defined(MACOS)
+
 #include <SDL2/SDL.h>
 #include <SDL2_image/SDL_image.h>
-#endif //APPLE
 
-#if defined(EMSCRIPTEN)
+//end APPLE
+#elif defined(EMSCRIPTEN)
+
 #include <emscripten/emscripten.h>
 #include <emscripten/html5.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #define EMSCRIPTEN_FLAG 1;
+
+//end EMSCRIPTEN
+#elif defined(LINUX)
+
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+
 #else
+#error "Current platform not supported"
+#endif
+
+// Set Emscripten flag
+#ifndef EMSCRIPTEN_FLAG
 #define EMSCRIPTEN_FLAG 0;
-#endif //EMSCRIPTEN
+#endif
 
 #if defined(DEBUG)
 const bool debugMode = true;

@@ -50,11 +50,11 @@ jobs:
       - name: Install Emscripten. 🧩
         shell: bash
         run: |
-          cd /var && git clone https://github.com/emscripten-core/emsdk.git emsdk && cd emsdk \
+          cd $HOME && mkdir bin && cd bin && git clone https://github.com/emscripten-core/emsdk.git emsdk && cd emsdk \
           ./emsdk install 2.0.1 \
           ./emsdk activate 2.0.1 \
-          source /var/emsdk/emsdk_env.sh \
-          echo 'source "/var/emsdk/emsdk_env.sh"' >> $HOME/.bash_profile
+          source $HOME/bin/emsdk/emsdk_env.sh \
+          echo 'source "$HOME/bin/emsdk/emsdk_env.sh"' >> $HOME/.bash_profile
 
       - name: Verify Emscripten. 🔥
         run: emcc -v
