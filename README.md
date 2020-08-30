@@ -1,30 +1,36 @@
 # towerdefense-game
 
-Common install:
+#### First of all, be sure to clone all submodules:
 ```bash
 git clone --recursive git@github.com:gloomyzen/towerdefense-game.git towerdefense-game 
 cd towerdefense-game
 ```
 
-#Configure project
+#### Usage (WebAssembly) :
+Install emscripten, then
 ```bash
-chmod +x generate.sh
-./generate.sh -create win32    #create MVS project
-./generate.sh -create mac      #create XCode project
+mkdir public
+cd public
+emmake cmake ..
+make -j$(nproc)
 ```
 
-#Using docker
+#### Usage (Linux) :
+
 ```bash
-chmod +x docker_run.sh
-./docker_run.sh --build           # Create and run docker containers 
-./docker_run.sh --run             # Run docker
-./docker_run.sh --down            # Stop docker containers
-./docker_run.sh -o ubuntu bash    # Open container cli
-./docker_run.sh --wasm-build      # build in container
+mkdir build
+cd build
+cmake ..
+make -j$(nproc)
+./main
 ```
 
-###Tips:
-- for fix error "libpng warning: iCCP: known incorrect sRGB profile"
-```bash
-mogrify *.png
+#### Simple way to up and run local development (docker and bash required) :
+```bash 
+./docker_run.sh -r
+./docker_run.sh -o ubuntu bash
+build_in_container
 ```
+Now, visit https://localhost:8080/.
+
+More about utilities, you can read in [docs page](https://github.com/gloomyzen/tgengine/blob/master/docs/UTILITIES.md)
