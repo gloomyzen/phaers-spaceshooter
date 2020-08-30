@@ -88,6 +88,14 @@ function(RegisterResources targetName targetCurrentSourceDir)
                 ${targetCurrentSourceDir}/resources/_stub/blank_index.html
                 ${CMAKE_BINARY_DIR}/${targetName}/index.html
         )
+        configure_file(
+                ${targetCurrentSourceDir}/resources/_stub/favicon.ico
+                ${CMAKE_BINARY_DIR}/${targetName}/favicon.ico
+        )
+        configure_file(
+                ${targetCurrentSourceDir}/resources/_stub/style.css
+                ${CMAKE_BINARY_DIR}/${targetName}/style.css
+        )
 
     endif (EMSCRIPTEN)
 
