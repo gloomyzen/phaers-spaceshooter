@@ -34,3 +34,5 @@ build_in_container
 Now, visit https://localhost:8080/.
 
 More about utilities, you can read in [docs page](https://github.com/gloomyzen/tgengine/blob/master/docs/UTILITIES.md)
+
+List of [examples](https://github.com/gloomyzen/tgengine/blob/master/docs/EXAMPLES.md)
