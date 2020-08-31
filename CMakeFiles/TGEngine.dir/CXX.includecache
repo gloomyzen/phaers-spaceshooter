@@ -376,6 +376,14 @@ vector
 string
 -
 
+../src/Core/Devices/DevicesManager.h
+string
+-
+vector
+-
+tuple
+-
+
 ../src/Core/GameApplication.h
 Application.h
 ../src/Core/Application.h
@@ -535,6 +543,8 @@ Core/Components/SpriteComponent.h
 /home/runner/work/tgengine/tgengine/src/Core/Debug/ImGui/Core/Components/SpriteComponent.h
 Core/Debug/Logger.h
 /home/runner/work/tgengine/tgengine/src/Core/Debug/ImGui/Core/Debug/Logger.h
+Core/Devices/DevicesManager.h
+/home/runner/work/tgengine/tgengine/src/Core/Debug/ImGui/Core/Devices/DevicesManager.h
 
 /home/runner/work/tgengine/tgengine/src/Core/Debug/ImGui/ImGuiManager.h
 imgui.h

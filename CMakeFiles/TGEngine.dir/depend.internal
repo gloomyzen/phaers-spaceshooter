@@ -89,6 +89,7 @@ CMakeFiles/TGEngine.dir/src/Core/Debug/ImGui/ImGuiManager.cpp.o
  ../src/Core/DataTypes/Vector2D.h
  ../src/Core/Debug/ImGui/SDLImplements/imgui_sdl.h
  ../src/Core/Debug/Logger.h
+ ../src/Core/Devices/DevicesManager.h
  ../src/Core/GameApplication.h
  ../src/Core/Nodes/Node.h
  ../src/Core/Nodes/NodeManager.h

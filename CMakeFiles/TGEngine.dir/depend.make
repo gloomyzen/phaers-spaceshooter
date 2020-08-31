@@ -88,6 +88,7 @@ CMakeFiles/TGEngine.dir/src/Core/Debug/ImGui/ImGuiManager.cpp.o: ../src/Core/Com
 CMakeFiles/TGEngine.dir/src/Core/Debug/ImGui/ImGuiManager.cpp.o: ../src/Core/DataTypes/Vector2D.h
 CMakeFiles/TGEngine.dir/src/Core/Debug/ImGui/ImGuiManager.cpp.o: ../src/Core/Debug/ImGui/SDLImplements/imgui_sdl.h
 CMakeFiles/TGEngine.dir/src/Core/Debug/ImGui/ImGuiManager.cpp.o: ../src/Core/Debug/Logger.h
+CMakeFiles/TGEngine.dir/src/Core/Debug/ImGui/ImGuiManager.cpp.o: ../src/Core/Devices/DevicesManager.h
 CMakeFiles/TGEngine.dir/src/Core/Debug/ImGui/ImGuiManager.cpp.o: ../src/Core/GameApplication.h
 CMakeFiles/TGEngine.dir/src/Core/Debug/ImGui/ImGuiManager.cpp.o: ../src/Core/Nodes/Node.h
 CMakeFiles/TGEngine.dir/src/Core/Debug/ImGui/ImGuiManager.cpp.o: ../src/Core/Nodes/NodeManager.h
