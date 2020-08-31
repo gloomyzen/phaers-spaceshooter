@@ -12,17 +12,11 @@ namespace TGEngine::core {
 	class Application {
 	public:
 		Application();
-
 		virtual ~Application() {};
-
 		virtual void Init() {};
-
 		virtual void ProcessInput() {};
-
 		virtual void Update() {};
-
 		virtual void Render() {};
-
 		virtual void PostRender() {};
 
 
@@ -72,6 +66,25 @@ namespace TGEngine::core {
 		int &getFps() { return FPS; }
 
 		float &getFrameDelay() { return frameDelay; }
+
+		/***
+		 * Set window size
+		 */
+		void setWindowSize(int _width, int _height, bool _resizeble = false) {
+			SDL_SetWindowResizable(window, static_cast<SDL_bool>(_resizeble));
+			SDL_SetWindowSize(window, _width, _height);
+			width = _width;
+			height = _height;
+		}
+
+		/***
+		 * Set window title
+		 */
+		void setWindowTitle(const char* _title) {
+			SDL_SetWindowTitle(window, _title);
+			title = _title;
+		}
+
 
 	private:
 		Application &operator=(const Application &) { return *this; }

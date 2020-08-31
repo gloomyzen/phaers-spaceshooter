@@ -23,6 +23,7 @@ Application &Application::getInstance() {
 Application::Application()
 		: width(TGAME_WINDOW_WIDTH), height(TGAME_WINDOW_HEIGHT), title(TGAME_WINDOW_TITLE), state(stateReady) {
 // TODO get device before set window size
+
 	currentApplication = this;
 
 	LOG_INFO("SDL initialisation");
@@ -45,10 +46,6 @@ Application::Application()
 			LOG_INFO("Window created");
 		}
 
-		/***
-		 * Set window resizable
-		 * TODO move to method setWindowResizable(bool)
-		 */
 		SDL_SetWindowResizable(window, static_cast<SDL_bool>(true));
 
 		renderer = SDL_CreateRenderer(window, -1, render_flag);
