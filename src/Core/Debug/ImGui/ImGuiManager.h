@@ -33,6 +33,9 @@ namespace TGEngine::core::debug {
 		/// Engine info
 		void showEngineInfo(bool *p_open);
 
+		/// Devices list
+		void showDevicesList(bool *p_open);
+
 		/***
 		 * Application properties
 		 */
@@ -44,8 +47,8 @@ namespace TGEngine::core::debug {
 		/***
 		 * Debug button properties
 		 */
-		int debugBtnW = 60;
-		int debugBtnH = 60;
+		int debugBtnW = 65;
+		int debugBtnH = 80;
 
 		/***
 		 * Node editor window
@@ -59,6 +62,12 @@ namespace TGEngine::core::debug {
 		 */
 		int engineInfoW = 300;
 		int engineInfoH = 250;
+
+		/***
+		 * Device list window
+		 */
+		int deviceListW = 300;
+		int devicesListH = 250;
 	};
 }
 

@@ -4,6 +4,7 @@
 #include "Core/Components/TransformComponent.h"
 #include "Core/Components/SpriteComponent.h"
 #include "Core/Debug/Logger.h"
+#include "Core/Devices/DevicesManager.h"
 
 using namespace TGEngine::core;
 using namespace TGEngine::core::debug;
@@ -93,9 +94,11 @@ void ImGuiManager::render() {
 
 	static bool nodeEditorOpened = false;
 	static bool engineInfoOpened = false;
+	static bool devicesListOpened = false;
 
 	if (nodeEditorOpened) showNodeEditor(&nodeEditorOpened);
 	if (engineInfoOpened) showEngineInfo(&engineInfoOpened);
+	if (devicesListOpened) showDevicesList(&devicesListOpened);
 
 	ImGui::SetNextWindowSize(ImVec2(debugBtnW, debugBtnH));
 	ImGui::SetNextWindowPos(
@@ -108,6 +111,9 @@ void ImGuiManager::render() {
 	}
 	if (ImGui::Button("Engine")) {
 		engineInfoOpened = !engineInfoOpened;
+	}
+	if (ImGui::Button("Devices")) {
+		devicesListOpened = !devicesListOpened;
 	}
 	ImGui::End();
 }
@@ -151,6 +157,38 @@ void ImGuiManager::showEngineInfo(bool *engineInfoOpened) {
 	ImGui::PopStyleVar();
 	ImGui::End();
 };
+
+void ImGuiManager::showDevicesList(bool *devicesListOpened) {
+	ImGui::SetNextWindowSize(ImVec2(static_cast<float>(deviceListW), static_cast<float>(devicesListH)),
+							 ImGuiCond_FirstUseEver);
+	if (!ImGui::Begin("Devices list", reinterpret_cast<bool *>(devicesListOpened))) {
+		ImGui::End();
+		return;
+	}
+
+	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(2, 2));
+	//start
+
+	static int test_type = 0;
+	ImGui::Text("Select the required screen resolution to apply.");
+	auto list = GET_DEVICES_MANAGER().getDevicesList();
+	const char* items[list.size()];
+	for (int i = 0; i < list.size(); ++i) {
+		auto item = list[i];
+		std::string text = item->name + " (" + std::to_string(item->width) + "x" + std::to_string(item->height) + ")\0";
+		items[i] = text.c_str();
+	}
+	ImGui::Combo("Device resolution", &test_type,
+				 "Single call to TextUnformatted()\0"
+				 "Multiple calls to Text(), clipped\0"
+	 			"Multiple calls to Text(), not clipped (slow)\0");
+
+
+
+	//end
+	ImGui::PopStyleVar();
+	ImGui::End();
+}
 
 void ImGuiManager::showNodeEditor(bool *nodeEditorOpened) {
 	ImGui::SetNextWindowSize(ImVec2(static_cast<float>(nodeEditorW), static_cast<float>(nodeEditorH)),
