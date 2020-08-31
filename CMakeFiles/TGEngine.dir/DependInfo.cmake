@@ -9,6 +9,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/runner/work/tgengine/tgengine/src/Core/Debug/ImGui/ImGuiManager.cpp" "/home/runner/work/tgengine/tgengine/build/CMakeFiles/TGEngine.dir/src/Core/Debug/ImGui/ImGuiManager.cpp.o"
   "/home/runner/work/tgengine/tgengine/src/Core/Debug/ImGui/SDLImplements/imgui_sdl.cpp" "/home/runner/work/tgengine/tgengine/build/CMakeFiles/TGEngine.dir/src/Core/Debug/ImGui/SDLImplements/imgui_sdl.cpp.o"
   "/home/runner/work/tgengine/tgengine/src/Core/Debug/Logger.cpp" "/home/runner/work/tgengine/tgengine/build/CMakeFiles/TGEngine.dir/src/Core/Debug/Logger.cpp.o"
+  "/home/runner/work/tgengine/tgengine/src/Core/Devices/DevicesManager.cpp" "/home/runner/work/tgengine/tgengine/build/CMakeFiles/TGEngine.dir/src/Core/Devices/DevicesManager.cpp.o"
   "/home/runner/work/tgengine/tgengine/src/Core/GameApplication.cpp" "/home/runner/work/tgengine/tgengine/build/CMakeFiles/TGEngine.dir/src/Core/GameApplication.cpp.o"
   "/home/runner/work/tgengine/tgengine/src/Core/Nodes/Node.cpp" "/home/runner/work/tgengine/tgengine/build/CMakeFiles/TGEngine.dir/src/Core/Nodes/Node.cpp.o"
   "/home/runner/work/tgengine/tgengine/src/Core/Nodes/NodeFactory.cpp" "/home/runner/work/tgengine/tgengine/build/CMakeFiles/TGEngine.dir/src/Core/Nodes/NodeFactory.cpp.o"

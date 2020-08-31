@@ -384,6 +384,33 @@ src/Core/Debug/Logger.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/TGEngine.dir/build.make CMakeFiles/TGEngine.dir/src/Core/Debug/Logger.cpp.s
 .PHONY : src/Core/Debug/Logger.cpp.s
 
+src/Core/Devices/DevicesManager.o: src/Core/Devices/DevicesManager.cpp.o
+
+.PHONY : src/Core/Devices/DevicesManager.o
+
+# target to build an object file
+src/Core/Devices/DevicesManager.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TGEngine.dir/build.make CMakeFiles/TGEngine.dir/src/Core/Devices/DevicesManager.cpp.o
+.PHONY : src/Core/Devices/DevicesManager.cpp.o
+
+src/Core/Devices/DevicesManager.i: src/Core/Devices/DevicesManager.cpp.i
+
+.PHONY : src/Core/Devices/DevicesManager.i
+
+# target to preprocess a source file
+src/Core/Devices/DevicesManager.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TGEngine.dir/build.make CMakeFiles/TGEngine.dir/src/Core/Devices/DevicesManager.cpp.i
+.PHONY : src/Core/Devices/DevicesManager.cpp.i
+
+src/Core/Devices/DevicesManager.s: src/Core/Devices/DevicesManager.cpp.s
+
+.PHONY : src/Core/Devices/DevicesManager.s
+
+# target to generate assembly for a file
+src/Core/Devices/DevicesManager.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TGEngine.dir/build.make CMakeFiles/TGEngine.dir/src/Core/Devices/DevicesManager.cpp.s
+.PHONY : src/Core/Devices/DevicesManager.cpp.s
+
 src/Core/GameApplication.o: src/Core/GameApplication.cpp.o
 
 .PHONY : src/Core/GameApplication.o
@@ -689,6 +716,9 @@ help:
 	@echo "... src/Core/Debug/Logger.o"
 	@echo "... src/Core/Debug/Logger.i"
 	@echo "... src/Core/Debug/Logger.s"
+	@echo "... src/Core/Devices/DevicesManager.o"
+	@echo "... src/Core/Devices/DevicesManager.i"
+	@echo "... src/Core/Devices/DevicesManager.s"
 	@echo "... src/Core/GameApplication.o"
 	@echo "... src/Core/GameApplication.i"
 	@echo "... src/Core/GameApplication.s"

@@ -107,6 +107,9 @@ CMakeFiles/TGEngine.dir/src/Core/Debug/ImGui/SDLImplements/imgui_sdl.cpp.o: ../s
 CMakeFiles/TGEngine.dir/src/Core/Debug/Logger.cpp.o: ../src/Core/Debug/Logger.cpp
 CMakeFiles/TGEngine.dir/src/Core/Debug/Logger.cpp.o: ../src/Core/Debug/Logger.h
 
+CMakeFiles/TGEngine.dir/src/Core/Devices/DevicesManager.cpp.o: ../src/Core/Devices/DevicesManager.cpp
+CMakeFiles/TGEngine.dir/src/Core/Devices/DevicesManager.cpp.o: ../src/Core/Devices/DevicesManager.h
+
 CMakeFiles/TGEngine.dir/src/Core/GameApplication.cpp.o: ../lib/imgui/imconfig.h
 CMakeFiles/TGEngine.dir/src/Core/GameApplication.cpp.o: ../lib/imgui/imgui.h
 CMakeFiles/TGEngine.dir/src/Core/GameApplication.cpp.o: ../lib/imgui/imgui_internal.h

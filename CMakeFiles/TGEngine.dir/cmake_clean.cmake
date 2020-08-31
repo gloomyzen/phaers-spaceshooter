@@ -4,6 +4,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/TGEngine.dir/src/Core/Debug/ImGui/ImGuiManager.cpp.o"
   "CMakeFiles/TGEngine.dir/src/Core/Debug/ImGui/SDLImplements/imgui_sdl.cpp.o"
   "CMakeFiles/TGEngine.dir/src/Core/Debug/Logger.cpp.o"
+  "CMakeFiles/TGEngine.dir/src/Core/Devices/DevicesManager.cpp.o"
   "CMakeFiles/TGEngine.dir/src/Core/GameApplication.cpp.o"
   "CMakeFiles/TGEngine.dir/src/Core/Nodes/Node.cpp.o"
   "CMakeFiles/TGEngine.dir/src/Core/Nodes/NodeFactory.cpp.o"

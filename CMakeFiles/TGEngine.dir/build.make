@@ -272,6 +272,20 @@ CMakeFiles/TGEngine.dir/src/Game/StateModule/StateManager.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/TGEngine.dir/src/Game/StateModule/StateManager.cpp.s"
 	/home/runner/bin/emsdk/upstream/emscripten/em++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/runner/work/tgengine/tgengine/src/Game/StateModule/StateManager.cpp -o CMakeFiles/TGEngine.dir/src/Game/StateModule/StateManager.cpp.s
 
+CMakeFiles/TGEngine.dir/src/Core/Devices/DevicesManager.cpp.o: CMakeFiles/TGEngine.dir/flags.make
+CMakeFiles/TGEngine.dir/src/Core/Devices/DevicesManager.cpp.o: CMakeFiles/TGEngine.dir/includes_CXX.rsp
+CMakeFiles/TGEngine.dir/src/Core/Devices/DevicesManager.cpp.o: ../src/Core/Devices/DevicesManager.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/runner/work/tgengine/tgengine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/TGEngine.dir/src/Core/Devices/DevicesManager.cpp.o"
+	/home/runner/bin/emsdk/upstream/emscripten/em++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/TGEngine.dir/src/Core/Devices/DevicesManager.cpp.o -c /home/runner/work/tgengine/tgengine/src/Core/Devices/DevicesManager.cpp
+
+CMakeFiles/TGEngine.dir/src/Core/Devices/DevicesManager.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/TGEngine.dir/src/Core/Devices/DevicesManager.cpp.i"
+	/home/runner/bin/emsdk/upstream/emscripten/em++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/runner/work/tgengine/tgengine/src/Core/Devices/DevicesManager.cpp > CMakeFiles/TGEngine.dir/src/Core/Devices/DevicesManager.cpp.i
+
+CMakeFiles/TGEngine.dir/src/Core/Devices/DevicesManager.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/TGEngine.dir/src/Core/Devices/DevicesManager.cpp.s"
+	/home/runner/bin/emsdk/upstream/emscripten/em++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/runner/work/tgengine/tgengine/src/Core/Devices/DevicesManager.cpp -o CMakeFiles/TGEngine.dir/src/Core/Devices/DevicesManager.cpp.s
+
 # Object files for target TGEngine
 TGEngine_OBJECTS = \
 "CMakeFiles/TGEngine.dir/src/Core/Debug/Logger.cpp.o" \
@@ -287,7 +301,8 @@ TGEngine_OBJECTS = \
 "CMakeFiles/TGEngine.dir/src/Core/ResourceModule/Loaders/TextureManager.cpp.o" \
 "CMakeFiles/TGEngine.dir/src/Core/ResourceModule/Loaders/JsonLoader.cpp.o" \
 "CMakeFiles/TGEngine.dir/src/Game/Interface/InterfaceModule.cpp.o" \
-"CMakeFiles/TGEngine.dir/src/Game/StateModule/StateManager.cpp.o"
+"CMakeFiles/TGEngine.dir/src/Game/StateModule/StateManager.cpp.o" \
+"CMakeFiles/TGEngine.dir/src/Core/Devices/DevicesManager.cpp.o"
 
 # External object files for target TGEngine
 TGEngine_EXTERNAL_OBJECTS =
@@ -306,9 +321,10 @@ libTGEngine_emscripten.bc: CMakeFiles/TGEngine.dir/src/Core/ResourceModule/Loade
 libTGEngine_emscripten.bc: CMakeFiles/TGEngine.dir/src/Core/ResourceModule/Loaders/JsonLoader.cpp.o
 libTGEngine_emscripten.bc: CMakeFiles/TGEngine.dir/src/Game/Interface/InterfaceModule.cpp.o
 libTGEngine_emscripten.bc: CMakeFiles/TGEngine.dir/src/Game/StateModule/StateManager.cpp.o
+libTGEngine_emscripten.bc: CMakeFiles/TGEngine.dir/src/Core/Devices/DevicesManager.cpp.o
 libTGEngine_emscripten.bc: CMakeFiles/TGEngine.dir/build.make
 libTGEngine_emscripten.bc: CMakeFiles/TGEngine.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/runner/work/tgengine/tgengine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Linking CXX static library libTGEngine_emscripten.bc"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/runner/work/tgengine/tgengine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Linking CXX static library libTGEngine_emscripten.bc"
 	$(CMAKE_COMMAND) -P CMakeFiles/TGEngine.dir/cmake_clean_target.cmake
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/TGEngine.dir/link.txt --verbose=$(VERBOSE)
 
