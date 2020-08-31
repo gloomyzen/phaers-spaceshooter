@@ -8,18 +8,19 @@
 
 namespace TGEngine::core {
 
-    enum eNodeFactory : size_t {
-        TRANSFORM_COMPONENT,
-        SPRITE_COMPONENT,
-        ANIMSPRITE_COMPONENT,
-    };
+	enum eNodeFactory : size_t {
+		TRANSFORM_COMPONENT,
+		SPRITE_COMPONENT,
+		ANIMSPRITE_COMPONENT,
+	};
 
-    class NodeFactory {
-    public:
-        static void getComponents(Node *node, const std::string &componentName, const rapidjson::GenericValue<rapidjson::UTF8<char>>::Object &object);
+	class NodeFactory {
+	public:
+		static void getComponents(Node *node, const std::string &componentName,
+								  const rapidjson::GenericValue<rapidjson::UTF8<char>>::Object &object);
 
-        static bool hasRegisteredComponent(const std::string &componentName);
-    };
+		static bool hasRegisteredComponent(const std::string &componentName);
+	};
 
 }// namespace TGEngine::core
 

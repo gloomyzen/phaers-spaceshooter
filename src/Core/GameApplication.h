@@ -7,22 +7,17 @@
 
 namespace TGEngine::core {
 
-    class GameApplication : public Application {
-    public:
-        GameApplication();
+	class GameApplication : public Application {
+	public:
+		GameApplication();
+		~GameApplication();
 
-        ~GameApplication();
-
-        void Init();
-
-        void ProcessInput();
-
-        void Update();
-
-        void Render();
-
-        void PostRender();
-    };
+		void Init();
+		void ProcessInput();
+		void Update();
+		void Render();
+		void PostRender();
+	};
 
 }
 

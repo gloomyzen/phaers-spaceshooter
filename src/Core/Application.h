@@ -9,106 +9,106 @@
 
 namespace TGEngine::core {
 
-    class Application {
-    public:
-        Application();
+	class Application {
+	public:
+		Application();
 
-        virtual ~Application() {};
+		virtual ~Application() {};
 
-        virtual void Init() {};
+		virtual void Init() {};
 
-        virtual void ProcessInput() {};
+		virtual void ProcessInput() {};
 
-        virtual void Update() {};
+		virtual void Update() {};
 
-        virtual void Render() {};
+		virtual void Render() {};
 
-        virtual void PostRender() {};
+		virtual void PostRender() {};
 
 
-        static Application &getInstance();
+		static Application &getInstance();
 
-        // get the window
-        SDL_Window *getWindow();
+		// get the window
+		SDL_Window *getWindow();
 
-        // get the renderer
-        SDL_Renderer *getRenderer();
+		// get the renderer
+		SDL_Renderer *getRenderer();
 
-        // get the input events
-        SDL_Event &getEvents();
+		// get the input events
+		SDL_Event &getEvents();
 
-        // window control
-        void exit();
+		// window control
+		void exit();
 
-        // application run
-        void run();
+		// application run
+		void run();
 
-        // Application informations
-        [[maybe_unused]] int getWidth() const;
+		// Application informations
+		[[maybe_unused]] int getWidth() const;
 
-        [[maybe_unused]] int getHeight() const;
+		[[maybe_unused]] int getHeight() const;
 
-        [[maybe_unused]] float getWindowRatio() const;
+		[[maybe_unused]] float getWindowRatio() const;
 
-        [[maybe_unused]] bool windowDimensionChanged() const;
+		[[maybe_unused]] bool windowDimensionChanged() const;
 
-        [[maybe_unused]] std::tuple<int, int, float> GetWindowResolution();
+		[[maybe_unused]] std::tuple<int, int, float> GetWindowResolution();
 
-        bool isEmscripten();
+		bool isEmscripten();
 
-        float getDeltaTime() {
-            return deltaTime;
-        }
+		float getDeltaTime() {
+			return deltaTime;
+		}
 
-        void changeFps(int _fps) {
-            FPS = _fps;
-            frameDelay = 1000.f / static_cast<float>(FPS);
-        }
+		void changeFps(int _fps) {
+			FPS = _fps;
+			frameDelay = 1000.f / static_cast<float>(FPS);
+		}
 
-        void changeFrameDelay(float _frameDelay) {
-            frameDelay = _frameDelay;
-        }
+		void changeFrameDelay(float _frameDelay) {
+			frameDelay = _frameDelay;
+		}
 
-        int &getFps() { return FPS; }
+		int &getFps() { return FPS; }
 
-        float &getFrameDelay() { return frameDelay; }
+		float &getFrameDelay() { return frameDelay; }
 
-    private:
-        Application &operator=(const Application &) { return *this; }
+	private:
+		Application &operator=(const Application &) { return *this; }
 
-        SDL_Window *window = nullptr;
-        SDL_Renderer *renderer = nullptr;
-        SDL_Event event;
+		SDL_Window *window = nullptr;
+		SDL_Renderer *renderer = nullptr;
+		SDL_Event event;
 
-        void renderDrawColor();
+		void renderDrawColor();
 
-        // Time:
-        int FPS = 60;
-        float frameDelay = 1000.f / static_cast<float>(FPS);
-        Uint32 frameStart;
-        float deltaTime;
+		// Time:
+		int FPS = 60;
+		float frameDelay = 1000.f / static_cast<float>(FPS);
+		Uint32 frameStart;
+		float deltaTime;
 
-        // Dimensions:
-        int width;
-        int height;
-        bool dimensionChanged;
+		// Dimensions:
+		int width;
+		int height;
+		bool dimensionChanged;
 
-        void detectWindowDimensionChange();
+		void detectWindowDimensionChange();
 
-        // Runtime env
-        bool emscripten;
+		// Runtime env
+		bool emscripten;
 
-    protected:
-        Application(const Application &) {};
+	protected:
+		Application(const Application &) {};
 
-        std::string title;
+		std::string title;
 
-        enum State {
-            stateReady, stateRun, stateExit
-        };
+		enum State {
+			stateReady, stateRun, stateExit
+		};
 
-        State state;
-    };
+		State state;
+	};
 
 }
 

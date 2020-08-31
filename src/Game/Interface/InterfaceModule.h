@@ -3,11 +3,10 @@
 
 namespace TGEngine::game {
 
-class InterfaceModule
-{
-public:
-private:
-};
+	class InterfaceModule {
+	public:
+	private:
+	};
 
 }//TGEngine::game
 

@@ -8,26 +8,28 @@
 
 namespace TGEngine::game {
 
-    enum eStateType {
-        MAIN_MENU,
-        GAME,
-        PAUSE_MENU
-    };
+	enum eStateType {
+		MAIN_MENU,
+		GAME,
+		PAUSE_MENU
+	};
 
-    class StateManager {
-    public:
-        StateManager();
-        ~StateManager();
-        void registerState(eStateType, std::function<bool()>);
-        void changeState(eStateType);
-    private:
-        std::map<eStateType, std::function<bool()>> stateMap;
-    };
+	class StateManager {
+	public:
+		StateManager();
+		~StateManager();
 
-    class StateManagerInstance {
-    public:
-        static StateManager &getInstance();
-    };
+		void registerState(eStateType, std::function<bool()>);
+		void changeState(eStateType);
+
+	private:
+		std::map<eStateType, std::function<bool()>> stateMap;
+	};
+
+	class StateManagerInstance {
+	public:
+		static StateManager &getInstance();
+	};
 
 }//TGEngine::game
 

@@ -13,47 +13,47 @@
 
 namespace TGEngine::core {
 
-    enum eLogTypes : size_t {
-        INFO, WARNING, ERROR
-    };
+	enum eLogTypes : size_t {
+		INFO, WARNING, ERROR
+	};
 
-    struct sLogMessage {
-        eLogTypes type;
-        std::string message;
+	struct sLogMessage {
+		eLogTypes type;
+		std::string message;
 
-        sLogMessage(eLogTypes _type, std::string _message) {
-            type = _type;
-            message = _message;
-        }
-    };
+		sLogMessage(eLogTypes _type, std::string _message) {
+			type = _type;
+			message = _message;
+		}
+	};
 
 /***
  * Данный класс нужен для логирования исключительных событий
  */
-    class Logger {
-    public:
-        void info(const std::string &message);
+	class Logger {
+	public:
+		void info(const std::string &message);
 
-        void warning(const std::string &message);
+		void warning(const std::string &message);
 
-        void error(const std::string &message);
+		void error(const std::string &message);
 
-    private:
-        /**
-         * Получение префикса типа события
-         * @return std::string
-         */
-        std::string getType(const eLogTypes&);
+	private:
+		/**
+		 * Получение префикса типа события
+		 * @return std::string
+		 */
+		std::string getType(const eLogTypes &);
 
-        void addLogMessage(sLogMessage *);
+		void addLogMessage(sLogMessage *);
 
-        std::vector<sLogMessage *> log{};
-    };
+		std::vector<sLogMessage *> log{};
+	};
 
-    class LoggerInstance {
-    public:
-        static Logger &getInstance();
-    };
+	class LoggerInstance {
+	public:
+		static Logger &getInstance();
+	};
 
 }//TGEngine::core
 

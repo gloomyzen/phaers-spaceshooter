@@ -11,20 +11,20 @@
 
 namespace TGEngine::core {
 
-    class JsonLoader {
-    public:
-        JsonLoader();
+	class JsonLoader {
+	public:
+		JsonLoader();
 
-        ~JsonLoader();
+		~JsonLoader();
 
-        /**
-         * Method for load unparsed json, as is, with is object check
-         * @param path Path to json in resources folder
-         * @param prefix @only for gtest
-         * @return rapidjson::Document
-         */
-        rapidjson::Document loadJson(const std::string &path, const std::string &prefix = "");
-    };
+		/**
+		 * Method for load unparsed json, as is, with is object check
+		 * @param path Path to json in resources folder
+		 * @param prefix @only for gtest
+		 * @return rapidjson::Document
+		 */
+		rapidjson::Document loadJson(const std::string &path, const std::string &prefix = "");
+	};
 
 }// namespace TGEngine::core
 

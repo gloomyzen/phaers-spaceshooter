@@ -15,19 +15,19 @@
 
 namespace TGEngine::core {
 
-    class ResourceManager {
-    public:
-        ResourceManager();
-        ~ResourceManager();
+	class ResourceManager {
+	public:
+		ResourceManager();
+		~ResourceManager();
 
-        static ResourceManager &getInstance();
+		static ResourceManager &getInstance();
 
-        TextureManager* getTextureManager();
-        JsonLoader* getJsonLoader();
+		TextureManager *getTextureManager();
+		JsonLoader* getJsonLoader();
 
-    private:
-        TextureManager textureManagerInstance;
-        JsonLoader jsonLoaderInstance;
+	private:
+		TextureManager textureManagerInstance;
+		JsonLoader jsonLoaderInstance;
     };
 
 }

@@ -13,17 +13,18 @@
 
 namespace TGEngine::core {
 
-    class NodeManagerInstance {
-    public:
-        static NodeManagerInstance &getInstance();
-        unsigned int getNextUid() {
-            return nextUid++;
-        }
-        Node* getRoot() { return rootNode; }
-    private:
-        unsigned int nextUid = 0u;
-        Node* rootNode = nullptr;
-    };
+	class NodeManagerInstance {
+	public:
+		static NodeManagerInstance &getInstance();
+		unsigned int getNextUid() {
+			return nextUid++;
+		}
+		Node *getRoot() { return rootNode; }
+
+	private:
+		unsigned int nextUid = 0u;
+		Node *rootNode = nullptr;
+	};
 
 }// namespace TGEngine::core
 

@@ -8,22 +8,22 @@ namespace TGEngine::core {
 
 //TODO class incomplete!
 
-    class CameraComponent : public Component {
-        TransformComponent *position;
-        TransformComponent *target;
+	class CameraComponent : public Component {
+		TransformComponent *position;
+		TransformComponent *target;
 
-        CameraComponent();
+		CameraComponent();
 
-        void init() override {
-            //Setup variables
-        }
+		void init() override {
+			//Setup variables
+		}
 
-        void update() override {
-            //change coordinates, like this
-        }
+		void update() override {
+			//change coordinates, like this
+		}
 
-        void render() override {}
-    };
+		void render() override {}
+	};
 
 }//TGEngine::core
 
