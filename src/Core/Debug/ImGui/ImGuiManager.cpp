@@ -37,9 +37,9 @@ void ImGuiManager::destroyContext() {
 
 void ImGuiManager::changeDimension() {
 	ImGuiIO &changeIO = ImGui::GetIO();
-	changeIO.DisplaySize.x = static_cast<float>(GET_APPLICATION().getEvents().window.data1);
-	changeIO.DisplaySize.y = static_cast<float>(GET_APPLICATION().getEvents().window.data2);
 	auto[width, height, dpi] = GET_APPLICATION().GetWindowResolution();
+	changeIO.DisplaySize.x = static_cast<float>(width);
+	changeIO.DisplaySize.y = static_cast<float>(height);
 	windowWidth = width;
 	windowHeight = height;
 	windowDpi = dpi;
@@ -99,7 +99,7 @@ void ImGuiManager::render() {
 
 	ImGui::SetNextWindowSize(ImVec2(debugBtnW, debugBtnH));
 	ImGui::SetNextWindowPos(
-			ImVec2(static_cast<float>(windowWidth) / windowDpi - static_cast<float>(debugBtnW) - 50, 50),
+			ImVec2(50, 50),
 			ImGuiCond_FirstUseEver);
 	ImGuiWindowFlags debugWindowFlags = ImGuiWindowFlags_NoResize;
 	ImGui::Begin("Menu", nullptr, debugWindowFlags);
@@ -123,7 +123,9 @@ void ImGuiManager::showEngineInfo(bool *engineInfoOpened) {
 	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(2, 2));
 	//start
 #ifdef PROJECT_VERSION
-	ImGui::Text("Engine version: %s", "PROJECT_VERSION");
+	std::string version = "";
+	version = PROJECT_VERSION;
+	ImGui::Text("Engine version: %s", version.c_str());
 #else
 	ImGui::Text("Engine version: %s", "Not defined");
 #endif
