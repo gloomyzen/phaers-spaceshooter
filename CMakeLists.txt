@@ -1,11 +1,9 @@
 #------------------------------------------------------------------------------
 # External dependencies and external project flags:
 #------------------------------------------------------------------------------
-# ID NAME           FLAG FOR EXTERNAL USE       TARGET NAME FOR EXTERNAL PACKAGE
-# 1. ImGui          FLAG_EXTERNAL_IMGUI         imgui_ext_target
-# 2. RapidJson      FLAG_EXTERNAL_RAPIDJSON     rapidjson_ext_target
-# 3. BuildExamples  FLAG_BUILD_EXAMPLES         @ flag for build examples
-# 4. BuildTests     FLAG_BUILD_TESTS            @ flag for build tests
+# ID NAME           FLAG FOR EXTERNAL USE       Description
+# 1. BuildExamples  FLAG_BUILD_EXAMPLES         @ flag for build examples
+# 2. BuildTests     FLAG_BUILD_TESTS            @ flag for build tests
 #------------------------------------------------------------------------------
 #                       General Projects Settings
 #------------------------------------------------------------------------------
@@ -125,39 +123,36 @@ endif ()
 #------------------------------------------------------------------------------
 #                        ImGui, included for debugging only
 #------------------------------------------------------------------------------
-if (NOT FLAG_EXTERNAL_IMGUI)
-    if (NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/lib/imgui/imgui.cpp)
-        message(FATAL_ERROR "ImGui not found, download lib/imgui or use 'git submodules update'.")
-    endif()
-    include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/ImGui.cmake)
-    if(IMGUI_ENABLED)
-        add_definitions(-DIMGUI_ENABLED) # <- new cast definition
-        target_link_libraries(${PROJECT_NAME} PRIVATE imgui_target)
-    endif()
-elseif(FLAG_EXTERNAL_IMGUI)
-    # Using external imgui_ext_target
-    if(IMGUI_ENABLED)
-        add_definitions(-DIMGUI_ENABLED) # <- new cast definition
-        target_link_libraries(${PROJECT_NAME} PRIVATE imgui_ext_target)
-    endif()
+if (NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/lib/imgui/imgui.cpp)
+    message(FATAL_ERROR "ImGui not found, download lib/imgui or use 'git submodules update'.")
+endif()
+include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/ImGui.cmake)
+if(IMGUI_ENABLED)
+    add_definitions(-DIMGUI_ENABLED) # <- new cast definition
+    target_link_libraries(${PROJECT_NAME} PRIVATE imgui_target)
 endif()
 
 #------------------------------------------------------------------------------
 #                               Rapidjson
 #------------------------------------------------------------------------------
-if (NOT FLAG_EXTERNAL_RAPIDJSON)
-    if (NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/lib/rapidjson/include)
-        message(FATAL_ERROR "Rapidjson not found, download lib/rapidjson or use 'git submodules update'.")
-    endif()
-    add_library(rapidjson_target INTERFACE)
-    target_include_directories(rapidjson_target INTERFACE
-            $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib/rapidjson/include>
-            )
-    target_link_libraries(${PROJECT_NAME} PUBLIC rapidjson_target)
-elseif(FLAG_EXTERNAL_RAPIDJSON)
-    # Using external rapidjson_ext_target
-    target_link_libraries(${PROJECT_NAME} PUBLIC rapidjson_target)
+if (NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/lib/rapidjson/include)
+    message(FATAL_ERROR "Rapidjson not found, download lib/rapidjson or use 'git submodules update'.")
 endif()
+add_library(rapidjson_target INTERFACE)
+target_include_directories(rapidjson_target INTERFACE
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib/rapidjson/include>
+        )
+target_link_libraries(${PROJECT_NAME} PUBLIC rapidjson_target)
+
+#------------------------------------------------------------------------------
+#                               DragonBones
+#------------------------------------------------------------------------------
+if (NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/lib/dragonBones/DragonBones)
+    message(FATAL_ERROR "DragonBones not found, download lib/dragonBones or use 'git submodules update'.")
+endif()
+include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/DragonBones.cmake)
+target_link_libraries(dragonbones_target PRIVATE rapidjson_target)
+target_link_libraries(${PROJECT_NAME} PRIVATE dragonbones_target)
 
 #------------------------------------------------------------------------------
 #                                   SDL2
