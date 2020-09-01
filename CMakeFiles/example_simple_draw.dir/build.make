@@ -101,6 +101,7 @@ example_simple_draw/main.js: CMakeFiles/example_simple_draw.dir/src/main.cpp.o
 example_simple_draw/main.js: CMakeFiles/example_simple_draw.dir/build.make
 example_simple_draw/main.js: libTGEngine_emscripten.bc
 example_simple_draw/main.js: libimgui_target.a
+example_simple_draw/main.js: libdragonbones_target.a
 example_simple_draw/main.js: CMakeFiles/example_simple_draw.dir/linklibs.rsp
 example_simple_draw/main.js: CMakeFiles/example_simple_draw.dir/objects1.rsp
 example_simple_draw/main.js: CMakeFiles/example_simple_draw.dir/link.txt

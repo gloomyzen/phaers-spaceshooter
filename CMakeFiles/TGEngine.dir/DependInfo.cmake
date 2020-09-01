@@ -35,11 +35,13 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "../src"
   "../lib/imgui"
   "../lib/rapidjson/include"
+  "../lib/dragonBones/DragonBones/src"
   )
 
 # Targets to which this target links.
 set(CMAKE_TARGET_LINKED_INFO_FILES
   "/home/runner/work/tgengine/tgengine/build/CMakeFiles/imgui_target.dir/DependInfo.cmake"
+  "/home/runner/work/tgengine/tgengine/build/CMakeFiles/dragonbones_target.dir/DependInfo.cmake"
   )
 
 # Fortran module output directory.

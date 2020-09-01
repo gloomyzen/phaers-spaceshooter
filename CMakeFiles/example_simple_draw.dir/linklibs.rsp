@@ -1,1 +1,1 @@
- libTGEngine_emscripten.bc libimgui_target.a 
+ libTGEngine_emscripten.bc libimgui_target.a libdragonbones_target.a 

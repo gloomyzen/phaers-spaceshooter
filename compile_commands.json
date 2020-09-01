@@ -6,6 +6,161 @@
 },
 {
   "directory": "/home/runner/work/tgengine/tgengine/build",
+  "command": "/home/runner/bin/emsdk/upstream/emscripten/em++ -DDEBUG=1 -DEMSCRIPTEN=1 -DIMGUI_ENABLED -DPROJECT_VERSION=\\\"0.1\\\" @CMakeFiles/dragonbones_target.dir/includes_CXX.rsp  -s USE_SDL=2 -s USE_SDL_IMAGE=2  -s ASSERTIONS=1 -s LLD_REPORT_UNDEFINED=1 -g -Wall -std=gnu++17 -o CMakeFiles/dragonbones_target.dir/lib/dragonBones/DragonBones/src/dragonBones/animation/Animation.cpp.o -c /home/runner/work/tgengine/tgengine/lib/dragonBones/DragonBones/src/dragonBones/animation/Animation.cpp",
+  "file": "/home/runner/work/tgengine/tgengine/lib/dragonBones/DragonBones/src/dragonBones/animation/Animation.cpp"
+},
+{
+  "directory": "/home/runner/work/tgengine/tgengine/build",
+  "command": "/home/runner/bin/emsdk/upstream/emscripten/em++ -DDEBUG=1 -DEMSCRIPTEN=1 -DIMGUI_ENABLED -DPROJECT_VERSION=\\\"0.1\\\" @CMakeFiles/dragonbones_target.dir/includes_CXX.rsp  -s USE_SDL=2 -s USE_SDL_IMAGE=2  -s ASSERTIONS=1 -s LLD_REPORT_UNDEFINED=1 -g -Wall -std=gnu++17 -o CMakeFiles/dragonbones_target.dir/lib/dragonBones/DragonBones/src/dragonBones/animation/AnimationState.cpp.o -c /home/runner/work/tgengine/tgengine/lib/dragonBones/DragonBones/src/dragonBones/animation/AnimationState.cpp",
+  "file": "/home/runner/work/tgengine/tgengine/lib/dragonBones/DragonBones/src/dragonBones/animation/AnimationState.cpp"
+},
+{
+  "directory": "/home/runner/work/tgengine/tgengine/build",
+  "command": "/home/runner/bin/emsdk/upstream/emscripten/em++ -DDEBUG=1 -DEMSCRIPTEN=1 -DIMGUI_ENABLED -DPROJECT_VERSION=\\\"0.1\\\" @CMakeFiles/dragonbones_target.dir/includes_CXX.rsp  -s USE_SDL=2 -s USE_SDL_IMAGE=2  -s ASSERTIONS=1 -s LLD_REPORT_UNDEFINED=1 -g -Wall -std=gnu++17 -o CMakeFiles/dragonbones_target.dir/lib/dragonBones/DragonBones/src/dragonBones/animation/BaseTimelineState.cpp.o -c /home/runner/work/tgengine/tgengine/lib/dragonBones/DragonBones/src/dragonBones/animation/BaseTimelineState.cpp",
+  "file": "/home/runner/work/tgengine/tgengine/lib/dragonBones/DragonBones/src/dragonBones/animation/BaseTimelineState.cpp"
+},
+{
+  "directory": "/home/runner/work/tgengine/tgengine/build",
+  "command": "/home/runner/bin/emsdk/upstream/emscripten/em++ -DDEBUG=1 -DEMSCRIPTEN=1 -DIMGUI_ENABLED -DPROJECT_VERSION=\\\"0.1\\\" @CMakeFiles/dragonbones_target.dir/includes_CXX.rsp  -s USE_SDL=2 -s USE_SDL_IMAGE=2  -s ASSERTIONS=1 -s LLD_REPORT_UNDEFINED=1 -g -Wall -std=gnu++17 -o CMakeFiles/dragonbones_target.dir/lib/dragonBones/DragonBones/src/dragonBones/animation/TimelineState.cpp.o -c /home/runner/work/tgengine/tgengine/lib/dragonBones/DragonBones/src/dragonBones/animation/TimelineState.cpp",
+  "file": "/home/runner/work/tgengine/tgengine/lib/dragonBones/DragonBones/src/dragonBones/animation/TimelineState.cpp"
+},
+{
+  "directory": "/home/runner/work/tgengine/tgengine/build",
+  "command": "/home/runner/bin/emsdk/upstream/emscripten/em++ -DDEBUG=1 -DEMSCRIPTEN=1 -DIMGUI_ENABLED -DPROJECT_VERSION=\\\"0.1\\\" @CMakeFiles/dragonbones_target.dir/includes_CXX.rsp  -s USE_SDL=2 -s USE_SDL_IMAGE=2  -s ASSERTIONS=1 -s LLD_REPORT_UNDEFINED=1 -g -Wall -std=gnu++17 -o CMakeFiles/dragonbones_target.dir/lib/dragonBones/DragonBones/src/dragonBones/animation/WorldClock.cpp.o -c /home/runner/work/tgengine/tgengine/lib/dragonBones/DragonBones/src/dragonBones/animation/WorldClock.cpp",
+  "file": "/home/runner/work/tgengine/tgengine/lib/dragonBones/DragonBones/src/dragonBones/animation/WorldClock.cpp"
+},
+{
+  "directory": "/home/runner/work/tgengine/tgengine/build",
+  "command": "/home/runner/bin/emsdk/upstream/emscripten/em++ -DDEBUG=1 -DEMSCRIPTEN=1 -DIMGUI_ENABLED -DPROJECT_VERSION=\\\"0.1\\\" @CMakeFiles/dragonbones_target.dir/includes_CXX.rsp  -s USE_SDL=2 -s USE_SDL_IMAGE=2  -s ASSERTIONS=1 -s LLD_REPORT_UNDEFINED=1 -g -Wall -std=gnu++17 -o CMakeFiles/dragonbones_target.dir/lib/dragonBones/DragonBones/src/dragonBones/armature/Armature.cpp.o -c /home/runner/work/tgengine/tgengine/lib/dragonBones/DragonBones/src/dragonBones/armature/Armature.cpp",
+  "file": "/home/runner/work/tgengine/tgengine/lib/dragonBones/DragonBones/src/dragonBones/armature/Armature.cpp"
+},
+{
+  "directory": "/home/runner/work/tgengine/tgengine/build",
+  "command": "/home/runner/bin/emsdk/upstream/emscripten/em++ -DDEBUG=1 -DEMSCRIPTEN=1 -DIMGUI_ENABLED -DPROJECT_VERSION=\\\"0.1\\\" @CMakeFiles/dragonbones_target.dir/includes_CXX.rsp  -s USE_SDL=2 -s USE_SDL_IMAGE=2  -s ASSERTIONS=1 -s LLD_REPORT_UNDEFINED=1 -g -Wall -std=gnu++17 -o CMakeFiles/dragonbones_target.dir/lib/dragonBones/DragonBones/src/dragonBones/armature/Bone.cpp.o -c /home/runner/work/tgengine/tgengine/lib/dragonBones/DragonBones/src/dragonBones/armature/Bone.cpp",
+  "file": "/home/runner/work/tgengine/tgengine/lib/dragonBones/DragonBones/src/dragonBones/armature/Bone.cpp"
+},
+{
+  "directory": "/home/runner/work/tgengine/tgengine/build",
+  "command": "/home/runner/bin/emsdk/upstream/emscripten/em++ -DDEBUG=1 -DEMSCRIPTEN=1 -DIMGUI_ENABLED -DPROJECT_VERSION=\\\"0.1\\\" @CMakeFiles/dragonbones_target.dir/includes_CXX.rsp  -s USE_SDL=2 -s USE_SDL_IMAGE=2  -s ASSERTIONS=1 -s LLD_REPORT_UNDEFINED=1 -g -Wall -std=gnu++17 -o CMakeFiles/dragonbones_target.dir/lib/dragonBones/DragonBones/src/dragonBones/armature/Constraint.cpp.o -c /home/runner/work/tgengine/tgengine/lib/dragonBones/DragonBones/src/dragonBones/armature/Constraint.cpp",
+  "file": "/home/runner/work/tgengine/tgengine/lib/dragonBones/DragonBones/src/dragonBones/armature/Constraint.cpp"
+},
+{
+  "directory": "/home/runner/work/tgengine/tgengine/build",
+  "command": "/home/runner/bin/emsdk/upstream/emscripten/em++ -DDEBUG=1 -DEMSCRIPTEN=1 -DIMGUI_ENABLED -DPROJECT_VERSION=\\\"0.1\\\" @CMakeFiles/dragonbones_target.dir/includes_CXX.rsp  -s USE_SDL=2 -s USE_SDL_IMAGE=2  -s ASSERTIONS=1 -s LLD_REPORT_UNDEFINED=1 -g -Wall -std=gnu++17 -o CMakeFiles/dragonbones_target.dir/lib/dragonBones/DragonBones/src/dragonBones/armature/DeformVertices.cpp.o -c /home/runner/work/tgengine/tgengine/lib/dragonBones/DragonBones/src/dragonBones/armature/DeformVertices.cpp",
+  "file": "/home/runner/work/tgengine/tgengine/lib/dragonBones/DragonBones/src/dragonBones/armature/DeformVertices.cpp"
+},
+{
+  "directory": "/home/runner/work/tgengine/tgengine/build",
+  "command": "/home/runner/bin/emsdk/upstream/emscripten/em++ -DDEBUG=1 -DEMSCRIPTEN=1 -DIMGUI_ENABLED -DPROJECT_VERSION=\\\"0.1\\\" @CMakeFiles/dragonbones_target.dir/includes_CXX.rsp  -s USE_SDL=2 -s USE_SDL_IMAGE=2  -s ASSERTIONS=1 -s LLD_REPORT_UNDEFINED=1 -g -Wall -std=gnu++17 -o CMakeFiles/dragonbones_target.dir/lib/dragonBones/DragonBones/src/dragonBones/armature/Slot.cpp.o -c /home/runner/work/tgengine/tgengine/lib/dragonBones/DragonBones/src/dragonBones/armature/Slot.cpp",
+  "file": "/home/runner/work/tgengine/tgengine/lib/dragonBones/DragonBones/src/dragonBones/armature/Slot.cpp"
+},
+{
+  "directory": "/home/runner/work/tgengine/tgengine/build",
+  "command": "/home/runner/bin/emsdk/upstream/emscripten/em++ -DDEBUG=1 -DEMSCRIPTEN=1 -DIMGUI_ENABLED -DPROJECT_VERSION=\\\"0.1\\\" @CMakeFiles/dragonbones_target.dir/includes_CXX.rsp  -s USE_SDL=2 -s USE_SDL_IMAGE=2  -s ASSERTIONS=1 -s LLD_REPORT_UNDEFINED=1 -g -Wall -std=gnu++17 -o CMakeFiles/dragonbones_target.dir/lib/dragonBones/DragonBones/src/dragonBones/armature/TransformObject.cpp.o -c /home/runner/work/tgengine/tgengine/lib/dragonBones/DragonBones/src/dragonBones/armature/TransformObject.cpp",
+  "file": "/home/runner/work/tgengine/tgengine/lib/dragonBones/DragonBones/src/dragonBones/armature/TransformObject.cpp"
+},
+{
+  "directory": "/home/runner/work/tgengine/tgengine/build",
+  "command": "/home/runner/bin/emsdk/upstream/emscripten/em++ -DDEBUG=1 -DEMSCRIPTEN=1 -DIMGUI_ENABLED -DPROJECT_VERSION=\\\"0.1\\\" @CMakeFiles/dragonbones_target.dir/includes_CXX.rsp  -s USE_SDL=2 -s USE_SDL_IMAGE=2  -s ASSERTIONS=1 -s LLD_REPORT_UNDEFINED=1 -g -Wall -std=gnu++17 -o CMakeFiles/dragonbones_target.dir/lib/dragonBones/DragonBones/src/dragonBones/core/BaseObject.cpp.o -c /home/runner/work/tgengine/tgengine/lib/dragonBones/DragonBones/src/dragonBones/core/BaseObject.cpp",
+  "file": "/home/runner/work/tgengine/tgengine/lib/dragonBones/DragonBones/src/dragonBones/core/BaseObject.cpp"
+},
+{
+  "directory": "/home/runner/work/tgengine/tgengine/build",
+  "command": "/home/runner/bin/emsdk/upstream/emscripten/em++ -DDEBUG=1 -DEMSCRIPTEN=1 -DIMGUI_ENABLED -DPROJECT_VERSION=\\\"0.1\\\" @CMakeFiles/dragonbones_target.dir/includes_CXX.rsp  -s USE_SDL=2 -s USE_SDL_IMAGE=2  -s ASSERTIONS=1 -s LLD_REPORT_UNDEFINED=1 -g -Wall -std=gnu++17 -o CMakeFiles/dragonbones_target.dir/lib/dragonBones/DragonBones/src/dragonBones/core/DragonBones.cpp.o -c /home/runner/work/tgengine/tgengine/lib/dragonBones/DragonBones/src/dragonBones/core/DragonBones.cpp",
+  "file": "/home/runner/work/tgengine/tgengine/lib/dragonBones/DragonBones/src/dragonBones/core/DragonBones.cpp"
+},
+{
+  "directory": "/home/runner/work/tgengine/tgengine/build",
+  "command": "/home/runner/bin/emsdk/upstream/emscripten/em++ -DDEBUG=1 -DEMSCRIPTEN=1 -DIMGUI_ENABLED -DPROJECT_VERSION=\\\"0.1\\\" @CMakeFiles/dragonbones_target.dir/includes_CXX.rsp  -s USE_SDL=2 -s USE_SDL_IMAGE=2  -s ASSERTIONS=1 -s LLD_REPORT_UNDEFINED=1 -g -Wall -std=gnu++17 -o CMakeFiles/dragonbones_target.dir/lib/dragonBones/DragonBones/src/dragonBones/event/EventObject.cpp.o -c /home/runner/work/tgengine/tgengine/lib/dragonBones/DragonBones/src/dragonBones/event/EventObject.cpp",
+  "file": "/home/runner/work/tgengine/tgengine/lib/dragonBones/DragonBones/src/dragonBones/event/EventObject.cpp"
+},
+{
+  "directory": "/home/runner/work/tgengine/tgengine/build",
+  "command": "/home/runner/bin/emsdk/upstream/emscripten/em++ -DDEBUG=1 -DEMSCRIPTEN=1 -DIMGUI_ENABLED -DPROJECT_VERSION=\\\"0.1\\\" @CMakeFiles/dragonbones_target.dir/includes_CXX.rsp  -s USE_SDL=2 -s USE_SDL_IMAGE=2  -s ASSERTIONS=1 -s LLD_REPORT_UNDEFINED=1 -g -Wall -std=gnu++17 -o CMakeFiles/dragonbones_target.dir/lib/dragonBones/DragonBones/src/dragonBones/factory/BaseFactory.cpp.o -c /home/runner/work/tgengine/tgengine/lib/dragonBones/DragonBones/src/dragonBones/factory/BaseFactory.cpp",
+  "file": "/home/runner/work/tgengine/tgengine/lib/dragonBones/DragonBones/src/dragonBones/factory/BaseFactory.cpp"
+},
+{
+  "directory": "/home/runner/work/tgengine/tgengine/build",
+  "command": "/home/runner/bin/emsdk/upstream/emscripten/em++ -DDEBUG=1 -DEMSCRIPTEN=1 -DIMGUI_ENABLED -DPROJECT_VERSION=\\\"0.1\\\" @CMakeFiles/dragonbones_target.dir/includes_CXX.rsp  -s USE_SDL=2 -s USE_SDL_IMAGE=2  -s ASSERTIONS=1 -s LLD_REPORT_UNDEFINED=1 -g -Wall -std=gnu++17 -o CMakeFiles/dragonbones_target.dir/lib/dragonBones/DragonBones/src/dragonBones/geom/Point.cpp.o -c /home/runner/work/tgengine/tgengine/lib/dragonBones/DragonBones/src/dragonBones/geom/Point.cpp",
+  "file": "/home/runner/work/tgengine/tgengine/lib/dragonBones/DragonBones/src/dragonBones/geom/Point.cpp"
+},
+{
+  "directory": "/home/runner/work/tgengine/tgengine/build",
+  "command": "/home/runner/bin/emsdk/upstream/emscripten/em++ -DDEBUG=1 -DEMSCRIPTEN=1 -DIMGUI_ENABLED -DPROJECT_VERSION=\\\"0.1\\\" @CMakeFiles/dragonbones_target.dir/includes_CXX.rsp  -s USE_SDL=2 -s USE_SDL_IMAGE=2  -s ASSERTIONS=1 -s LLD_REPORT_UNDEFINED=1 -g -Wall -std=gnu++17 -o CMakeFiles/dragonbones_target.dir/lib/dragonBones/DragonBones/src/dragonBones/geom/Transform.cpp.o -c /home/runner/work/tgengine/tgengine/lib/dragonBones/DragonBones/src/dragonBones/geom/Transform.cpp",
+  "file": "/home/runner/work/tgengine/tgengine/lib/dragonBones/DragonBones/src/dragonBones/geom/Transform.cpp"
+},
+{
+  "directory": "/home/runner/work/tgengine/tgengine/build",
+  "command": "/home/runner/bin/emsdk/upstream/emscripten/em++ -DDEBUG=1 -DEMSCRIPTEN=1 -DIMGUI_ENABLED -DPROJECT_VERSION=\\\"0.1\\\" @CMakeFiles/dragonbones_target.dir/includes_CXX.rsp  -s USE_SDL=2 -s USE_SDL_IMAGE=2  -s ASSERTIONS=1 -s LLD_REPORT_UNDEFINED=1 -g -Wall -std=gnu++17 -o CMakeFiles/dragonbones_target.dir/lib/dragonBones/DragonBones/src/dragonBones/model/AnimationConfig.cpp.o -c /home/runner/work/tgengine/tgengine/lib/dragonBones/DragonBones/src/dragonBones/model/AnimationConfig.cpp",
+  "file": "/home/runner/work/tgengine/tgengine/lib/dragonBones/DragonBones/src/dragonBones/model/AnimationConfig.cpp"
+},
+{
+  "directory": "/home/runner/work/tgengine/tgengine/build",
+  "command": "/home/runner/bin/emsdk/upstream/emscripten/em++ -DDEBUG=1 -DEMSCRIPTEN=1 -DIMGUI_ENABLED -DPROJECT_VERSION=\\\"0.1\\\" @CMakeFiles/dragonbones_target.dir/includes_CXX.rsp  -s USE_SDL=2 -s USE_SDL_IMAGE=2  -s ASSERTIONS=1 -s LLD_REPORT_UNDEFINED=1 -g -Wall -std=gnu++17 -o CMakeFiles/dragonbones_target.dir/lib/dragonBones/DragonBones/src/dragonBones/model/AnimationData.cpp.o -c /home/runner/work/tgengine/tgengine/lib/dragonBones/DragonBones/src/dragonBones/model/AnimationData.cpp",
+  "file": "/home/runner/work/tgengine/tgengine/lib/dragonBones/DragonBones/src/dragonBones/model/AnimationData.cpp"
+},
+{
+  "directory": "/home/runner/work/tgengine/tgengine/build",
+  "command": "/home/runner/bin/emsdk/upstream/emscripten/em++ -DDEBUG=1 -DEMSCRIPTEN=1 -DIMGUI_ENABLED -DPROJECT_VERSION=\\\"0.1\\\" @CMakeFiles/dragonbones_target.dir/includes_CXX.rsp  -s USE_SDL=2 -s USE_SDL_IMAGE=2  -s ASSERTIONS=1 -s LLD_REPORT_UNDEFINED=1 -g -Wall -std=gnu++17 -o CMakeFiles/dragonbones_target.dir/lib/dragonBones/DragonBones/src/dragonBones/model/ArmatureData.cpp.o -c /home/runner/work/tgengine/tgengine/lib/dragonBones/DragonBones/src/dragonBones/model/ArmatureData.cpp",
+  "file": "/home/runner/work/tgengine/tgengine/lib/dragonBones/DragonBones/src/dragonBones/model/ArmatureData.cpp"
+},
+{
+  "directory": "/home/runner/work/tgengine/tgengine/build",
+  "command": "/home/runner/bin/emsdk/upstream/emscripten/em++ -DDEBUG=1 -DEMSCRIPTEN=1 -DIMGUI_ENABLED -DPROJECT_VERSION=\\\"0.1\\\" @CMakeFiles/dragonbones_target.dir/includes_CXX.rsp  -s USE_SDL=2 -s USE_SDL_IMAGE=2  -s ASSERTIONS=1 -s LLD_REPORT_UNDEFINED=1 -g -Wall -std=gnu++17 -o CMakeFiles/dragonbones_target.dir/lib/dragonBones/DragonBones/src/dragonBones/model/BoundingBoxData.cpp.o -c /home/runner/work/tgengine/tgengine/lib/dragonBones/DragonBones/src/dragonBones/model/BoundingBoxData.cpp",
+  "file": "/home/runner/work/tgengine/tgengine/lib/dragonBones/DragonBones/src/dragonBones/model/BoundingBoxData.cpp"
+},
+{
+  "directory": "/home/runner/work/tgengine/tgengine/build",
+  "command": "/home/runner/bin/emsdk/upstream/emscripten/em++ -DDEBUG=1 -DEMSCRIPTEN=1 -DIMGUI_ENABLED -DPROJECT_VERSION=\\\"0.1\\\" @CMakeFiles/dragonbones_target.dir/includes_CXX.rsp  -s USE_SDL=2 -s USE_SDL_IMAGE=2  -s ASSERTIONS=1 -s LLD_REPORT_UNDEFINED=1 -g -Wall -std=gnu++17 -o CMakeFiles/dragonbones_target.dir/lib/dragonBones/DragonBones/src/dragonBones/model/CanvasData.cpp.o -c /home/runner/work/tgengine/tgengine/lib/dragonBones/DragonBones/src/dragonBones/model/CanvasData.cpp",
+  "file": "/home/runner/work/tgengine/tgengine/lib/dragonBones/DragonBones/src/dragonBones/model/CanvasData.cpp"
+},
+{
+  "directory": "/home/runner/work/tgengine/tgengine/build",
+  "command": "/home/runner/bin/emsdk/upstream/emscripten/em++ -DDEBUG=1 -DEMSCRIPTEN=1 -DIMGUI_ENABLED -DPROJECT_VERSION=\\\"0.1\\\" @CMakeFiles/dragonbones_target.dir/includes_CXX.rsp  -s USE_SDL=2 -s USE_SDL_IMAGE=2  -s ASSERTIONS=1 -s LLD_REPORT_UNDEFINED=1 -g -Wall -std=gnu++17 -o CMakeFiles/dragonbones_target.dir/lib/dragonBones/DragonBones/src/dragonBones/model/ConstraintData.cpp.o -c /home/runner/work/tgengine/tgengine/lib/dragonBones/DragonBones/src/dragonBones/model/ConstraintData.cpp",
+  "file": "/home/runner/work/tgengine/tgengine/lib/dragonBones/DragonBones/src/dragonBones/model/ConstraintData.cpp"
+},
+{
+  "directory": "/home/runner/work/tgengine/tgengine/build",
+  "command": "/home/runner/bin/emsdk/upstream/emscripten/em++ -DDEBUG=1 -DEMSCRIPTEN=1 -DIMGUI_ENABLED -DPROJECT_VERSION=\\\"0.1\\\" @CMakeFiles/dragonbones_target.dir/includes_CXX.rsp  -s USE_SDL=2 -s USE_SDL_IMAGE=2  -s ASSERTIONS=1 -s LLD_REPORT_UNDEFINED=1 -g -Wall -std=gnu++17 -o CMakeFiles/dragonbones_target.dir/lib/dragonBones/DragonBones/src/dragonBones/model/DisplayData.cpp.o -c /home/runner/work/tgengine/tgengine/lib/dragonBones/DragonBones/src/dragonBones/model/DisplayData.cpp",
+  "file": "/home/runner/work/tgengine/tgengine/lib/dragonBones/DragonBones/src/dragonBones/model/DisplayData.cpp"
+},
+{
+  "directory": "/home/runner/work/tgengine/tgengine/build",
+  "command": "/home/runner/bin/emsdk/upstream/emscripten/em++ -DDEBUG=1 -DEMSCRIPTEN=1 -DIMGUI_ENABLED -DPROJECT_VERSION=\\\"0.1\\\" @CMakeFiles/dragonbones_target.dir/includes_CXX.rsp  -s USE_SDL=2 -s USE_SDL_IMAGE=2  -s ASSERTIONS=1 -s LLD_REPORT_UNDEFINED=1 -g -Wall -std=gnu++17 -o CMakeFiles/dragonbones_target.dir/lib/dragonBones/DragonBones/src/dragonBones/model/DragonBonesData.cpp.o -c /home/runner/work/tgengine/tgengine/lib/dragonBones/DragonBones/src/dragonBones/model/DragonBonesData.cpp",
+  "file": "/home/runner/work/tgengine/tgengine/lib/dragonBones/DragonBones/src/dragonBones/model/DragonBonesData.cpp"
+},
+{
+  "directory": "/home/runner/work/tgengine/tgengine/build",
+  "command": "/home/runner/bin/emsdk/upstream/emscripten/em++ -DDEBUG=1 -DEMSCRIPTEN=1 -DIMGUI_ENABLED -DPROJECT_VERSION=\\\"0.1\\\" @CMakeFiles/dragonbones_target.dir/includes_CXX.rsp  -s USE_SDL=2 -s USE_SDL_IMAGE=2  -s ASSERTIONS=1 -s LLD_REPORT_UNDEFINED=1 -g -Wall -std=gnu++17 -o CMakeFiles/dragonbones_target.dir/lib/dragonBones/DragonBones/src/dragonBones/model/SkinData.cpp.o -c /home/runner/work/tgengine/tgengine/lib/dragonBones/DragonBones/src/dragonBones/model/SkinData.cpp",
+  "file": "/home/runner/work/tgengine/tgengine/lib/dragonBones/DragonBones/src/dragonBones/model/SkinData.cpp"
+},
+{
+  "directory": "/home/runner/work/tgengine/tgengine/build",
+  "command": "/home/runner/bin/emsdk/upstream/emscripten/em++ -DDEBUG=1 -DEMSCRIPTEN=1 -DIMGUI_ENABLED -DPROJECT_VERSION=\\\"0.1\\\" @CMakeFiles/dragonbones_target.dir/includes_CXX.rsp  -s USE_SDL=2 -s USE_SDL_IMAGE=2  -s ASSERTIONS=1 -s LLD_REPORT_UNDEFINED=1 -g -Wall -std=gnu++17 -o CMakeFiles/dragonbones_target.dir/lib/dragonBones/DragonBones/src/dragonBones/model/TextureAtlasData.cpp.o -c /home/runner/work/tgengine/tgengine/lib/dragonBones/DragonBones/src/dragonBones/model/TextureAtlasData.cpp",
+  "file": "/home/runner/work/tgengine/tgengine/lib/dragonBones/DragonBones/src/dragonBones/model/TextureAtlasData.cpp"
+},
+{
+  "directory": "/home/runner/work/tgengine/tgengine/build",
+  "command": "/home/runner/bin/emsdk/upstream/emscripten/em++ -DDEBUG=1 -DEMSCRIPTEN=1 -DIMGUI_ENABLED -DPROJECT_VERSION=\\\"0.1\\\" @CMakeFiles/dragonbones_target.dir/includes_CXX.rsp  -s USE_SDL=2 -s USE_SDL_IMAGE=2  -s ASSERTIONS=1 -s LLD_REPORT_UNDEFINED=1 -g -Wall -std=gnu++17 -o CMakeFiles/dragonbones_target.dir/lib/dragonBones/DragonBones/src/dragonBones/model/UserData.cpp.o -c /home/runner/work/tgengine/tgengine/lib/dragonBones/DragonBones/src/dragonBones/model/UserData.cpp",
+  "file": "/home/runner/work/tgengine/tgengine/lib/dragonBones/DragonBones/src/dragonBones/model/UserData.cpp"
+},
+{
+  "directory": "/home/runner/work/tgengine/tgengine/build",
+  "command": "/home/runner/bin/emsdk/upstream/emscripten/em++ -DDEBUG=1 -DEMSCRIPTEN=1 -DIMGUI_ENABLED -DPROJECT_VERSION=\\\"0.1\\\" @CMakeFiles/dragonbones_target.dir/includes_CXX.rsp  -s USE_SDL=2 -s USE_SDL_IMAGE=2  -s ASSERTIONS=1 -s LLD_REPORT_UNDEFINED=1 -g -Wall -std=gnu++17 -o CMakeFiles/dragonbones_target.dir/lib/dragonBones/DragonBones/src/dragonBones/parser/BinaryDataParser.cpp.o -c /home/runner/work/tgengine/tgengine/lib/dragonBones/DragonBones/src/dragonBones/parser/BinaryDataParser.cpp",
+  "file": "/home/runner/work/tgengine/tgengine/lib/dragonBones/DragonBones/src/dragonBones/parser/BinaryDataParser.cpp"
+},
+{
+  "directory": "/home/runner/work/tgengine/tgengine/build",
+  "command": "/home/runner/bin/emsdk/upstream/emscripten/em++ -DDEBUG=1 -DEMSCRIPTEN=1 -DIMGUI_ENABLED -DPROJECT_VERSION=\\\"0.1\\\" @CMakeFiles/dragonbones_target.dir/includes_CXX.rsp  -s USE_SDL=2 -s USE_SDL_IMAGE=2  -s ASSERTIONS=1 -s LLD_REPORT_UNDEFINED=1 -g -Wall -std=gnu++17 -o CMakeFiles/dragonbones_target.dir/lib/dragonBones/DragonBones/src/dragonBones/parser/DataParser.cpp.o -c /home/runner/work/tgengine/tgengine/lib/dragonBones/DragonBones/src/dragonBones/parser/DataParser.cpp",
+  "file": "/home/runner/work/tgengine/tgengine/lib/dragonBones/DragonBones/src/dragonBones/parser/DataParser.cpp"
+},
+{
+  "directory": "/home/runner/work/tgengine/tgengine/build",
+  "command": "/home/runner/bin/emsdk/upstream/emscripten/em++ -DDEBUG=1 -DEMSCRIPTEN=1 -DIMGUI_ENABLED -DPROJECT_VERSION=\\\"0.1\\\" @CMakeFiles/dragonbones_target.dir/includes_CXX.rsp  -s USE_SDL=2 -s USE_SDL_IMAGE=2  -s ASSERTIONS=1 -s LLD_REPORT_UNDEFINED=1 -g -Wall -std=gnu++17 -o CMakeFiles/dragonbones_target.dir/lib/dragonBones/DragonBones/src/dragonBones/parser/JSONDataParser.cpp.o -c /home/runner/work/tgengine/tgengine/lib/dragonBones/DragonBones/src/dragonBones/parser/JSONDataParser.cpp",
+  "file": "/home/runner/work/tgengine/tgengine/lib/dragonBones/DragonBones/src/dragonBones/parser/JSONDataParser.cpp"
+},
+{
+  "directory": "/home/runner/work/tgengine/tgengine/build",
   "command": "/home/runner/bin/emsdk/upstream/emscripten/em++ -DDEBUG=1 -DEMSCRIPTEN=1 -DIMGUI_ENABLED -DPROJECT_VERSION=\\\"0.1\\\" @CMakeFiles/TGEngine.dir/includes_CXX.rsp  -s USE_SDL=2 -s USE_SDL_IMAGE=2  -s ASSERTIONS=1 -s LLD_REPORT_UNDEFINED=1 -g -Wall -std=gnu++17 -o CMakeFiles/TGEngine.dir/src/Core/Debug/Logger.cpp.o -c /home/runner/work/tgengine/tgengine/src/Core/Debug/Logger.cpp",
   "file": "/home/runner/work/tgengine/tgengine/src/Core/Debug/Logger.cpp"
 },

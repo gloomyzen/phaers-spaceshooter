@@ -250,7 +250,7 @@ ENABLE_SANITIZER_UNDEFINED_BEHAVIOR:BOOL=OFF
 TGEngine_BINARY_DIR:STATIC=/home/runner/work/tgengine/tgengine/build
 
 //Dependencies for the target
-TGEngine_LIB_DEPENDS:STATIC=general;imgui_target;
+TGEngine_LIB_DEPENDS:STATIC=general;imgui_target;general;dragonbones_target;
 
 //Value Computed by CMake
 TGEngine_SOURCE_DIR:STATIC=/home/runner/work/tgengine/tgengine

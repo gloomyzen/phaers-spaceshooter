@@ -26,6 +26,7 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
 set(CMAKE_TARGET_LINKED_INFO_FILES
   "/home/runner/work/tgengine/tgengine/build/CMakeFiles/TGEngine.dir/DependInfo.cmake"
   "/home/runner/work/tgengine/tgengine/build/CMakeFiles/imgui_target.dir/DependInfo.cmake"
+  "/home/runner/work/tgengine/tgengine/build/CMakeFiles/dragonbones_target.dir/DependInfo.cmake"
   )
 
 # Fortran module output directory.

@@ -15,6 +15,7 @@ set(CMAKE_MAKEFILE_DEPENDS
   "../cmake/Cache.cmake"
   "../cmake/CompilerWarnings.cmake"
   "../cmake/Doxygen.cmake"
+  "../cmake/DragonBones.cmake"
   "../cmake/ImGui.cmake"
   "../cmake/Sanitizers.cmake"
   "../cmake/StandardProjectSettings.cmake"
@@ -70,6 +71,7 @@ set(CMAKE_MAKEFILE_PRODUCTS
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/example_simple_draw.dir/DependInfo.cmake"
+  "CMakeFiles/dragonbones_target.dir/DependInfo.cmake"
   "CMakeFiles/TGEngine.dir/DependInfo.cmake"
   "CMakeFiles/imgui_target.dir/DependInfo.cmake"
   )
