@@ -54,6 +54,11 @@ update_submodules() {
         rm -rf lib/imgui
         git clone https://github.com/ocornut/imgui.git lib/imgui
     fi
+    if [ ! -d "lib/dragonBones" ]; then
+            submodules_wrong=true
+            rm -rf lib/dragonBones
+            git clone https://github.com/DragonBones/DragonBonesCPP.git lib/dragonBones
+        fi
 
     if $submodules_wrong ; then
         echo "Update submodules!"
