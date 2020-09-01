@@ -91,7 +91,11 @@ add_library(${PROJECT_NAME} STATIC
         #### Game Module ####
         src/Game/Interface/InterfaceModule.cpp src/Game/Interface/InterfaceModule.h
         src/Game/StateModule/StateManager.cpp src/Game/StateModule/StateManager.h
-        src/Core/Devices/DevicesManager.cpp src/Core/Devices/DevicesManager.h)
+        src/Core/Devices/DevicesManager.cpp src/Core/Devices/DevicesManager.h
+
+        #### DragonBones Module ####
+        src/Core/DragonBones/TGTextureData.h
+        )
 
 add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 
