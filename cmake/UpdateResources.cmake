@@ -15,7 +15,7 @@ function(RegisterTarget targetName targetCurrentSourceDir isRuntime)
                     " -s LLD_REPORT_UNDEFINED" # For linking debugging
                     )
         endif ()
-        # TODO change 'USE_WEBGL2=1' to legacy webgl emulator
+
         string(APPEND ${targetName}_OPTIONS
                 " -s ALLOW_MEMORY_GROWTH=1"
                 " -s TOTAL_MEMORY=67108864"
@@ -28,7 +28,6 @@ function(RegisterTarget targetName targetCurrentSourceDir isRuntime)
                 " -s USE_SDL_IMAGE=2"
                 " -s SDL2_IMAGE_FORMATS=[\"png\"]"
                 " -s USE_FREETYPE=1"
-                " -s USE_WEBGL2=1"
                 " -s WASM=1"
                 )
 
@@ -51,8 +50,8 @@ function(RegisterTarget targetName targetCurrentSourceDir isRuntime)
         RegisterResources(${targetName} ${targetCurrentSourceDir})
 
         set_property(TARGET ${targetName} APPEND PROPERTY LINK_FLAGS "${${targetName}_OPTIONS} ${${targetName}_RESOURCES} ")
-        set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -s USE_SDL=2 -s USE_SDL_IMAGE=2 -s USE_FREETYPE=1 -s USE_WEBGL2=1 ")
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s USE_SDL=2 -s USE_SDL_IMAGE=2 -s USE_FREETYPE=1 -s USE_WEBGL2=1 ")
+        set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -s USE_SDL=2 -s USE_SDL_IMAGE=2 -s USE_FREETYPE=1 ")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s USE_SDL=2 -s USE_SDL_IMAGE=2 -s USE_FREETYPE=1 ")
 
         if(CMAKE_BUILD_TYPE STREQUAL "Debug")
             set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -s ASSERTIONS=1 -s LLD_REPORT_UNDEFINED=1")

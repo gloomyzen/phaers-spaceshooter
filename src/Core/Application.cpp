@@ -102,8 +102,8 @@ void Application::run() {
 		Update();
 		// render
 		// ------
-		renderDrawColor();
 		SDL_RenderClear(getRenderer());
+		renderDrawColor();
 		Render();
 		PostRender();
 		SDL_RenderPresent(getRenderer());

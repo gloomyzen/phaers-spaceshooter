@@ -94,8 +94,8 @@ add_library(${PROJECT_NAME} STATIC
         src/Core/Devices/DevicesManager.cpp src/Core/Devices/DevicesManager.h
 
         #### DragonBones Module ####
-        src/Core/DragonBones/TGTextureData.h
-        )
+        src/Core/DragonBones/DBTextureData.h
+        src/Core/DragonBones/DBNode.h)
 
 add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 

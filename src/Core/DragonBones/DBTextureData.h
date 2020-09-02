@@ -1,25 +1,25 @@
-#ifndef TGENGINE_TGTEXTUREDATA_H
-#define TGENGINE_TGTEXTUREDATA_H
+#ifndef TGENGINE_DBTEXTUREDATA_H
+#define TGENGINE_DBTEXTUREDATA_H
 
 #include <memory>
 #include <Core/moduleDefinitions.h>
 #include <dragonBones/DragonBonesHeaders.h>
 
-namespace TGEngine::core {
+namespace TGEngine::core::dragonBonesModule {
 	using namespace dragonBones;
 
-	class TGTextureData : public TextureData {
-	BIND_CLASS_TYPE_B(TGTextureData);
+	class DBTextureData : public TextureData {
+	BIND_CLASS_TYPE_B(DBTextureData);
 
 	public:
 		SDL_Texture *texture;
 
 	public:
-		TGTextureData() {
+		DBTextureData() {
 			_onClear();
 		}
 
-		virtual ~TGTextureData() {
+		virtual ~DBTextureData() {
 			_onClear();
 		}
 
@@ -41,4 +41,4 @@ namespace TGEngine::core {
 }
 
 
-#endif //TGENGINE_TGTEXTUREDATA_H
+#endif //TGENGINE_DBTEXTUREDATA_H
